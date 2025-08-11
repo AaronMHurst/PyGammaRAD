@@ -1,0 +1,13 @@
+build/
+dist/
+PyGammaRAD.egg-info/
+notebook/.ipynb_checkpoints/
+notebook/*.png
+notebook/*.pdf
+*~
+__pycache__/
+PyGammaRAD/__pycache__/
+PyGammaRAD/*.~
+tests/__pycache__/
+tests/*.~
+.tox/
