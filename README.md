@@ -41,7 +41,7 @@ Subsequent to the installation process, the `PyGammaRAD` libray is accessibles f
 ```Bash
 $ python
 ```
-```$ python
+```python
 >>> import PyGammaRAD as pg
 >>> am = pg.AngularMomentum()
 ```
@@ -72,7 +72,7 @@ To retrieve a list of all available methods simply execute the following command
 
 Or, to retrieve the docstring for a particular method, e.g., the callable `symb6j` to evaluate the corresponding Wigner *6-j* symbol:
 
-```$ python
+```python
 >>> help(am.symb6j)
 ```
 
