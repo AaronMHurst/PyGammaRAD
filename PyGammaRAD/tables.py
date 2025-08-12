@@ -5,17 +5,17 @@ import re
 import os
 
 class Tables(object):
-    __doc__="""Class for handling data from Tables 1 and 2 in Ref. [1967Ya05].
+    __doc__="""Class for handling data from Tables 1 and 2 in reference article 
+    by Yamazaki [1].
 
     Table 1: Calculated statistical population tensors Bk(J) assuming complete 
-    nuclear alignment (Table 1, p.5 [1967Ya05]).
+    nuclear alignment (Table 1, p.5 [1]).
 
     Table 2: Calculated angular distribution coefficients for integral spins 
-    (Table 2a, p.6-14 [1967Ya05]) and half-integral spins (Table 2b, p.15-23 
-    [1967Ya05]).
+    (Table 2a, p.6-14 [1]) and half-integral spins (Table 2b, p.15-23 [1]).
 
     References:
-    [1967Ya05] T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
+    [1] T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
     """
     _ROOT = os.path.abspath(os.path.dirname(__file__))
     
@@ -44,13 +44,13 @@ class Tables(object):
         jf.close()
         
     def get_B(self, k, J):
-        """Find B for given value of k and J in Table 1 [1967Ya05].
+        """Find B for given value of k and J in Table 1 [1].
 
         Notes:
             Calculated Bk(J) values taken from Table 1 on p.5 of reference 
-            article [1967Ya05].
+            article by Yamazaki [1].
         
-            [1967Ya05] T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
+            [1] T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
 
         Arguments:
             k: An integer object representing the order.
@@ -105,10 +105,10 @@ class Tables(object):
     def get_row_table1(self, J):
         """Method for obtaining individual row data corresponding to the
         calculated statistical population data listed in Table 1 of
-        Ref. [1967Ya05].
+        Ref. [1].
 
         Notes:
-            [1967Ya05] T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
+            [1] T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
 
         Arguments:
             J: A number object (integer or float) representing the spin of the
@@ -116,10 +116,10 @@ class Tables(object):
 
         Returns:
             A list of floating-point objects corresponding to calculated 
-            statistical population tensors from Table 1 of Ref. [1967Ya05].
+            statistical population tensors from Table 1 of Ref. [1].
 
         Example:
-            To obtain all statistical population tensors for k=2,4, and 6 
+            To obtain all statistical population tensors for k=2, 4, and 6 
             associated with J=10:
 
             > get_row_table1(10)
@@ -146,7 +146,9 @@ class Tables(object):
 
         Notes:
             Calculated Bk(J) values taken from Table 1 on p.5 of reference 
-            article by T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
+            article by Yamazaki [1].
+
+            [1] T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
 
         Arguments:
             None: Both integral (m=0) and half-integral (m=0.5) spin values.
@@ -203,11 +205,11 @@ class Tables(object):
             return
 
     def get_table2a(self):
-        """Table of angular distribution coefficients associated with even-integral
-        spins given in Table 2(a) of Ref. [1967Ya05].
+        """Table of angular distribution coefficients associated with 
+        even-integral spins given in Table 2(a) of Ref. [1].
 
         Notes:
-            [1967Ya05] T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
+            [1] T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
 
         Arguments:
             None.
@@ -215,9 +217,9 @@ class Tables(object):
         Returns:
             A DataFrame object containing the corresponding angular
             distribution coefficients Fk, FkBk, and Uk listed in
-            Table 2(a) [1967Ya05] for even-integral spins.
+            Table 2(a) [1] for even-integral spins.
 
-        Usage:
+        Example:
             > get_table2a()
         """
         table2a_list = self.data_list[1]
@@ -229,11 +231,11 @@ class Tables(object):
         return table2a_df
 
     def get_table2b(self):
-        """Table of angular distribution coefficients associated with odd-integral
-        spins given in Table 2(b) of Ref. [1967Ya05].
+        """Table of angular distribution coefficients associated with 
+        odd-integral spins given in Table 2(b) of Ref. [1].
 
         Notes:
-            [1967Ya05] T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
+            [1] T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
 
         Arguments:
             None.
@@ -241,9 +243,9 @@ class Tables(object):
         Returns:
             A DataFrame object containing the corresponding angular
             distribution coefficients Fk, FkBk, and Uk listed in
-            Table 2(b) [1967Ya05] for odd-integral spins.
+            Table 2(b) [1] for odd-integral spins.
 
-        Usage:
+        Example:
             > get_table2b()
         """
         table2b_list = self.data_list[2]
@@ -257,13 +259,14 @@ class Tables(object):
     def get_row_table2(self, Ji, Jf, L1, L2, *args, **kwargs):
         """Method for manipulating individual row data corresponding to the
         angular distribution coefficients listed in Tables 2(a) and (b) of
-        Ref. [1967Ya05].
+        Ref. [1].
 
         Notes:
-            [1967Ya05] T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
+            [1] T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
 
         Arguments:
-            Ji: A number object (integer or float) representing the initial spin.
+            Ji: A number object (integer or float) representing the initial 
+                spin.
             Jf: A number object (integer or float) representing the final spin.
             L1: An integer object representing the first multipole order.
             L2: An integer object representing the second multipole order.
@@ -362,17 +365,17 @@ class Tables(object):
 
 
     def table2file(self,table,format):
-        """Convert and dump data from Tables 1, 2(a), and 2(b) of Ref. [1967Ya05]
-        into a CSV or JSON formatted file.
+        """Convert and dump data from Tables 1, 2(a), and 2(b) of Ref. [1] into 
+        a CSV or JSON formatted file.
 
         Notes:
-            [1967Ya05] T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
+            [1] T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
 
         Arguments:
             table: String argument representing desired table printout:-
-                   'T1': Table 1 [1967Ya05]
-                   'T2A': Table 2(a) [1967Ya05]
-                   'T2B': Table 2(b) [1967Ya05]
+                   'T1': Table 1 [1]
+                   'T2A': Table 2(a) [1]
+                   'T2B': Table 2(b) [1]
             format: String argument to indicate preferred file format:-
                    'CSV': Comma Separated Value format.
                    'JSON': JavaScript Object Notation format.
@@ -408,10 +411,13 @@ class Tables(object):
                         with open("%s.%s"%(value[1],f.lower()), mode="w") as outfile:
                             if f.upper() == "JSON":
                                 json.dump(table_data, outfile, indent=4, ensure_ascii=False)
+                                print("{0}.{1} printed to file in {2}".format(value[1],f.lower(),os.getcwd()))
                                 outfile.close()
                             elif f.upper() == "CSV":
                                 table_df = pd.DataFrame(table_data)
                                 table_df.to_csv(outfile, index=False)
+                                print("{0}.{1} printed to file in {2}".format(value[1],f.lower(),os.getcwd()))
+                                outfile.close()
 
         if FILE_FORMAT == False:
             PRINT_PROBLEM = True
