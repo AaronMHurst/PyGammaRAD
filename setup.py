@@ -5,7 +5,7 @@ requirements = ["numpy", "pandas"]
 setuptools.setup(
     name="PyGammaRAD",
     version="0.1.0",
-    #url="https://github.com/AaronMHurst/python_egaf",
+    url="https://github.com/AaronMHurst/PyGammaRAD",
     author="Aaron M. Hurst",
     author_email="amhurst@berkeley.edu",
     description="Calculations of angular momenta in quantum theory applications",
