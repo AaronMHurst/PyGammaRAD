@@ -11,3 +11,4 @@ PyGammaRAD/*.~
 tests/__pycache__/
 tests/*.~
 .tox/
+.PACT
