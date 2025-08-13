@@ -7,10 +7,20 @@ class Newton(Tables):
     integer square roots."""
 
     def isqrt(x):
-        """For very large integers, Newton's method (or the Baylonian method) 
+        """For very large integers, Newton's method (or the Babylonian method) 
         can be used to calculate the integer square root and avoid overflow 
-        errors.  This method iteratively refines an initial estimate until it 
-        converges to the correct integer square root.
+        errors associated with integer to float conversions.  This method 
+        iteratively refines an initial estimate until it converges to the 
+        correct integer square root.
+
+        Although provision of this method is primarily intended for the internal
+        handling of `OverflowError` exceptions for calculations involving very 
+        large integers, it can nevertheless be invoked by the user provided that
+        the integer argument is passed as the first positional argument rather 
+        than calling the method on an instance of the class, i.e.:
+        
+        import PyGammaRAD
+        sqrt_large_integer = PyGammaRAD.Newton.isqrt(<int>)
 
         Arguments:
             x: Integer object; very large intergers acceptable.
@@ -19,9 +29,17 @@ class Newton(Tables):
             An integer object corresponding to the square root of the argument 
         determined via Newton's method for handling large integers.
 
-        Example
-            
+        Examples
+            (i) To return the integer square root of 2:
+            > import PyGammaRAD as pg
+            > pg.Newton.isqrt(2)
 
+            (ii) To return the integer square root of 100:
+            > pg.Newton.isqrt(100)
+
+            (iii) To return the integer square root of 2000!:
+            > from math import factorial
+            > pg.Newton.isqrt(factorial(2000))
         """
         if x < 0:
             raise ValueError("Square root not defined for negative numbers.")
@@ -33,17 +51,18 @@ class Newton(Tables):
         a, b = divmod(n.bit_length(), 2)
         x = 2**(a + b)
 
-        while True:
-            #i.e. while y < x
-            y = (x + n // x) // 2
-            if y >= x:
-                return x
+        y = (x + n // x) // 2
+        while y < x:
             x = y
+            y = (x + n // x) // 2
+        return x
 
-#class ClebschGordan(Tables):
 class ClebschGordan(Newton):
-    __doc__="""Class containing methods used in the calculation of 
-    Clebsch-Gordan coefficients.
+    __doc__="""MEMBER FUNCTIONS BELONGING TO THIS CLASS ARE NOT INTENDED TO 
+    BE DIRECTLY INVOKED BY THE USER (*).
+
+    Class containing methods used in the calculation of Clebsch-Gordan 
+    coefficients.
 
     Instantiate class as:
     
@@ -52,6 +71,14 @@ class ClebschGordan(Newton):
     to evaluate the corresponding Clebsch-Gordan coefficient:
 
         <j1 m1 j2 m2 | j m>
+
+    (*): For evaluation of the Clebsch-Gordan coefficient based on the 
+    `Clebsch-Gordan` class methods refer to the appropriate docstring to ensure 
+    correct passage of variables to the callable:
+
+    Method      Quantity
+    ------      --------
+    `cg`     :  Clebsch-Gordan coefficient
     """
     
     def __init__(self,j1,m1,j2,m2,j,m):
@@ -60,6 +87,8 @@ class ClebschGordan(Newton):
         self.j, self.m = j,m
         
     def delta_m(self):
+        """Delta function based on magnetic substate quantum mechanical numbers,
+        i.e., projections along the z-axis."""
         m1, m2, m = self.m1, self.m2, self.m
         
         delta = None
@@ -73,6 +102,8 @@ class ClebschGordan(Newton):
         return delta
 
     def delta_j(self):
+        """Triangular delta factor needed in the evaluation of the 
+        Clebsch-Gordan coefficient."""
         j1, j2, j = self.j1, self.j2, self.j
         
         numerator = factorial((j1+j2)-j) * factorial((j1-j2)+j) * factorial((-j1)+j2+j)
@@ -82,6 +113,8 @@ class ClebschGordan(Newton):
         return delta
 
     def coeff(self):
+        """Coupling scheme function needed in the evaluation of the 
+        Clebsch-Gordan coefficient."""
         j1, m1 = self.j1, self.m1
         j2, m2 = self.j2, self.m2
         j, m = self.j, self.m
@@ -102,6 +135,8 @@ class ClebschGordan(Newton):
         return j1m1*j2m2_jm
 
     def run_v(self):
+        """Function to return a tuple corresponding to the summation limits 
+        needed for the angular momentum coupling scheme."""
         j1, j2, j = self.j1, self.j2, self.j
         m1, m2 = self.m1, self.m2
     
@@ -119,6 +154,8 @@ class ClebschGordan(Newton):
         return (start, stop)
 
     def sum_coupling(self):
+        """Coupling scheme summation in the evaluation of the Clebsch-Gordan 
+        coefficient."""
         j1, j2, j = self.j1, self.j2, self.j
         m1, m2 = self.m1, self.m2
     
@@ -130,7 +167,7 @@ class ClebschGordan(Newton):
             #print(v, sum_couple_j)
             try:
                 numerator_A = (-1)**v
-                denominator_A = factorial(v) * factorial(((j1+j2)-j)-v) * factorial((j1-m1)-v) * factorial((j2+m2)-v) #* factorial((j-j2)+m1+v) * factorial(((j-j1)-m2)+v)
+                denominator_A = factorial(v) * factorial(((j1+j2)-j)-v) * factorial((j1-m1)-v) * factorial((j2+m2)-v) 
         
                 numerator_B = 1
                 denominator_B = factorial((j-j2)+m1+v) * factorial(((j-j1)-m2)+v)
@@ -147,7 +184,7 @@ class ClebschGordan(Newton):
         return sum_couple_j
         
     def cg_calc(self):
-        """Evaluates <j1 m1 j2 m2 | j m>"""
+        """Evaluate Clebsch-Gordan coefficient <j1 m1 j2 m2 | j m>"""
         j1, m1 = self.j1, self.m1
         j2, m2 = self.j2, self.m2
         j, m = self.j, self.m
@@ -166,7 +203,10 @@ class ClebschGordan(Newton):
         return cg
     
 class Wigner3j(ClebschGordan):
-    __doc__="""Class to handle Wigner 3j-symbols.
+    __doc__="""MEMBER FUNCTIONS BELONGING TO THIS CLASS ARE NOT INTENDED TO 
+    BE DIRECTLY INVOKED BY THE USER (*).
+
+    Class to handle Wigner 3j-symbols.
 
     Instantiate class as:
     
@@ -176,6 +216,14 @@ class Wigner3j(ClebschGordan):
     
         (j1 j2 j
          m1 m2 m)
+
+    (*): For evaluation of the Wigner 3-j symbol based on the `Wigner3j` class 
+    methods refer to the appropriate docstring to ensure correct passage of 
+    variables to the callable:
+
+    Method      Quantity
+    ------      --------
+    `symb3j` :  Wigner 3-j symbol
     """
     
     def __init__(self,j1,j2,j,m1,m2,m):
@@ -183,9 +231,7 @@ class Wigner3j(ClebschGordan):
         self.m1, self.m2, self.m = -m1, -m2, m
         
     def symbol_3j(self):
-        """Evaluates Wigner 3j-symbol:
-        (j1 j2 j
-         m1 m2 m)"""
+        """Evaluate Wigner 3j-symbol."""
         j1, j2, j = self.j1, self.j2, self.j
         m1, m2, m = self.m1, self.m2, self.m
         
@@ -204,9 +250,10 @@ class Wigner3j(ClebschGordan):
         return symb_3j
 
 class Racah(Wigner3j):
-#class Racah(object):
-    __doc__ = """Class to handle Racah recoupling coeficients and Wigner 6-j 
-    symbols.
+    __doc__ = """MEMBER FUNCTIONS BELONGING TO THIS CLASS ARE NOT INTENDED TO 
+    BE DIRECTLY INVOKED BY THE USER (*).
+
+    Class to handle Racah recoupling coeficients and Wigner 6-j symbols.
     
     Instantiate class as:
     
@@ -214,12 +261,21 @@ class Racah(Wigner3j):
         
     to evaluate the 6j symbol:
     
-        {j1 j2 j5
-         j4 j3 j6}
+        {j1 j2 j3
+         j4 j5 j6}
 
     or the Racach coefficient:
 
-    W(j1 j2 j3 j4; j5 j6)
+    W(j1 j2 j5 j4; j3 j6)
+
+    (*): For evaluation of angular momentum coefficients and symbols based on 
+    the `Racah` class methods refer to the appropriate docstring to ensure 
+    correct passage of variables to the callable:
+
+    Method      Quantity
+    ------      --------
+    `racah`  :  Racah coefficient
+    `symb6j` :  Wigner 6-j symbol
     """
     
     def __init__(self,j1,j2,j3,j4,j5,j6):
@@ -244,7 +300,7 @@ class Racah(Wigner3j):
         individual angular momenta."""
         numerator = factorial((a+b)-c) * factorial((a-b)+c) * factorial((-a)+b+c)
         denominator = factorial(int(a+b+c+1))
-        delta = np.sqrt(numerator/denominator)
+        delta = sqrt(numerator/denominator)
         return delta
         
     def delta_product(self):
@@ -313,11 +369,13 @@ class Racah(Wigner3j):
     
     def symbol_6j(self):
         """Evaluate Wigner 6-j symbol."""
-        #print("Racah: W=",Racah.W(self))
         return Racah.W(self)*Racah.phase(self)
 
 class Wigner9j(Racah):
-    __doc__ = """Class to handle Wigner 9-j symbol.
+    __doc__ = """MEMBER FUNCTIONS BELONGING TO THIS CLASS ARE NOT INTENDED TO 
+    BE DIRECTLY INVOKED BY THE USER (*).
+
+    Class to handle Wigner 9-j symbol.
 
     Instantiate class as:
     
@@ -328,6 +386,14 @@ class Wigner9j(Racah):
         {j1 j2 j3
          j4 j5 j6
          j7 j8 j9}
+
+    (*): For evaluation of the Wigner 9-j symbol based on the `Wigner9j` class 
+    methods refer to the appropriate docstring to ensure correct passage of 
+    variables to the callable:
+
+    Method      Quantity
+    ------      --------
+    `symb9j` :  Wigner 9-j symbol
     """
     
     def __init__(self,j1,j2,j3,j4,j5,j6,j7,j8,j9):
@@ -336,6 +402,7 @@ class Wigner9j(Racah):
         self.j7, self.j8, self.j9 = j7, j8, j9
 
     def symbol_9j(self):
+        """Evaluate Wigner 9-j symbol."""
         imax = int(min(self.j1+self.j9, self.j2+self.j6, self.j4+self.j8) * 2)
         imin = imax % 2
         sum_res = 0

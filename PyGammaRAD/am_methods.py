@@ -3,12 +3,14 @@ from .am_formulae import *
 
 class AngularMomentumCalculations(Tables):
     __doc__="""Class containing methods for coupling and recoupling of angular 
-    momenta."""
+    momenta.  The methods in this class form a complete set of angular momentum 
+    calculators useful in general applications of quantum theory where 
+    evaluated Clebsch-Gordan and Racah coefficients are required in addition to 
+    Wigner 3-j, 6-j, and 9-j symbols."""
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)        
 
-    # Implement basic AM calculations here:
     def cg(self,j1,m1,j2,m2,j,m):
         """The Clebsch-Gordan coefficient used to combine different angular 
         momenta may be evaluated by entering all j and m terms in the 
@@ -182,4 +184,3 @@ class AngularMomentumCalculations(Tables):
         W = Wigner9j(self.j1, self.j2, self.j3, self.j4, self.j5, self.j6, self.j7, self.j8, self.j9)
         return W.symbol_9j()
 
-    

@@ -385,16 +385,17 @@ class Tables(object):
 
         Examples:
             To print Table 1 to file in CSV format:
-            > table2file('T1','CSV') # dumps `yamazaki_table1.csv` in pwd
+            > table2file('T1','CSV') # dumps `YamazakiTable1.csv` in pwd
 
             To print Table 2(a) to file in JSON format:
-            > table2file('T2A','JSON') # dumps `yamazaki_table2a.json` in pwd
+            > table2file('T2A','JSON') # dumps `YamazakiTable2a.json` in pwd
         """
         self.table = table
         self.format = format
 
-        tables = {"T1":[self.data_list[0], "yamazaki_table1"], "T2A":[self.data_list[1], "yamazaki_table2a"],
-                  "T2B":[self.data_list[2], "yamazaki_table2b"]}
+        tables = {"T1":[self.data_list[0], "YamazakiTable1"],
+                  "T2A":[self.data_list[1], "YamazakiTable2a"],
+                  "T2B":[self.data_list[2], "YamazakiTable2b"]}
         formats = ["CSV","JSON"]
 
         FILE_FORMAT = False
