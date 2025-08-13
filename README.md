@@ -106,7 +106,8 @@ The set of angular momentum functions and callable methods available to `PyGamma
 
 | Name | Coefficient/Symbol | Method | Arguments |
 | --- | --- | --- | --- |
-|Clebsch-Gordan | $<j_{1} m_{1} j_{2} m_{2} \|j m>$ | `cg` | $j_{1}$, $m_{1}$ |
+|Clebsch-Gordan | $<j_{1} m_{1} j_{2} m_{2} \|j m>$ | `cg` | $j_{1}$, $m_{1}$, $j_{2}$, $m_{2}$, $j$, $m$ |
+| Wigner 3-*j* | $\left( \begin{array}{ccc} j & j & j \\ m & m & m \end{array} \right)$ | `symb3j` | $j$ |
 
 
 ## References
