@@ -102,7 +102,10 @@ The table below summarizes the angular distribution functions given in the refer
 
 ## Summary angular momentum methods
 
-The set of angular momentum functions and callable methods available to `PyGammaRAD` is tabulated below.  The required arguments are listed in the order in which they should be passed to their corresponding method.
+The set of angular momentum functions and callable methods available to `PyGammaRAD` is tabulated below.  The required arguments are listed in the order in which they should be passed to their corresponding method.  The required arguments are defined as:
+
+* $j$ : Angular momentum vector.
+* $m$ : magnetic substate quantum number (i.e., $z$-axis projection).
 
 | Name | Coefficient/Symbol | Method | Arguments |
 | --- | --- | --- | --- |
