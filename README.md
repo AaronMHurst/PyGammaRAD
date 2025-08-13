@@ -78,16 +78,26 @@ Or, to retrieve the docstring for a particular method, e.g., the callable `symb6
 
 The `Jupyter Notebooks` also illustrate docstring retrieval for certain methods.
 
-## Summary of functions and methods
+## Summary of angular distribution functions and methods
 
-The table below summarizes the functions given by Yamazaki [1] and their corresponding callable methods available in the `PyGammaRAD` software package.  The relevant arguments, where needed, are defined as:
+The table below summarizes the angular distribution functions given in the reference article by Yamazaki [[1]](#1) and their corresponding callable methods available to the `PyGammaRAD` software package.  The relevant arguments, where needed, are defined as:
 
-* *k*: Order of the coefficient or polynomial degree.
-* *J<sub>i</sub>*: Initial nuclear level of the associated &gamma;-ray transition.
-* *J<sub>f</sub>*: Final nuclear level of the associated &gamma;-ray transition.
-* *L<sub>1</sub>*: First multipole order.
-* *L<sub>2</sub>*: Second multipole order.
-* &delta;<sub>&gamma;</sub>: &gamma;-ray multipole mixing ratio.
+* *k* : Order of the coefficient or polynomial degree.
+* *J<sub>i</sub>* : Initial nuclear level of the associated &gamma;-ray transition.
+* *J<sub>f</sub>* : Final nuclear level of the associated &gamma;-ray transition.
+* *L<sub>1</sub>* : First multipole order.
+* *L<sub>2</sub>* : Second multipole order.
+* &delta;<sub>&gamma;</sub> : &gamma;-ray multipole mixing ratio.
+* *A<sub>k</sub>* : Anisotropy coefficient of order *k*.
+
+| Function [[1]](#1) | Method | Arguments |
+| Equation (2) | `dist_W` | *A<sub>k</sub>* |
+| Equation (4) | `calc_F` | *k*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>* |
+| Equation (6) | `calc_B` | *k*, *J* |
+| Equation (7) | `A_max` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>f</sub>*, &delta;<sub>&gamma;</sub> |
+| Equation (8) | `calc_BF` | *k*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>* |
+| Equation (13) | `U_coeff` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>f</sub>*, &delta;<sub>&gamma;</sub> |
+| Equation (14) | `calc_u` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *J<sub>f</sub>* |
 
 
 
