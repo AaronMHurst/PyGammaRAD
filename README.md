@@ -78,6 +78,18 @@ Or, to retrieve the docstring for a particular method, e.g., the callable `symb6
 
 The `Jupyter Notebooks` also illustrate docstring retrieval for certain methods.
 
+## Summary of functions and methods
+
+The table below summarizes the functions given by Yamazaki [1] and their corresponding callable methods available in the `PyGammaRAD` software package.  The relevant arguments, where needed, are defined as:
+
+* *k*: Order of the coefficient or polynomial degree.
+* *J<sub>i</sub>*: Initial nuclear level of the associated &gamma;-ray transition.
+* *J<sub>f</sub>*: Final nuclear level of the associated &gamma;-ray transition.
+* *L<sub>1</sub>*: First multipole order.
+* *L<sub>2</sub>*: Second multipole order.
+* &delta;<sub>&gamma;</sub>: &gamma;-ray multipole mixing ratio.
+
+
 
 ## References
 
