@@ -106,7 +106,7 @@ The set of angular momentum functions and callable methods available to `PyGamma
 
 | Name | Coefficient/Symbol | Method | Arguments |
 | --- | --- | --- | --- |
-|Clebsch-Gordan | $ \langle | \rangle $ `cg` | $j_{1}$, $m_{1}$ |
+|Clebsch-Gordan | $$ \langle \| \rangle $$ `cg` | $j_{1}$, $m_{1}$ |
 
 
 ## References
