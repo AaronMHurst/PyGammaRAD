@@ -91,6 +91,7 @@ The table below summarizes the angular distribution functions given in the refer
 * *A<sub>k</sub>* : Anisotropy coefficient of order *k*.
 
 | Function [[1]](#1) | Method | Arguments |
+| --- | --- | --- |
 | Equation (2) | `dist_W` | *A<sub>k</sub>* |
 | Equation (4) | `calc_F` | *k*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>* |
 | Equation (6) | `calc_B` | *k*, *J* |
