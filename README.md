@@ -80,7 +80,7 @@ The `Jupyter Notebooks` also illustrate docstring retrieval for certain methods.
 
 ## Summary of angular distribution functions and methods
 
-The table below summarizes the angular distribution functions given in the reference article by Yamazaki [[1]](#1) and their corresponding callable methods available to the `PyGammaRAD` software package.  The relevant arguments, where needed, are defined as:
+The table below summarizes the angular distribution functions given in the reference article by Yamazaki [[1]](#1) and their corresponding callable methods available to the `PyGammaRAD` software package.  The relevant arguments, listed in order where needed, are defined as:
 
 * *k* : Order of the coefficient or polynomial degree.
 * *J<sub>i</sub>* : Initial nuclear level of the associated &gamma;-ray transition.
@@ -100,6 +100,13 @@ The table below summarizes the angular distribution functions given in the refer
 | Equation (13) | `U_coeff` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>f</sub>*, &delta;<sub>&gamma;</sub> |
 | Equation (14) | `calc_u` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *J<sub>f</sub>* |
 
+## Summary angular momentum methods
+
+The set of angular momentum functions and callable methods available to `PyGammaRAD` is tabulated below.  The required arguments are listed in the order in which they should be passed to their corresponding method.
+
+| Name | Coefficient/Symbol | Method | Arguments |
+| --- | --- | --- | --- |
+|Clebsch-Gordan | $ \langle | \rangle $ `cg` | $j_{1}$, $m_{1}$ |
 
 
 ## References
