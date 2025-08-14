@@ -100,7 +100,7 @@ The table below summarizes the angular distribution functions given in the refer
 | $U_{k}(J_{i}L_{1}L_{2}J_{f})$ | Equation (13) | `U_coeff` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>f</sub>*, &delta;<sub>&gamma;</sub> |
 | $u_{k}(J_{i}L_{1}J_{f})$  | Equation (14) | `calc_u` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *J<sub>f</sub>* |
 
-<sup>*</sup> A user defined range may be passed to the $W(\theta)$ function as an optional argument.  By default a range of (0<sup>o</sup>,180<sup>o</sup>) is assumed.  Although it is only the non-even $P_{0}$, $P_{2}, and $P_{4}$ Legendre polynomials that are needed to describe the angular distribution function, to enhance the utility of the `PyGammaRAD` methods the first 11 polynomials of the Legendre series are available in the library.  These methods may be called as `lpoly<k>' for the corresponding Legendre polynomial $P_{k}$, where $k$ ranges in value from $k=0$ to $k=10$.
+<sup>*</sup> A user defined range may be passed to the $W(\theta)$ function as an optional argument.  By default a range of (0<sup>o</sup>,180<sup>o</sup>) is assumed.  Although it is only the non-even $P_{0}(\cos\theta)$, $P_{2}(\cos\theta)$, and $P_{4}(\cos\theta)$ Legendre polynomials that are needed to describe the angular distribution function, to enhance the utility of the `PyGammaRAD` methods the first 11 polynomials of the Legendre series are available in the library.  These methods may be called as `lpoly<k>` for the corresponding Legendre polynomial $P_{k}$, where $k$ ranges in value from $k=0$ to $k=10$.
 
 ## Summary angular momentum methods
 
