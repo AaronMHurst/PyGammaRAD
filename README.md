@@ -25,7 +25,7 @@ In the future, the project will also be deployed to the PyPI repository.
 
 ## Testing
 
-A suite of Python modules containing 123 unit tests have been written for this project.  These unit-test scripts are located in the `tests` folder.  To run the test suite and ensure they work with the local Python environment, run `tox` at the command line of the project directory containing the `tox.ini` file:
+A suite of Python modules containing 131 unit tests have been written for this project.  These unit-test scripts are located in the `tests` folder.  To run the test suite and ensure they work with the local Python environment, run `tox` at the command line of the project directory containing the `tox.ini` file:
 
 ```Bash
 $ tox -r
@@ -46,13 +46,13 @@ $ python
 >>> am = pg.AngularMomentum()
 ```
 
-To help illustrate the workflow and utility of the software, inclduing verification of methods againts published results and tabulated data, the project comes with three different `Jupyter Notebooks` for the user to run through:
+To help illustrate the workflow and utility of the software, inclduing verification of methods against published results and tabulated data, the project comes with three different `Jupyter Notebooks` for the user to run through:
 
 * `am_coupling_check.ipynb`: Provides a useful guide for executing angular momentum methods involving Clebsch-Gordan and Racah coefficients in addition to the Wigner *3-j*, *6-j*, and *9-j* symbols.  Well-known published results are compared and verified in this `Notebook`.
 
-* `angular_distributions`: This `Notebook` illustrates the use of the methods involved in the calculation of the overall &gamma;-ray angular distribution function including Legendre polynomials available to the package.  For comparison, experimental anisotropy-attenuation coefficients for transitions in <sup>56</sup>Fe are compared to the theoretically-deduced results.
+* `angular_distributions.ipynb`: This `Notebook` illustrates the use of the methods involved in the calculation of the overall &gamma;-ray angular distribution function including Legendre polynomials available to the package.  For comparison, experimental anisotropy-attenuation coefficients for transitions in <sup>56</sup>Fe are also compared to the theoretically-deduced results.
 
-* `yamazaki_tables`: This `Notebook` serves as a check of the original angular distribution tensors and coefficients published and tabulated by Yamazaki [[1]](#1).
+* `yamazaki_tables.ipynb`: This `Notebook` serves as a check of the original angular distribution tensors and coefficients published and tabulated by Yamazaki [[1]](#1).
 
 
 ## Docstrings
@@ -76,7 +76,7 @@ Or, to retrieve the docstring for a particular method, e.g., the callable `symb6
 >>> help(am.symb6j)
 ```
 
-The `Jupyter Notebooks` also illustrate docstring retrieval for certain methods.
+The `Jupyter Notebooks` provided also illustrate docstring retrieval for certain methods.
 
 ## Summary of angular distribution functions and methods
 
