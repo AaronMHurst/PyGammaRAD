@@ -123,11 +123,11 @@ The following set of methods are also available allowing the user to retrieve or
 
 | Function return | Method | Arguments |
 | --- | --- | --- |
-| $\texttt{DataFrame}$ representation of Table 1 [[1]](#1) | `get_table1` | <sup>*</sup> *m* |
-| DataFrame representation of Table 2(a) [[1]](#1) | `get_table2a` | *None* |
-| DataFrame representation of Table 2(b) [[1]](#1) | `get_table2b` | *None* |
-| List corresponding to data in specified row of Table 1 | `get_row_table1` | *J* |
-| List corresponding to data in specified row of Table 2(a) or 2(b) | `get_row_table2` | *J<sub>i</sub>*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *<sup>*</sup>k*, *<sup>**</sup>coeff* |
+| $\texttt{DataFrame}$ representation of Table 1 [[1]](#1) | `get_table1` | <sup>*</sup>*m* |
+| $\texttt{DataFrame}$ representation of Table 2(a) [[1]](#1) | `get_table2a` | *None* |
+| $\texttt{DataFrame}$ representation of Table 2(b) [[1]](#1) | `get_table2b` | *None* |
+| $\texttt{List}$ corresponding to data in specified row of Table 1 | `get_row_table1` | *J* |
+| $\texttt{List}$ or $\texttt{float}$ corresponding to data in specified row of Table 2(a) or 2(b) depending on input arguments | `get_row_table2` | *J<sub>i</sub>*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *<sup>*</sup>k*, *<sup>**</sup>coeff* |
 
 
 ## References
