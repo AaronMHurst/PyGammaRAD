@@ -100,7 +100,7 @@ The table below summarizes the angular distribution functions given in the refer
 | $U_{k}(J_{i}L_{1}L_{2}J_{f})$ | Equation (13) | `U_coeff` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>f</sub>*, &delta;<sub>&gamma;</sub> |
 | $u_{k}(J_{i}L_{1}J_{f})$  | Equation (14) | `calc_u` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *J<sub>f</sub>* |
 
-<sup>*</sup> A user defined range may be passed to the $W(\theta)$ function as an optional argument.  By default a range of (0$^{\circ}$,180$^{\circ}$) is assumed.
+<sup>*</sup> A user defined range may be passed to the $W(\theta)$ function as an optional argument.  By default a range of (0<sup>o</sup>,180<sup>o</sup>) is assumed.
 
 ## Summary angular momentum methods
 
