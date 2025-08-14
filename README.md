@@ -102,7 +102,7 @@ The table below summarizes the angular distribution functions given in the refer
 
 <sup>*</sup> A user defined range may be passed to the $W(\theta)$ function as an optional argument.  By default a range of (0<sup>o</sup>,180<sup>o</sup>) is assumed.  Although it is only the non-even $P_{0}(\cos\theta)$, $P_{2}(\cos\theta)$, and $P_{4}(\cos\theta)$ Legendre polynomials that are needed to describe the angular distribution function, to enhance the utility of the `PyGammaRAD` methods the first 11 polynomials of the Legendre series are available in the library.  These methods may be called as `lpoly<k>` for the corresponding Legendre polynomial $P_{k}$, where $k$ ranges in value from $k=0$ to $k=10$.  Again, by default an angular range of (0<sup>o</sup>,180<sup>o</sup>) is adopted for the Legendre polynomial methods although a user-defined range can also be provided as an optional argument to override the default range or its granularity.
 
-## Summary angular momentum methods
+## Summary of angular momentum methods
 
 The set of angular momentum functions and callable methods available to `PyGammaRAD` is tabulated below.  The required arguments are listed in the order in which they should be passed to their corresponding method.  The required arguments are defined as:
 
@@ -117,6 +117,15 @@ The set of angular momentum functions and callable methods available to `PyGamma
 | Wigner 6-*j* | $j_{1}$ $j_{2}$ $j_{3}$ <br> $j_{4}$ $j_{5}$ $j_{6}$ | `symb6j` | *j<sub>1</sub>*, *j<sub>2</sub>*, *j<sub>3</sub>*, *j<sub>4</sub>*, *j<sub>5</sub>*, *j<sub>6</sub>* |
 | Wigner 9-*j* | $j_{1}$ $j_{2}$ $j_{3}$ <br> $j_{4}$ $j_{5}$ $j_{6}$ <br> $j_{7}$ $j_{8}$ $j_{9}$ | `symb9j` | *j<sub>1</sub>*, *j<sub>2</sub>*, *j<sub>3</sub>*, *j<sub>4</sub>*, *j<sub>5</sub>*, *j<sub>6</sub>*, *j<sub>7</sub>*, *j<sub>8</sub>*, *j<sub>9</sub>* |
 
+## Summary of Table API methods
+
+The following set of methods are also available allowing the user to retrieve or manipulate the data presented in Table 1, Table 2(a), and Table 2(b) of the original work by Yamazaki [[1]](#1).
+
+| Function return | Method | Arguments |
+| --- | --- | --- |
+| DataFrame representation of Table 1 [[1]](#1) | `get_table1` | |
+| DataFrame representation of Table 2(a) [[1]](#1) | `get_table2a` | |
+| DataFrame representation of Table 2(b) [[1]](#1) | `get_table2b` | |
 
 ## References
 
