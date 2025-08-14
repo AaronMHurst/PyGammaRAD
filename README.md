@@ -90,15 +90,15 @@ The table below summarizes the angular distribution functions given in the refer
 * &delta;<sub>&gamma;</sub> : &gamma;-ray multipole mixing ratio.
 * *A<sub>k</sub>* : Anisotropy coefficient of order *k*.
 
-| Function [[1]](#1) | Method | Arguments |
-| --- | --- | --- |
-| Equation (2) | `dist_W` | *A<sub>k</sub>* |
-| Equation (4) | `calc_F` | *k*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>* |
-| Equation (6) | `calc_B` | *k*, *J* |
-| Equation (7) | `A_max` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>f</sub>*, &delta;<sub>&gamma;</sub> |
-| Equation (8) | `calc_BF` | *k*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>* |
-| Equation (13) | `U_coeff` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>f</sub>*, &delta;<sub>&gamma;</sub> |
-| Equation (14) | `calc_u` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *J<sub>f</sub>* |
+| Quantity | Function [[1]](#1) | Method | Arguments |
+| --- | --- | --- | --- |
+| $W(\theta)$ | Equation (2) | `dist_W` | *A<sub>k</sub>* |
+| $F_{k}(J_{f}L_{1}L_{2}J_{i})$ | Equation (4) | `calc_F` | *k*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>* |
+| $B_{k}(J)$  | Equation (6) | `calc_B` | *k*, *J* |
+| $A_{k}^{max}(J_{i}L_{1}L_{2}J_{f})$  | Equation (7) | `A_max` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>f</sub>*, &delta;<sub>&gamma;</sub> |
+| $B_{k}(J_{i})F_{k}(J_{f}L_{1}L_{2}J_{i})$ | Equation (8) | `calc_BF` | *k*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>* |
+| $U_{k}(J_{i}L_{1}L_{2}J_{f})$ | Equation (13) | `U_coeff` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>f</sub>*, &delta;<sub>&gamma;</sub> |
+| $u_{k}(J_{i}L_{1}J_{f})$  | Equation (14) | `calc_u` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *J<sub>f</sub>* |
 
 ## Summary angular momentum methods
 
@@ -107,7 +107,7 @@ The set of angular momentum functions and callable methods available to `PyGamma
 * *j* : Angular momentum vector.
 * *m* : magnetic substate quantum number (i.e., $z$-axis projection).
 
-| Name | Coefficient/Symbol | Method | Arguments |
+| Quantity | Coefficient/Symbol | Method | Arguments |
 | --- | --- | --- | --- |
 |Clebsch-Gordan | $<j_{1} m_{1} j_{2} m_{2} \|j m>$ | `cg` | *j<sub>1</sub>*, *m<sub>1</sub>*, *j<sub>2</sub>*, *m<sub>2</sub>*, *j*, *m* |
 | Wigner 3-*j* | $j_{1}$ $j_{2}$ $j$ <br> $m_{1}$ $m_{2}$ $m$  | `symb3j` | *j<sub>1</sub>*, *j<sub>2</sub>*, *j*, *m<sub>1</sub>*, *m<sub>2</sub>*, *m* |
