@@ -112,8 +112,8 @@ The set of angular momentum functions and callable methods available to `PyGamma
 |Clebsch-Gordan | $<j_{1} m_{1} j_{2} m_{2} \|j m>$ | `cg` | *j<sub>1</sub>*, *m<sub>1</sub>*, *j<sub>2</sub>*, *m<sub>2</sub>*, *j*, *m* |
 | Wigner 3-*j* | $j_{1}$ $j_{2}$ $j$ <br> $m_{1}$ $m_{2}$ $m$  | `symb3j` | *j<sub>1</sub>*, *j<sub>2</sub>*, *j*, *m<sub>1</sub>*, *m<sub>2</sub>*, *m* |
 | Racah | $W(j_{1} j_{2} j_{3} j_{4}; j_{5} j_{6})$ | `racah` | *j<sub>1</sub>*, *j<sub>2</sub>*, *j<sub>3</sub>*, *j<sub>4</sub>*, *j<sub>5</sub>*, *j<sub>6</sub>* |
-| Wigner 6-*j* | $j_{1}$ $j_{2}$ $j_{3}$ <br> $j_{4}$ $j_{5}$ $j_{6}$  | `symb6j` | $j_{1}$, $j_{2}$, $j_{3}$, $j_{4}$, $j_{5}$, $j_{6}$ |
-| Wigner 9-*j* | $j_{1}$ $j_{2}$ $j_{3}$ <br> $j_{4}$ $j_{5}$ $j_{6}$ <br> $j_{7}$ $j_{8}$ $j_{9}$ | `symb9j` | $j_{1}$, $j_{2}$, $j_{3}$, $j_{4}$, $j_{5}$, $j_{6}$, $j_{7}$, $j_{8}$, $j_{9}$ |
+| Wigner 6-*j* | $j_{1}$ $j_{2}$ $j_{3}$ <br> $j_{4}$ $j_{5}$ $j_{6}$ | *j<sub>1</sub>*, *j<sub>2</sub>*, *j<sub>3</sub>*, *j<sub>4</sub>*, *j<sub>5</sub>*, *j<sub>6</sub>* |
+| Wigner 9-*j* | $j_{1}$ $j_{2}$ $j_{3}$ <br> $j_{4}$ $j_{5}$ $j_{6}$ <br> $j_{7}$ $j_{8}$ $j_{9}$ | `symb9j` | *j<sub>1</sub>*, *j<sub>2</sub>*, *j<sub>3</sub>*, *j<sub>4</sub>*, *j<sub>5</sub>*, *j<sub>6</sub>*, *j<sub>7</sub>*, *j<sub>8</sub>*, *j<sub>9</sub>* |
 
 
 ## References
