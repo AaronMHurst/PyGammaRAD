@@ -104,12 +104,12 @@ The table below summarizes the angular distribution functions given in the refer
 
 The set of angular momentum functions and callable methods available to `PyGammaRAD` is tabulated below.  The required arguments are listed in the order in which they should be passed to their corresponding method.  The required arguments are defined as:
 
-* $j$ : Angular momentum vector.
-* $m$ : magnetic substate quantum number (i.e., $z$-axis projection).
+* *j* : Angular momentum vector.
+* *m* : magnetic substate quantum number (i.e., $z$-axis projection).
 
 | Name | Coefficient/Symbol | Method | Arguments |
 | --- | --- | --- | --- |
-|Clebsch-Gordan | $<j_{1} m_{1} j_{2} m_{2} \|j m>$ | `cg` | $j_{1}$, $m_{1}$, $j_{2}$, $m_{2}$, $j$, $m$ |
+|Clebsch-Gordan | $<j_{1} m_{1} j_{2} m_{2} \|j m>$ | `cg` | *j<sub>1</sub>*, *m<sub>1</sub>*, *j<sub>2</sub>*, *m<sub>2</sub>*, *j*, *m* |
 | Wigner 3-*j* | $j_{1}$ $j_{2}$ $j$ <br> $m_{1}$ $m_{2}$ $m$  | `symb3j` | $j_{1}$, $j_{2}$, $j$, $m_{1}$, $m_{2}$, $m$ |
 | Racah | $W(j_{1} j_{2} j_{3} j_{4}; j_{5} j_{6})$ | `racah` | $j_{1}$, $j_{2}$, $j_{3}$, $j_{4}$, $j_{5}$, $j_{6}$ |
 | Wigner 6-*j* | $j_{1}$ $j_{2}$ $j_{3}$ <br> $j_{4}$ $j_{5}$ $j_{6}$  | `symb6j` | $j_{1}$, $j_{2}$, $j_{3}$, $j_{4}$, $j_{5}$, $j_{6}$ |
