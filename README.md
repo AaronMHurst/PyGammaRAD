@@ -126,7 +126,7 @@ The following conditions apply when handling Clebsch-Gordan coefficients and Wig
 * *m<sub>1</sub>* + *m<sub>2</sub>* = m.
 
 
-Additionally, for all coefficents and symbols listed above, the angular momentum vectors must satisfy the triangle inequalities condition in order to form a (*j<sub>1</sub>*, *j<sub>2</sub>*, *j<sub>3</sub>*) triad based on anti-apallel and parelle coupling mechanisms:
+Additionally, for all coefficents and symbols listed above, the angular momentum vectors must satisfy the triangle inequalities condition in order to form a (*j<sub>1</sub>*, *j<sub>2</sub>*, *j<sub>3</sub>*) triad based on anti-parallel and parallel coupling mechanisms:
 
 * |*j<sub>1</sub>* - *j<sub>2</sub>*| $\leq$ *j<sub>3</sub>* $\leq$ *j<sub>1</sub>* + *j<sub>2</sub>*.
 
