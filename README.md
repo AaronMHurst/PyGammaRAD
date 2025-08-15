@@ -119,10 +119,13 @@ The set of angular momentum functions and callable methods available to `PyGamma
 
 ## Summary of Table API methods
 
-The following set of methods enable user retrieval and manipulation of the data presented in Table 1, Table 2(a), and Table 2(b) of the original work by Yamazaki [[1]](#1).  The arguments, where required, are again listed in the order in which they should passed to their respective methods.  All physical quantities have their usual meannings defined earlier.  A few notes regarding the optional arguments:
+The following set of methods enable user retrieval and manipulation of the data presented in Table 1, Table 2(a), and Table 2(b) of the original work by Yamazaki [[1]](#1).  The arguments, where required, are again listed in the order in which they should passed to their respective methods.  All physical quantities have their usual meannings defined earlier.  A few notes regarding the optional arguments and limitations on other certain arguments:
 
 * `get_table1` : Method may be called (i) without any arguments to return both integral-*J* and half-integral *J* results, (ii) by passing `0` to return integral-*J* results only, or (iii) by passing `0.5` to return half-integral *J* results only.
-* `get_row_table2` : Method only takes values of `2` and `4` as arguments for *k*; acceptable key-word arguments are `coeff='F'`, `coeff='BF'`, or `coeff='U'` depending on the coefficient required from Table 2.
+* `get_row_table2` : Method only takes values of `2` or `4` as arguments for *k*; acceptable key-word arguments are `coeff='F'`, `coeff='BF'`, or `coeff='U'` depending on the coefficient required from Table 2(a) or Table 2(b).  See docstring.
+* `get_B` : Method may take values of `2`, `4`, or `6` as arguments for *k*.
+* `table2file` : <*table*> should be given as `T1` (Table 1), `T2A` (Table 2(a)), or `T2B` (Table 2(b)); <*format*> should be given as `CSV` or `JSON`.
+
 
 | Function return | Method | Arguments |
 | --- | --- | --- |
