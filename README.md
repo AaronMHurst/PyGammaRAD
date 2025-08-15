@@ -119,14 +119,24 @@ The set of angular momentum functions and callable methods available to `PyGamma
 | Wigner 6-*j* | $j_{1}$ $j_{2}$ $j_{3}$ <br> $j_{4}$ $j_{5}$ $j_{6}$ | `symb6j` | *j<sub>1</sub>*, *j<sub>2</sub>*, *j<sub>3</sub>*, *j<sub>4</sub>*, *j<sub>5</sub>*, *j<sub>6</sub>* |
 | Wigner 9-*j* | $j_{1}$ $j_{2}$ $j_{3}$ <br> $j_{4}$ $j_{5}$ $j_{6}$ <br> $j_{7}$ $j_{8}$ $j_{9}$ | `symb9j` | *j<sub>1</sub>*, *j<sub>2</sub>*, *j<sub>3</sub>*, *j<sub>4</sub>*, *j<sub>5</sub>*, *j<sub>6</sub>*, *j<sub>7</sub>*, *j<sub>8</sub>*, *j<sub>9</sub>* |
 
+The following conditions apply when handling Clebsch-Gordan coefficients and Wigner 3-*j* symbols:
+
+* *m<sub>1</sub>* + *m<sub>2</sub>* = m.
+* Each *m* projection must satisfy the relation |*m*| $\leq$ *j*.
+* All *m* quantum numbers must be projections of theire respective *j* values, i.e., for integral *j*, all *m* projections must also be integral, and likewise, half-integral *j* must also have corresponding half-integral *m* projections.
+
+Additionally, for all coefficents and symbols, the angular momentum vectors must satisfy the triangle inequalities condition in order to form a (*j<sub>1</sub>*, *j<sub>2</sub>*, *j<sub>3</sub>*) triad:
+
+* |*j<sub>1</sub>* - *j<sub>2</sub>*| $\leq$ *j<sub>3</sub>* $\leq$ *j<sub>1</sub>* + *j<sub>2</sub>*.
+
 ## Summary of Table API methods
 
 The following set of methods enable user retrieval and manipulation of the data presented in Table 1, Table 2(a), and Table 2(b) of the original work by Yamazaki [[1]](#1).  The arguments, where required, are again listed in the order in which they should passed to their respective methods.  All physical quantities have their usual meannings defined earlier.  A few notes regarding the optional arguments and limitations on other certain arguments:
 
 * `get_table1` : Method may be called (i) without any arguments to return both integral-*J* and half-integral *J* results, (ii) by passing `0` to return integral-*J* results only, or (iii) by passing `0.5` to return half-integral *J* results only.
-* `get_row_table2` : Method only takes values of `2` or `4` as arguments for *k*; acceptable key-word arguments are `coeff='F'`, `coeff='BF'`, or `coeff='U'` depending on the coefficient required from Table 2(a) or Table 2(b).  See docstring.
-* `get_B` : Method may take values of `2`, `4`, or `6` as arguments for *k*.
-* `table2file` : <*table*> should be given as `T1` [Table 1], `T2A` [Table 2(a)], or `T2B` [Table 2(b)]; <*format*> should be given as `CSV` or `JSON`.
+* `get_row_table2` : Method only takes values of `2` or `4` as integer arguments for *k*; acceptable key-word arguments are `coeff='F'` cf. Equation (4) [[1]](#1), `coeff='BF'` cf. Equation (8) [[1]](#1), or `coeff='U'` cf. Equation (14) [[1]](#1), depending on the coefficient required from Table 2(a) or Table 2(b).  See docstring.
+* `get_B` : Method may take integer values of `2`, `4`, or `6` as arguments for *k*; these results in Table 1 should agree with Equation (6) [[1]](#1).
+* `table2file` : <*table*> should be given as a string argument and entered as `'T1'` [Table 1], `'T2A'` [Table 2(a)], or `'T2B'` [Table 2(b)]; <*format*> should be given as a string argument and entered as `'CSV'` or `'JSON'`.
 
 
 | Function return | Method | Arguments |
