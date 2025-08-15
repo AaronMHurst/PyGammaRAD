@@ -100,14 +100,14 @@ The table below summarizes the angular distribution functions given in the refer
 | $U_{k}(J_{i}L_{1}L_{2}J_{f})$ | Equation (13) | `U_coeff` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>f</sub>*, &delta;<sub>&gamma;</sub> |
 | $u_{k}(J_{i}L_{1}J_{f})$  | Equation (14) | `calc_u` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *J<sub>f</sub>* |
 
-<sup>*</sup> A user defined range may be passed to the $W(\theta)$ function as an optional argument.  By default a range of (0<sup>o</sup>,180<sup>o</sup>) is assumed.  Although it is only the non-even $P_{0}(\cos\theta)$, $P_{2}(\cos\theta)$, and $P_{4}(\cos\theta)$ Legendre polynomials that are needed to describe the angular distribution function, to enhance the utility of the `PyGammaRAD` methods the first 11 polynomials of the Legendre series are available in the library.  These methods may be called as `lpoly<k>` for the corresponding Legendre polynomial $P_{k}$, where $k$ ranges in value from $k=0$ to $k=10$.  Again, by default an angular range of (0<sup>o</sup>,180<sup>o</sup>) is adopted for the Legendre polynomial methods although a user-defined range can also be provided as an optional argument to override the default range or its granularity.
+<sup>*</sup> A user defined range may be passed to the $W(\theta)$ function as an optional argument; by default a range of (0<sup>o</sup>,180<sup>o</sup>) is assumed.  Although it is only the non-even $P_{0}(\cos\theta)$, $P_{2}(\cos\theta)$, and $P_{4}(\cos\theta)$ Legendre polynomials that are needed to describe the angular distribution function, to enhance the utility of the `PyGammaRAD` methods the first 11 polynomials of the Legendre series are available in the library.  These methods may be called as `lpoly<k>` for the corresponding Legendre polynomial $P_{k}$, where $k$ ranges in value from $k=0$ to $k=10$.  Again, by default an angular range of (0<sup>o</sup>,180<sup>o</sup>) is adopted for the Legendre polynomial methods although a user-defined range can also be provided as an optional argument to override the default range or its granularity.
 
 ## Summary of angular momentum methods
 
 The set of angular momentum functions and callable methods available to `PyGammaRAD` is tabulated below.  The required arguments are listed in the order in which they should be passed to their corresponding method.  The required arguments are defined as:
 
 * *j* : Angular momentum vector.
-* *m* : magnetic substate quantum number (i.e., $z$-axis projection).
+* *m* : magnetic substate quantum number (i.e., *z*-axis projection).
 
 | Quantity | Coefficient/Symbol | Method | Arguments |
 | --- | --- | --- | --- |
@@ -119,16 +119,16 @@ The set of angular momentum functions and callable methods available to `PyGamma
 
 ## Summary of Table API methods
 
-The following set of methods are also available allowing the user to retrieve or manipulate the data presented in Table 1, Table 2(a), and Table 2(b) of the original work by Yamazaki [[1]](#1).
+The following set of methods enable user retrieval and manipulation of the data presented in Table 1, Table 2(a), and Table 2(b) of the original work by Yamazaki [[1]](#1).
 
 | Function return | Method | Arguments |
 | --- | --- | --- |
 | $\texttt{DataFrame}$ representation of Table 1 [[1]](#1) | `get_table1` | <sup>*</sup>*m* |
 | $\texttt{DataFrame}$ representation of Table 2(a) [[1]](#1) | `get_table2a` | *None* |
 | $\texttt{DataFrame}$ representation of Table 2(b) [[1]](#1) | `get_table2b` | *None* |
-| $\texttt{List}$ corresponding to data in specified row of Table 1 | `get_row_table1` | *J* |
-| $\texttt{List}$ or $\texttt{float}$ corresponding to data in specified row of Table 2(a) or 2(b) depending on input arguments | `get_row_table2` | *J<sub>i</sub>*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, <sup>*</sup>*k*, *<sup>**</sup>coeff* |
-
+| $\texttt{List}$ corresponding to data in specified row of Table 1 [[1]](#1) | `get_row_table1` | *J* |
+| $\texttt{List}$ or $\texttt{float}$ corresponding to data in specified row of Table 2(a) or 2(b) [[1]](#1) depending on input arguments | `get_row_table2` | *J<sub>i</sub>*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, <sup>*</sup>*k*, *<sup>**</sup>coeff* |
+| $\texttt{Float}$ corresponding to *B<sub>k</sub>(J)* listed in Table 1 [[1]](#1) | `get_B` | *k*, *J* |
 
 ## References
 
