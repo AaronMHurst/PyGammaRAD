@@ -92,7 +92,7 @@ The table below summarizes the angular distribution functions given in the refer
 
 Note that in the case of a mixed transition *L<sub>1</sub> &ne; L<sub>2</sub>*, while in the case of a pure stretched transition *L<sub>1</sub> = L<sub>2</sub>*.
 
-| Quantity | Function [[1]](#1) | Method | Arguments |
+| Returned quantity | Function [[1]](#1) | Method | Arguments |
 | --- | --- | --- | --- |
 | $W(\theta)$ | Equation (2) | `dist_W` | *A<sub>k</sub>*, <sup>*</sup> *[&theta;]* |
 | $F_{k}(J_{f}L_{1}L_{2}J_{i})$ | Equation (4) | `calc_F` | *k*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>* |
@@ -106,12 +106,12 @@ Note that in the case of a mixed transition *L<sub>1</sub> &ne; L<sub>2</sub>*, 
 
 ## Summary of angular momentum methods
 
-The set of angular momentum functions and callable methods available to `PyGammaRAD` is tabulated below.  The required arguments are listed in the order in which they should be passed to their corresponding method.  The required arguments are defined as:
+The set of angular momentum functions and callable methods available to the `PyGammaRAD` library is tabulated below.  The required arguments are listed in the order in which they should be passed to their corresponding method.  The arguments are defined as:
 
 * *j* : Angular momentum vector.
 * *m* : magnetic substate quantum number (i.e., *z*-axis projection).
 
-| Quantity | Coefficient/Symbol | Method | Arguments |
+| Returned quantity | Coefficient/Symbol | Method | Arguments |
 | --- | --- | --- | --- |
 |Clebsch-Gordan | $<j_{1} m_{1} j_{2} m_{2} \|j m>$ | `cg` | *j<sub>1</sub>*, *m<sub>1</sub>*, *j<sub>2</sub>*, *m<sub>2</sub>*, *j*, *m* |
 | Wigner 3-*j* | $j_{1}$ $j_{2}$ $j$ <br> $m_{1}$ $m_{2}$ $m$  | `symb3j` | *j<sub>1</sub>*, *j<sub>2</sub>*, *j*, *m<sub>1</sub>*, *m<sub>2</sub>*, *m* |
@@ -121,25 +121,26 @@ The set of angular momentum functions and callable methods available to `PyGamma
 
 The following conditions apply when handling Clebsch-Gordan coefficients and Wigner 3-*j* symbols:
 
+* All *m* quantum numbers must be projections of their respective *j* values, i.e., for integral *j*, all *m* projections must also be integral, and likewise, half-integral *j* must also have corresponding half-integral *m* projections.
+* Each *m* projection must satisfy the relation |*m<sub>i</sub>*| $\leq$ *j<sub>i</sub>*.
 * *m<sub>1</sub>* + *m<sub>2</sub>* = m.
-* Each *m* projection must satisfy the relation |*m*| $\leq$ *j*.
-* All *m* quantum numbers must be projections of theire respective *j* values, i.e., for integral *j*, all *m* projections must also be integral, and likewise, half-integral *j* must also have corresponding half-integral *m* projections.
 
-Additionally, for all coefficents and symbols, the angular momentum vectors must satisfy the triangle inequalities condition in order to form a (*j<sub>1</sub>*, *j<sub>2</sub>*, *j<sub>3</sub>*) triad:
+
+Additionally, for all coefficents and symbols listed above, the angular momentum vectors must satisfy the triangle inequalities condition in order to form a (*j<sub>1</sub>*, *j<sub>2</sub>*, *j<sub>3</sub>*) triad:
 
 * |*j<sub>1</sub>* - *j<sub>2</sub>*| $\leq$ *j<sub>3</sub>* $\leq$ *j<sub>1</sub>* + *j<sub>2</sub>*.
 
 ## Summary of Table API methods
 
-The following set of methods enable user retrieval and manipulation of the data presented in Table 1, Table 2(a), and Table 2(b) of the original work by Yamazaki [[1]](#1).  The arguments, where required, are again listed in the order in which they should passed to their respective methods.  All physical quantities have their usual meannings defined earlier.  A few notes regarding the optional arguments and limitations on other certain arguments:
+The following set of methods enable user retrieval and manipulation of the data presented in Table 1, Table 2(a), and Table 2(b) of the original work by Yamazaki [[1]](#1).  The arguments, where required, are again listed in the order in which they should passed to their respective methods.  All physical quantities have their usual meanings defined earlier.  A few notes regarding the optional arguments and limitations on other certain arguments:
 
 * `get_table1` : Method may be called (i) without any arguments to return both integral-*J* and half-integral *J* results, (ii) by passing `0` to return integral-*J* results only, or (iii) by passing `0.5` to return half-integral *J* results only.
 * `get_row_table2` : Method only takes values of `2` or `4` as integer arguments for *k*; acceptable key-word arguments are `coeff='F'` cf. Equation (4) [[1]](#1), `coeff='BF'` cf. Equation (8) [[1]](#1), or `coeff='U'` cf. Equation (14) [[1]](#1), depending on the coefficient required from Table 2(a) or Table 2(b).  See docstring.
 * `get_B` : Method may take integer values of `2`, `4`, or `6` as arguments for *k*; these results in Table 1 should agree with Equation (6) [[1]](#1).
-* `table2file` : <*table*> should be given as a string argument and entered as `'T1'` [Table 1], `'T2A'` [Table 2(a)], or `'T2B'` [Table 2(b)]; <*format*> should be given as a string argument and entered as `'CSV'` or `'JSON'`.
+* `table2file` : <*table*> should be given as a string argument and entered as `'T1'` for Table 1, `'T2A'` for Table 2(a), or `'T2B'` for Table 2(b) [[1]](#1); <*format*> should also be given as a string argument and entered as `'CSV'` or `'JSON'`.
 
 
-| Function return | Method | Arguments |
+| Returned quantity | Method | Arguments |
 | --- | --- | --- |
 | $\texttt{DataFrame}$ representation of Table 1 [[1]](#1) | `get_table1` | <sup>*</sup><*m*> |
 | $\texttt{DataFrame}$ representation of Table 2(a) [[1]](#1) | `get_table2a` | *None* |
@@ -147,7 +148,7 @@ The following set of methods enable user retrieval and manipulation of the data 
 | $\texttt{List}$ corresponding to data in specified row of Table 1 [[1]](#1) | `get_row_table1` | *J* |
 | $\texttt{List}$ or $\texttt{float}$ corresponding to data in specified row of Table 2(a) or 2(b) [[1]](#1) depending on input arguments | `get_row_table2` | *J<sub>i</sub>*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, <sup>*</sup>*k*, *<sup>**</sup>coeff* |
 | $\texttt{Float}$ corresponding to *B<sub>k</sub>(J)* listed in Table 1 [[1]](#1) | `get_B` | *k*, *J* |
-| Dumps specified Table to file in current working directory  in CSV or JSON format | `table2file` | *table*, *format* |
+| Dumps specified Table to file in current working directory in a CSV or JSON format | `table2file` | *table*, *format* |
 
 
 ## References
