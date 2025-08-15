@@ -123,7 +123,7 @@ The following set of methods enable user retrieval and manipulation of the data 
 
 | Function return | Method | Arguments |
 | --- | --- | --- |
-| $\texttt{DataFrame}$ representation of Table 1 [[1]](#1) | `get_table1` | <sup>*</sup>*m* |
+| $\texttt{DataFrame}$ representation of Table 1 [[1]](#1) | `get_table1` | <sup>*</sup><*m*> |
 | $\texttt{DataFrame}$ representation of Table 2(a) [[1]](#1) | `get_table2a` | *None* |
 | $\texttt{DataFrame}$ representation of Table 2(b) [[1]](#1) | `get_table2b` | *None* |
 | $\texttt{List}$ corresponding to data in specified row of Table 1 [[1]](#1) | `get_row_table1` | *J* |
