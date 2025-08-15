@@ -90,6 +90,8 @@ The table below summarizes the angular distribution functions given in the refer
 * &delta;<sub>&gamma;</sub> : &gamma;-ray multipole mixing ratio.
 * *A<sub>k</sub>* : Anisotropy coefficient of order *k*.
 
+Note that in the case of a mixed transition *L<sub>1</sub> &ne; L<sub>2</sub>*, while in the case of a pure transition stretched transition *L<sub>1</sub> = L<sub>2</sub>*.
+
 | Quantity | Function [[1]](#1) | Method | Arguments |
 | --- | --- | --- | --- |
 | $W(\theta)$ | Equation (2) | `dist_W` | *A<sub>k</sub>*, *[&theta;]<sup>*</sup>* |
@@ -124,7 +126,7 @@ The following set of methods enable user retrieval and manipulation of the data 
 * `get_table1` : Method may be called (i) without any arguments to return both integral-*J* and half-integral *J* results, (ii) by passing `0` to return integral-*J* results only, or (iii) by passing `0.5` to return half-integral *J* results only.
 * `get_row_table2` : Method only takes values of `2` or `4` as arguments for *k*; acceptable key-word arguments are `coeff='F'`, `coeff='BF'`, or `coeff='U'` depending on the coefficient required from Table 2(a) or Table 2(b).  See docstring.
 * `get_B` : Method may take values of `2`, `4`, or `6` as arguments for *k*.
-* `table2file` : <*table*> should be given as `T1` (Table 1), `T2A` (Table 2(a)), or `T2B` (Table 2(b)); <*format*> should be given as `CSV` or `JSON`.
+* `table2file` : <*table*> should be given as `T1` [Table 1], `T2A` [Table 2(a)], or `T2B` [Table 2(b)]; <*format*> should be given as `CSV` or `JSON`.
 
 
 | Function return | Method | Arguments |
