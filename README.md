@@ -119,7 +119,10 @@ The set of angular momentum functions and callable methods available to `PyGamma
 
 ## Summary of Table API methods
 
-The following set of methods enable user retrieval and manipulation of the data presented in Table 1, Table 2(a), and Table 2(b) of the original work by Yamazaki [[1]](#1).
+The following set of methods enable user retrieval and manipulation of the data presented in Table 1, Table 2(a), and Table 2(b) of the original work by Yamazaki [[1]](#1).  The arguments, where required, are again listed in the order in which they should passed to their respective methods.  All physical quantities have their usual meannings defined earlier.  A few notes regarding the optional arguments:
+
+* `get_table1` : Method may be called (i) without any arguments to return both integral-*J* and half-integral *J* results, (ii) by passing `0` to return integral-*J* results only, or (iii) by passing `0.5` to return half-integral *J* results only.
+* `get_row_table2` : Method only takes values of `2` and `4` as arguments for *k*; acceptable key-word arguments are `coeff='F'`, `coeff='BF'`, or `coeff='U'` depending on the coefficient required from Table 2.
 
 | Function return | Method | Arguments |
 | --- | --- | --- |
@@ -129,7 +132,7 @@ The following set of methods enable user retrieval and manipulation of the data 
 | $\texttt{List}$ corresponding to data in specified row of Table 1 [[1]](#1) | `get_row_table1` | *J* |
 | $\texttt{List}$ or $\texttt{float}$ corresponding to data in specified row of Table 2(a) or 2(b) [[1]](#1) depending on input arguments | `get_row_table2` | *J<sub>i</sub>*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, <sup>*</sup>*k*, *<sup>**</sup>coeff* |
 | $\texttt{Float}$ corresponding to *B<sub>k</sub>(J)* listed in Table 1 [[1]](#1) | `get_B` | *k*, *J* |
-| Dumps specified Table to file in `pwd` in CSV or JSON | `table2file` | *table*, *format* |
+| Dumps specified Table to file in current working directory  in CSV or JSON format | `table2file` | *table*, *format* |
 
 
 ## References
