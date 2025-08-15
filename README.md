@@ -119,6 +119,8 @@ The set of angular momentum functions and callable methods available to the `PyG
 | Wigner 6-*j* | $j_{1}$ $j_{2}$ $j_{3}$ <br> $j_{4}$ $j_{5}$ $j_{6}$ | `symb6j` | *j<sub>1</sub>*, *j<sub>2</sub>*, *j<sub>3</sub>*, *j<sub>4</sub>*, *j<sub>5</sub>*, *j<sub>6</sub>* |
 | Wigner 9-*j* | $j_{1}$ $j_{2}$ $j_{3}$ <br> $j_{4}$ $j_{5}$ $j_{6}$ <br> $j_{7}$ $j_{8}$ $j_{9}$ | `symb9j` | *j<sub>1</sub>*, *j<sub>2</sub>*, *j<sub>3</sub>*, *j<sub>4</sub>*, *j<sub>5</sub>*, *j<sub>6</sub>*, *j<sub>7</sub>*, *j<sub>8</sub>*, *j<sub>9</sub>* |
 
+Note that the ordering of *j<sub>i</sub>* in the second column **does not** reflect the relationship between the Racah coefficient and its corresponding Wigner 6-*j* symbol; the labeling of the *j<sub>i</sub>* vectors is intended to facilitate user input with the passing of arguments from *left-to-right*, *top-to-bottom*, as they appear in the written form of the coefficient/symbol.
+
 The following conditions apply when handling Clebsch-Gordan coefficients and Wigner 3-*j* symbols:
 
 * All *m* quantum numbers must be projections of their respective *j* values, i.e., for integral *j*, all *m* projections must also be integral, and likewise, half-integral *j* must also have corresponding half-integral *m* projections.
