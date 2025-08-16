@@ -2,6 +2,9 @@ from .tables import *
 from math import sqrt, factorial
 from decimal import Decimal, getcontext
 
+def factorial_n(number):
+    return factorial(int(number))
+
 class Newton(Tables):
     __doc__="""Class containing an implementation of Newton's method for 
     integer square roots."""
@@ -106,8 +109,8 @@ class ClebschGordan(Newton):
         Clebsch-Gordan coefficient."""
         j1, j2, j = self.j1, self.j2, self.j
         
-        numerator = factorial((j1+j2)-j) * factorial((j1-j2)+j) * factorial((-j1)+j2+j)
-        denominator = factorial(j1+j2+j+1)
+        numerator = factorial_n((j1+j2)-j) * factorial_n((j1-j2)+j) * factorial_n((-j1)+j2+j)
+        denominator = factorial_n(j1+j2+j+1)
         delta = sqrt(numerator/denominator)
         #print("delta_j = {0}".format(delta))
         return delta
@@ -121,15 +124,15 @@ class ClebschGordan(Newton):
 
         try:
         
-            j1m1 = sqrt(factorial(j1+m1)*factorial(j1-m1))
-            j2m2_jm = sqrt(factorial(j2+m2) * factorial(j2-m2) * factorial(j+m) * factorial(j-m) * ((2*j)+1))
+            j1m1 = sqrt(factorial_n(j1+m1)*factorial_n(j1-m1))
+            j2m2_jm = sqrt(factorial_n(j2+m2) * factorial_n(j2-m2) * factorial_n(j+m) * factorial_n(j-m) * ((2*j)+1))
             #print("coeff = {0}".format(j1m1*j2m2_jm))
 
         except OverflowError:
             #print("Using Newton's method")
             getcontext().prec = 1000
-            j1m1 = Newton.isqrt(factorial(j1+m1)*factorial(j1-m1))
-            j2m2_jm = Newton.isqrt(factorial(j2+m2) * factorial(j2-m2) * factorial(j+m) * factorial(j-m) * ((2*j)+1))
+            j1m1 = Newton.isqrt(factorial_n(j1+m1)*factorial_n(j1-m1))
+            j2m2_jm = Newton.isqrt(factorial_n(j2+m2) * factorial_n(j2-m2) * factorial_n(j+m) * factorial_n(j-m) * ((2*j)+1))
             #print("coeff = {0}".format(j1m1*j2m2_jm))
             
         return j1m1*j2m2_jm
@@ -167,10 +170,10 @@ class ClebschGordan(Newton):
             #print(v, sum_couple_j)
             try:
                 numerator_A = (-1)**v
-                denominator_A = factorial(v) * factorial(((j1+j2)-j)-v) * factorial((j1-m1)-v) * factorial((j2+m2)-v) 
+                denominator_A = factorial_n(v) * factorial_n(((j1+j2)-j)-v) * factorial_n((j1-m1)-v) * factorial_n((j2+m2)-v) 
         
                 numerator_B = 1
-                denominator_B = factorial((j-j2)+m1+v) * factorial(((j-j1)-m2)+v)
+                denominator_B = factorial_n((j-j2)+m1+v) * factorial_n(((j-j1)-m2)+v)
         
                 sum_couple_j += (numerator_A/denominator_A) * (numerator_B/denominator_B)
                 #print(v, sum_couple_j)
@@ -298,8 +301,8 @@ class Racah(Wigner3j):
         The triad thus represents the selection rules governing allowed values 
         for the total angular momentum arising from the coupling of two 
         individual angular momenta."""
-        numerator = factorial((a+b)-c) * factorial((a-b)+c) * factorial((-a)+b+c)
-        denominator = factorial(int(a+b+c+1))
+        numerator = factorial_n((a+b)-c) * factorial_n((a-b)+c) * factorial_n((-a)+b+c)
+        denominator = factorial_n(int(a+b+c+1))
         delta = sqrt(numerator/denominator)
         return delta
         
@@ -339,16 +342,16 @@ class Racah(Wigner3j):
         OVERFLOW = False
         for z in range(z_min, z_max+1, 1):
             try:
-                numerator = (-1)**(z+b1) * factorial(z+1)
-                denominator = factorial(z-a1)*factorial(z-a2)*factorial(z-a3)*factorial(z-a4)*factorial(b1-z)*factorial(b2-z)*factorial(b3-z)
+                numerator = (-1)**(z+b1) * factorial_n(z+1)
+                denominator = factorial_n(z-a1)*factorial_n(z-a2)*factorial_n(z-a3)*factorial_n(z-a4)*factorial_n(b1-z)*factorial_n(b2-z)*factorial_n(b3-z)
 
                 ratio = numerator/denominator
                 w_coeff += ratio
             except OverflowError:
                 OVERFLOW = True
                 getcontext().prec = 1000
-                numerator = Decimal((-1)**(z+b1)) * Decimal(factorial(z+1))
-                denominator = Decimal(factorial(z-a1))*Decimal(factorial(z-a2))*Decimal(factorial(z-a3))*Decimal(factorial(z-a4))*Decimal(factorial(b1-z))*Decimal(factorial(b2-z))*Decimal(factorial(b3-z))
+                numerator = Decimal((-1)**(z+b1)) * Decimal(factorial_n(z+1))
+                denominator = Decimal(factorial_n(z-a1))*Decimal(factorial_n(z-a2))*Decimal(factorial_n(z-a3))*Decimal(factorial_n(z-a4))*Decimal(factorial_n(b1-z))*Decimal(factorial_n(b2-z))*Decimal(factorial_n(b3-z))
                 
                 ratio = numerator/denominator
                 ratio = float(ratio)
