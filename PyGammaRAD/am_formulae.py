@@ -2,10 +2,88 @@ from .tables import *
 from math import sqrt, factorial
 from decimal import Decimal, getcontext
 
-def factorial_n(number):
-    return factorial(int(number))
+class Factorial(Tables):
+    __doc__="""Class containing different implementations of methods for 
+    calculating the factorial of a non-negative integer.  By default, the 
+    `PyGammaRAD` library uses a function that returns the native 
+    `math.factorial` method.  However, this class is intended to allow users 
+    to test or adjust different methods for calculating the factorial according 
+    to preference.
+    """
+    
+    def factorial_n(number):
+        """That native `math.factorial` function n! is defined for 
+        non-negative integers and calculates the product of all positive 
+        integers less than or equal to n.  This method gets returned whenever 
+        a `PyGammaRAD` method calls a factorial function and ensures the 
+        argument gets intepreted as an integer."""
+        return factorial(int(number))
 
-class Newton(Tables):
+    def factorial_recursive(number,MAX_DEPTH=2000):
+        """Recursive method to calculate the factorial of non-negative integers.
+
+        WARNING: This function may be very inefficient compared to the native 
+        `math.factorial` method if the default recursion limit is exceeded.  
+        Setting the maximum recursion depth too high will likely result in a 
+        very long execution time.  For small recursion depth values this method 
+        is probably fine, for larger values it is probably best to use the 
+        native factorial method.
+
+        Args:
+            number: Number object (integer or float) for which to calculate the 
+                    factorial.
+            MAX_DEPTH: The recursion limit for calculating the factorial.  By 
+                       default the integer value is set to 2000.
+
+        Returns:
+            The factorial of the `number` argument passed.
+
+        Raises:
+            Negative `number` arguments raise a ValueError exception.
+        """
+        number = int(number)
+        MAX_DEPTH = int(MAX_DEPTH)
+        if number < 0:
+            raise ValueError("Factorial for negative numbers not defined.")
+        elif number == 0 or number == 1:
+            return 1
+        else:
+            try:
+                return number * Factorial.factorial_recursive(number - 1)
+            except RecursionError:
+                import sys
+                sys.setrecursionlimit(MAX_DEPTH)
+                return number * Factorial.factorial_recursive(number - 1)
+
+    def factorial_gamma(number):
+        """The Gamma function extends the concept of a generalized factorial 
+        that can handle complex numbers and non-negative floating-point 
+        numbers.  Both the Gamma and factorial functions satisfy the relation: 
+
+            Gamma(n+1) = n!
+        
+        This method can be used as an alternative to the factorial methods 
+        when a float object gets passed that cannot be interpreted as an 
+        integer.
+
+        Args:
+            number: Number object (integer or float) for which to calculate the 
+                    (n+1) factorial using the `math.gamma` function.
+
+        Returns:
+            The factorial of the (`number` + 1) argument passed returned as a 
+            float.
+
+        Raises:
+            Large `number` arguments (n>170) raise an OverflowError exception.
+        """
+        from math import gamma
+        if number <= 0:
+            raise ValueError("Gamma function not defined for zero or negative numbers.")
+        else:
+            return gamma(number + 1)
+
+class Newton(Factorial):
     __doc__="""Class containing an implementation of Newton's method for 
     integer square roots."""
 
@@ -109,8 +187,8 @@ class ClebschGordan(Newton):
         Clebsch-Gordan coefficient."""
         j1, j2, j = self.j1, self.j2, self.j
         
-        numerator = factorial_n((j1+j2)-j) * factorial_n((j1-j2)+j) * factorial_n((-j1)+j2+j)
-        denominator = factorial_n(j1+j2+j+1)
+        numerator = Factorial.factorial_n((j1+j2)-j) * Factorial.factorial_n((j1-j2)+j) * Factorial.factorial_n((-j1)+j2+j)
+        denominator = Factorial.factorial_n(j1+j2+j+1)
         delta = sqrt(numerator/denominator)
         #print("delta_j = {0}".format(delta))
         return delta
@@ -124,15 +202,15 @@ class ClebschGordan(Newton):
 
         try:
         
-            j1m1 = sqrt(factorial_n(j1+m1)*factorial_n(j1-m1))
-            j2m2_jm = sqrt(factorial_n(j2+m2) * factorial_n(j2-m2) * factorial_n(j+m) * factorial_n(j-m) * ((2*j)+1))
+            j1m1 = sqrt(Factorial.factorial_n(j1+m1)*Factorial.factorial_n(j1-m1))
+            j2m2_jm = sqrt(Factorial.factorial_n(j2+m2) * Factorial.factorial_n(j2-m2) * Factorial.factorial_n(j+m) * Factorial.factorial_n(j-m) * ((2*j)+1))
             #print("coeff = {0}".format(j1m1*j2m2_jm))
 
         except OverflowError:
             #print("Using Newton's method")
             getcontext().prec = 1000
-            j1m1 = Newton.isqrt(factorial_n(j1+m1)*factorial_n(j1-m1))
-            j2m2_jm = Newton.isqrt(factorial_n(j2+m2) * factorial_n(j2-m2) * factorial_n(j+m) * factorial_n(j-m) * ((2*j)+1))
+            j1m1 = Newton.isqrt(Factorial.factorial_n(j1+m1)*Factorial.factorial_n(j1-m1))
+            j2m2_jm = Newton.isqrt(Factorial.factorial_n(j2+m2) * Factorial.factorial_n(j2-m2) * Factorial.factorial_n(j+m) * Factorial.factorial_n(j-m) * ((2*j)+1))
             #print("coeff = {0}".format(j1m1*j2m2_jm))
             
         return j1m1*j2m2_jm
@@ -170,10 +248,10 @@ class ClebschGordan(Newton):
             #print(v, sum_couple_j)
             try:
                 numerator_A = (-1)**v
-                denominator_A = factorial_n(v) * factorial_n(((j1+j2)-j)-v) * factorial_n((j1-m1)-v) * factorial_n((j2+m2)-v) 
+                denominator_A = Factorial.factorial_n(v) * Factorial.factorial_n(((j1+j2)-j)-v) * Factorial.factorial_n((j1-m1)-v) * Factorial.factorial_n((j2+m2)-v) 
         
                 numerator_B = 1
-                denominator_B = factorial_n((j-j2)+m1+v) * factorial_n(((j-j1)-m2)+v)
+                denominator_B = Factorial.factorial_n((j-j2)+m1+v) * Factorial.factorial_n(((j-j1)-m2)+v)
         
                 sum_couple_j += (numerator_A/denominator_A) * (numerator_B/denominator_B)
                 #print(v, sum_couple_j)
@@ -301,8 +379,8 @@ class Racah(Wigner3j):
         The triad thus represents the selection rules governing allowed values 
         for the total angular momentum arising from the coupling of two 
         individual angular momenta."""
-        numerator = factorial_n((a+b)-c) * factorial_n((a-b)+c) * factorial_n((-a)+b+c)
-        denominator = factorial_n(int(a+b+c+1))
+        numerator = Factorial.factorial_n((a+b)-c) * Factorial.factorial_n((a-b)+c) * Factorial.factorial_n((-a)+b+c)
+        denominator = Factorial.factorial_n(int(a+b+c+1))
         delta = sqrt(numerator/denominator)
         return delta
         
@@ -342,16 +420,16 @@ class Racah(Wigner3j):
         OVERFLOW = False
         for z in range(z_min, z_max+1, 1):
             try:
-                numerator = (-1)**(z+b1) * factorial_n(z+1)
-                denominator = factorial_n(z-a1)*factorial_n(z-a2)*factorial_n(z-a3)*factorial_n(z-a4)*factorial_n(b1-z)*factorial_n(b2-z)*factorial_n(b3-z)
+                numerator = (-1)**(z+b1) * Factorial.factorial_n(z+1)
+                denominator = Factorial.factorial_n(z-a1)*Factorial.factorial_n(z-a2)*Factorial.factorial_n(z-a3)*Factorial.factorial_n(z-a4)*Factorial.factorial_n(b1-z)*Factorial.factorial_n(b2-z)*Factorial.factorial_n(b3-z)
 
                 ratio = numerator/denominator
                 w_coeff += ratio
             except OverflowError:
                 OVERFLOW = True
                 getcontext().prec = 1000
-                numerator = Decimal((-1)**(z+b1)) * Decimal(factorial_n(z+1))
-                denominator = Decimal(factorial_n(z-a1))*Decimal(factorial_n(z-a2))*Decimal(factorial_n(z-a3))*Decimal(factorial_n(z-a4))*Decimal(factorial_n(b1-z))*Decimal(factorial_n(b2-z))*Decimal(factorial_n(b3-z))
+                numerator = Decimal((-1)**(z+b1)) * Decimal(Factorial.factorial_n(z+1))
+                denominator = Decimal(Factorial.factorial_n(z-a1))*Decimal(Factorial.factorial_n(z-a2))*Decimal(Factorial.factorial_n(z-a3))*Decimal(Factorial.factorial_n(z-a4))*Decimal(Factorial.factorial_n(b1-z))*Decimal(Factorial.factorial_n(b2-z))*Decimal(Factorial.factorial_n(b3-z))
                 
                 ratio = numerator/denominator
                 ratio = float(ratio)
