@@ -2,6 +2,7 @@ from .tables import *
 from .am_formulae import *
 from .am_methods import *
 from .angular_distributions import *
+from .log_handlers import *
 
 class AngularMomentum(Legendre):    
     __doc__="""Class to handle the coupling and recoupling schemes of angular 
