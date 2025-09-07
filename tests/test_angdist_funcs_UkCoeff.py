@@ -95,14 +95,21 @@ class AngularDistributionUkMaxTests(unittest.TestCase):
         with self.assertRaises(TypeError):
             am.U_coeff("2","2","2","2","2","-0.18")
 
-    def test_U_coeff_raises_TypeError_with_k_odd_arg(self):
+    #def test_U_coeff_raises_TypeError_with_k_odd_arg(self):
         # U_coeff method tries to return summation of uk coefficients
         # Odd-k attempts <float> * <NoneType>
-        with self.assertRaises(TypeError):
-            am.U_coeff(1,1.5,1,1,2.5)
-        with self.assertRaises(TypeError):
-            am.U_coeff(3,1.5,2,2,1.5)
-        with self.assertRaises(TypeError):
-            am.U_coeff(5,2.5,3,3,4.5)
+        #with self.assertRaises(TypeError):
+            #am.U_coeff(1,1.5,1,1,2.5)
+        #with self.assertRaises(TypeError):
+            #am.U_coeff(3,1.5,2,2,1.5)
+        #with self.assertRaises(TypeError):
+            #am.U_coeff(5,2.5,3,3,4.5)
 
-    
+    def test_U_coeff_is_NoneType_with_k_odd_arg(self):
+        # U_coeff method tries to return summation of uk coefficients
+        # Previously odd-k attempts <float> * <NoneType> and raises TypeError
+        # Now implement check on k%2 == 1 creates NoneType
+        self.assertIsNone(am.U_coeff(1,1.5,1,1,2.5))
+        self.assertIsNone(am.U_coeff(3,1.5,2,2,1.5))
+        self.assertIsNone(am.U_coeff(5,2.5,3,3,4.5))
+                          

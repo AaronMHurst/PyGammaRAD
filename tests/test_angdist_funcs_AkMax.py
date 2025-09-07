@@ -164,13 +164,21 @@ class AngularDistributionAkMaxTests(unittest.TestCase):
         with self.assertRaises(TypeError):
             am.A_max("2","2","2","2","0","0.25")
             
-    def test_A_max_raises_TypeError_with_k_odd_arg(self):
+    #def test_A_max_raises_TypeError_with_k_odd_arg(self):
         # A_max method tries to return B*F
         # Odd-k attempts NoneType * NoneType
-        with self.assertRaises(TypeError):
-            am.A_max(1,2,2,2,0)
-        with self.assertRaises(TypeError):
-            am.A_max(3,2,2,2,0)
-        with self.assertRaises(TypeError):
-            am.A_max(5,2,2,2,0)
+        #with self.assertRaises(TypeError):
+            #am.A_max(1,2,2,2,0)
+        #with self.assertRaises(TypeError):
+            #am.A_max(3,2,2,2,0)
+        #with self.assertRaises(TypeError):
+            #am.A_max(5,2,2,2,0)
+
+    def test_A_max_is_NoneType_with_k_odd_arg(self):
+        # A_max method tries to return B*F
+        # Previously odd-k attempts <NoneType> * <NoneType> and raises TypeError
+        # Now implement check on k%2 == 1 creates NoneType
+        self.assertIsNone(am.A_max(1,2,2,2,0))
+        self.assertIsNone(am.A_max(3,2,2,2,0))
+        self.assertIsNone(am.A_max(5,2,2,2,0))
 

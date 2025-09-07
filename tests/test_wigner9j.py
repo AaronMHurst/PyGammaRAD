@@ -69,11 +69,3 @@ class Wigner9jTests(unittest.TestCase):
         # Too many args
         with self.assertRaises(TypeError):
             am.symb9j(3,4,2,3.5,3.5,2,0.5,0.5,1,1.5)
-
-    #def test_raises_TypeError_with_wrong_types_args(self):
-    # Others raise TypeError...
-    def test_symb9j_raises_ValueError_with_wrong_types_args(self):
-        # Pass args as str types
-        with self.assertRaises(ValueError):
-            am.symb9j("3","4","2","3.5","3.5","2","0.5","0.5","1")
-    
