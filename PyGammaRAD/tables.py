@@ -4,6 +4,8 @@ import json
 import re
 import os
 
+from .log_handlers import *
+
 class Tables(object):
     __doc__="""Class for handling data from Tables 1 and 2 in reference article 
     by Yamazaki [1].
@@ -60,6 +62,10 @@ class Tables(object):
             A float value corresponding to Bk(J) from Table 1 in Yamazaki's 
             paper as described in the `Notes` above.
 
+        Raises:
+            Fewer or more than 2 positional arguments ('k', 'J') raises a 
+            TypeError exception.
+
         Example:
             To find B(k=2,J=4):
             > get_B(2,4)
@@ -70,36 +76,43 @@ class Tables(object):
         self.J = J
                 
         # Check for k
-        if (int(self.k == 2)) or (int(self.k == 4)) or (int(self.k == 6)):
+        if (int(self.k) == 2) or (int(self.k) == 4) or (int(self.k) == 6):
 
             # Check for J
             if self.J > 0 and self. J < 21:
 
-                # Check for integral values of J first
                 try:
                     print("k = {0}".format(self.k))
                     print("J = {0}".format(self.J))
 
+                    MATCH_J = False
                     for jdict in self.data_list[0]:
-                        if int(2*float(jdict["J"])) == int(2*self.J):
+                        if int(2*float(jdict["J"])) == 2*self.J:
+                            MATCH_J = True
                             print("B{0} = {1}".format(int(self.k), jdict["B%i"%int(self.k)]))
                             return float(jdict["B%i"%int(self.k)])
+
+                    if MATCH_J == False:
+                        logger.error(f"Only integral or half-integral values of `J` are permitted: J={self.J} is not allowed.")
+                        return
                         
                 except ValueError:
-                    print("Only integral or half-integral values of J are permitted.")
-                    print("Not J=",self.J)
+                    logger.exception("Only integral or half-integral values of J are permitted: \nNumerical values must be given as integers or floats.")
+                    return
+                except TypeError:
+                    logger.exception("Only integral or half-integral values of J are permitted: \nNumerical values must be given as integers or floats.")
                     return
                 
             else:
-                print("Only the following integral values of `J` are permitted:")
-                print("1<=J<21.")
-                print("Your value of {0} does not fall within this range.".format(self.J))
+                logger.error("Only the following integral or half-integral values of `J` are permitted: 1<=J<21.")
+                if ((2*self.J) %2 == 0) or ((2*self.J) %2 == 1):
+                    logger.warning(f"Your value of {self.J} falls outside of this range.")
+                else:
+                    logger.error(f"J={self.J} is not an acceptable value.")
                 return
 
         else:
-            print("Only the following integral values of `k` are permitted:")
-            print("k = 2, 4, or 6.")
-            print("Your value of {0} does not satisfy this requirement.".format(self.k))
+            logger.warning(f"Only the following integral values of `k` are permitted: k = 2, 4, or 6.\nYour value of {self.k} falls outside of this range.")
             return
 
     def get_row_table1(self, J):
@@ -118,6 +131,10 @@ class Tables(object):
             A list of floating-point objects corresponding to calculated 
             statistical population tensors from Table 1 of Ref. [1].
 
+        Raises:
+            Fewer or more than 1 positional arguments ('J') raises a 
+            TypeError exception.
+
         Example:
             To obtain all statistical population tensors for k=2, 4, and 6 
             associated with J=10:
@@ -127,16 +144,19 @@ class Tables(object):
         self.J = J
 
         if self.J >=1 and self.J < 21:
-            if ((2*self.J)%2==0) or ((2*self.J)%2==1): 
+            if ((2*self.J)%2==0) or ((2*self.J)%2==1):
                 for jdict in self.data_list[0]:
                     if int(2*float(jdict["J"])) == int(2*self.J):
                         return [float(jdict["B2"]), float(jdict["B4"]), float(jdict["B6"])]
-
             else:
-                print("Spin must be integral of half integral within range: 1 <= J < 21")
+                logger.error(f"Only integral or half-integral values of `J` are permitted within range: 1 <= J < 21 \nJ={self.J} is not allowed.")
                 return
         else:
-            print("Spin must be integral of half integral within range: 1 <= J < 21")
+            logger.error("Only the following integral or half-integral values of `J` are permitted: 1<=J<21.")
+            if ((2*self.J) %2 == 0) or ((2*self.J) %2 == 1):
+                logger.warning(f"Your value of {self.J} falls outside of this range.")
+            else:
+                logger.error(f"J={self.J} is not an acceptable value.")
             return
         
     def get_table1(self,*args):
@@ -159,14 +179,22 @@ class Tables(object):
         Returns:
             A DataFrame object containing Bk(J) values from Table 1 in 
             Yamazaki's paper as described in the `Notes` above.  The DataFrame 
-            will be populated according to how the function is called:
+            will be populated according to how the function is called (see 
+            examples).
 
-            (i)   Both m=0 and m=0.5 statistical population tensors:
-                  get_B_table()
-            (ii)  m=0 statistical population tensors:
-                  get_B_table(0)
-            (iii) m=0.5 statistical population tensors:
-                  get_B_table(0.5)
+        Raises:
+            Invalid literals passed to the method raises a ValueError exception.
+
+        Examples:
+            (i) Complete table with both m=0 and m=0.5 statistical population 
+            tensors:
+            > get_table1()
+
+            (ii) Table of m=0 statistical population tensors only:
+            > get_table1(0)
+
+            (iii) Table of m=0.5 statistical population tensors only:
+            > get_table1(0.5)
         """
         stat_tensor_list = self.data_list[0]
         stat_tensor_df = pd.DataFrame(stat_tensor_list)
@@ -186,22 +214,12 @@ class Tables(object):
                     #return stat_tensor_df.loc[stat_tensor_df['m']=='0.5']
                     return stat_tensor_df.loc[stat_tensor_df['m']==0.5]
                 else:
-                    print("Argument not accepted.")
-                    print("Please the function using:")
-                    print(" get_B_table(0) # m=0 results only")
-                    print(" get_B_table(0.5) # m=0.5 results only")
+                    logger.error("Argument not accepted.  Call the function using: \n get_B_table(0) # m=0 results only \n get_B_table(0.5) # m=0.5 results only")
             except ValueError:
-                print("Incorrect input argument:")
-                print("Call the function using:")
-                print(" get_B_table(0) # m=0 results only")
-                print(" get_B_table(0.5) # m=0.5 results only") 
+                logger.exception("Incorrect input argument.  Call the function using: \n get_B_table(0) # m=0 results only \n get_B_table(0.5) # m=0.5 results only") 
             return
         else:
-            print("Wrong input arguments!")
-            print("Call the function using:")
-            print(" get_B_table() # m=0 and m=0.5 results")
-            print(" get_B_table(0) # m=0 results only")
-            print(" get_B_table(0.5) # m=0.5 results only")
+            logger.error("Wrong input arguments!  Call the function using: \n get_B_table() # m=0 and m=0.5 results \n get_B_table(0) # m=0 results only \n get_B_table(0.5) # m=0.5 results only")
             return
 
     def get_table2a(self):
@@ -218,6 +236,9 @@ class Tables(object):
             A DataFrame object containing the corresponding angular
             distribution coefficients Fk, FkBk, and Uk listed in
             Table 2(a) [1] for even-integral spins.
+
+        Raises:
+            Passing arguments to the function raises a TypeError exception.
 
         Example:
             > get_table2a()
@@ -244,6 +265,9 @@ class Tables(object):
             A DataFrame object containing the corresponding angular
             distribution coefficients Fk, FkBk, and Uk listed in
             Table 2(b) [1] for odd-integral spins.
+
+        Raises:
+            Passing arguments to the function raises a TypeError exception.
 
         Example:
             > get_table2b()
@@ -284,6 +308,13 @@ class Tables(object):
             angular distribution coefficients from Tables 2(a) and (b) of Ref.
             [1967Ya05] depending on the input arguments passed to the method.
 
+        Raises:
+            Invalid literals passed as arguments to the method raises a 
+            ValueError exception.
+
+            Incorrect data types passed as arguments to the method raises a 
+            TypeError exception.
+
         Examples:
             For the transition associated with Ji=15.5, Jf=18.5, L1=3, L2=3:-
 
@@ -313,8 +344,10 @@ class Tables(object):
             try:
                 k = int(args[0])
             except ValueError:
-                print("Argument must be integral:") 
-                print("Only 'k' values of 2 or 4 are acceptable.")
+                logger.exception(f"Wrong value!  Argument must be a bytes-like object or a number; {args[0]} is not an acceptable value.  Only integral 'k' values of 2 or 4 are acceptable.")
+                return
+            except TypeError:
+                logger.exception(f"Wrong type!  Argument must be a bytes-like object or a number, not a {type(args[0])}.  Only integral 'k' values of 2 or 4 are acceptable.")
                 return
 
         C = None
@@ -327,17 +360,61 @@ class Tables(object):
                     if type(C) is str:
                         C = C.upper()
                 else:
-                    print("Key not recognized: Use 'coeff' as key argument.")
+                    logger.error("Key not recognized: Use 'coeff' as key argument.")
+                    return
 
+        # Check for even and half-integral J and ranges on Ji and Jf
+        RANGE_VALID_Ji = False
+        RANGE_VALID_Jf = False
         table2_data = None
         if ((2*self.Ji)%2 == 0) and ((2*self.Jf)%2 == 0):
             table2_data = self.data_list[1]
+            if self.Ji >= 1 and self.Ji <= 15:
+                RANGE_VALID_Ji = True
+            if self.Jf >= 0 and self.Jf <= 18:
+                RANGE_VALID_Jf = True
+            
         elif ((2*self.Ji)%2 == 1) and ((2*self.Jf)%2 == 1):
             table2_data = self.data_list[2]
+            if self.Ji >= 1.5 and self.Ji <= 15.5:
+                RANGE_VALID_Ji = True
+            if self.Jf >= 0.5 and self.Jf <= 18.5:
+                RANGE_VALID_Jf = True
+
+        if RANGE_VALID_Ji == False or RANGE_VALID_Jf == False:
+            if RANGE_VALID_Ji == False:
+                logger.error(f"'Ji'={self.Ji} outside range of permissive values:\n 1 <= Ji <= 15 (integral J) \n 3/2 <= Ji <= 31/2 (half-integral J)")
+            if RANGE_VALID_Jf == False:
+                logger.error(f"'Jf'={self.Jf} outside range of permissive values:\n 0 <= Jf <= 18 (integral J) \n 1/2 <= Jf <= 37/2 (half-integral J)")
+            return
+
+        # Check L-values
+        L1_VALID = False
+        if self.L1 > 0 and self.L1 <= 3:
+            L1_VALID = True
+        else:
+            logger.warning(f"L1={self.L1} is not a permissive multipole order.")
             
+        L2_VALID = False
+        if self.L2 > 0 and self.L2 <= 3:
+            L2_VALID = True
+        else:
+            logger.warning(f"L2={self.L2} is not a permissive multipole order.")
+
+        if L1_VALID == False or L2_VALID == False:
+            logger.error("Multipole order must fall within range: 0 < L <= 3")
+            return
+                        
         for jdict in table2_data:
-            if int(2*float(jdict["Ji"])) == int(2*self.Ji) and int(2*float(jdict["Jf"])) == int(2*self.Jf) and int(2*float(jdict["L1"])) == int(2*self.L1) and int(2*float(jdict["L2"])) == int(2*self.L2):
-                    
+            if int(2*float(jdict["Ji"])) == int(2*self.Ji) and int(2*float(jdict["Jf"])) == int(2*self.Jf) and int(2*float(jdict["L1"])) == int(2*self.L1) and int(2*float(jdict["L2"])) == int(2*self.L2) and RANGE_VALID_Ji == True and RANGE_VALID_Jf == True and L1_VALID == True and L2_VALID == True:
+
+                WRONG_k = False
+                if k is not None:
+                    if k % 2 == 1:
+                        WRONG_k = True
+                    if (k < 2) or (k > 4):
+                        WRONG_k = True
+                
                 if k == None and C == None:
                     # Returns complete row
                     return [jdict["F2"], jdict["B2F2"], jdict["F4"], jdict["B4F4"], jdict["U2"], jdict["U4"]]
@@ -358,9 +435,10 @@ class Tables(object):
                     elif len(C) == 2:
                         return jdict["B%iF%i"%(k,k)]
                 else:
-                    print("Wrong argument value and/or keyword argument:")
-                    print("Use integral values of 2 or 4 only for k args")
-                    print("Keyword argument `coeff` only takes string values of 'F', 'BF', or 'U'")
+                    if WRONG_k == True:
+                        logger.error("Argument `k` must be given as a value of 2 or 4 only.")
+                    else:
+                        logger.error("Keyword argument `coeff` only takes string values of 'F', 'BF', or 'U'.")
                     return
 
 
@@ -412,25 +490,24 @@ class Tables(object):
                         with open("%s.%s"%(value[1],f.lower()), mode="w") as outfile:
                             if f.upper() == "JSON":
                                 json.dump(table_data, outfile, indent=4, ensure_ascii=False)
-                                print("{0}.{1} printed to file in {2}".format(value[1],f.lower(),os.getcwd()))
+                                logger.info("{0}.{1} printed to file in {2}".format(value[1],f.lower(),os.getcwd()))
                                 outfile.close()
                             elif f.upper() == "CSV":
                                 table_df = pd.DataFrame(table_data)
                                 table_df.to_csv(outfile, index=False)
-                                print("{0}.{1} printed to file in {2}".format(value[1],f.lower(),os.getcwd()))
+                                logger.info("{0}.{1} printed to file in {2}".format(value[1],f.lower(),os.getcwd()))
                                 outfile.close()
 
         if FILE_FORMAT == False:
             PRINT_PROBLEM = True
-            print("File format not handled: Specify 'CSV' or 'JSON'")
+            logger.error("File format not handled: Specify 'CSV' or 'JSON'")
             for key in tables.keys():
                 if key == self.table: TABLE_YAMAZAKI = True
         if TABLE_YAMAZAKI == False:
             PRINT_PROBLEM = True
-            print("Table from Yamazaki's paper not correctly specified:")
-            print("'T1' - Table 1; 'T2A' - Table 2(a); 'T2B' - Table 2(b).")
+            logger.error("Table from Yamazaki's paper not correctly specified: \n 'T1' - Table 1; 'T2A' - Table 2(a); 'T2B' - Table 2(b).")
 
         if PRINT_PROBLEM == True:
-            print("File not printed.")
+            logger.error("File not printed.")
         
         
