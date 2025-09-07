@@ -36,6 +36,10 @@ class AngularMomentumCalculations(Tables):
         Returns:
             The Clebsch-Gordan coefficient as a floating-point object.
 
+        Raises:
+            Negative values in a factorial argument raises a ValueError 
+            exception.
+
         Example:
             To evaluate the  Clebsch-Gordan coefficient 
             <j1=5/2 m1=3/2 j2=5/2 m2=-1/2 | j3=1 m3=1>:
@@ -46,8 +50,12 @@ class AngularMomentumCalculations(Tables):
         self.j2, self.m2 = j2, m2
         self.j, self.m = j, m
 
-        CG = ClebschGordan(self.j1, self.m1, self.j2, self.m2, self.j, self.m)
-        return CG.cg_calc()
+        try:
+            CG = ClebschGordan(self.j1, self.m1, self.j2, self.m2, self.j, self.m)
+            return CG.cg_calc()
+        except ValueError:
+            logger.exception("Factorial method not defined for negative values.")
+            return
 
     def symb3j(self,j1,j2,j,m1,m2,m):
         """The Wigner 3-j symbol used to calculate the coupling of different 
@@ -74,6 +82,10 @@ class AngularMomentumCalculations(Tables):
         Returns:
             The Wigner 3-j symbol as a floating-point object.
 
+        Raises:
+            Negative values in a factorial argument raises a ValueError 
+            exception.
+
         Example:
             To evaluate the 3-j symbol {j1=7/2 j2=5/2 j3=2 
                                         m1=7/2 m2=-3/2 m3=-2}:
@@ -84,8 +96,12 @@ class AngularMomentumCalculations(Tables):
         self.j1, self.j2, self.j = j1, j2, j
         self.m1, self.m2, self.m = m1, m2, m
 
-        W = Wigner3j(self.j1, self.j2, self.j, self.m1, self.m2, self.m)
-        return W.symbol_3j()
+        try:
+            W = Wigner3j(self.j1, self.j2, self.j, self.m1, self.m2, self.m)
+            return W.symbol_3j()
+        except ValueError:
+            logger.exception("Factorial method not defined for negative values.")
+            return
 
     def racah(self,j1,j2,j3,j4,j5,j6):
         """The Racah recoupling coefficient describes the transformation 
@@ -108,6 +124,10 @@ class AngularMomentumCalculations(Tables):
         Returns:
             The Racach recoupling coefficient as a floating-point object.
 
+        Raises:
+            Negative values in a factorial argument raises a ValueError 
+            exception.
+
         Example:
             To evaluate the Racah W(j1=15 j2=15 j3=17 j4=17; j5=2 j6=3):
         
@@ -116,8 +136,12 @@ class AngularMomentumCalculations(Tables):
         self.j1, self.j2, self.j3 = j1, j2, j3
         self.j4, self.j5, self.j6 = j4, j5, j6
 
-        W = Racah(self.j1, self.j2, self.j5, self.j4, self.j3, self.j6)
-        return W.W()
+        try:
+            W = Racah(self.j1, self.j2, self.j5, self.j4, self.j3, self.j6)
+            return W.W()
+        except ValueError:
+            logger.exception("Factorial method not defined for negative values.")
+            return
 
     def symb6j(self,j1,j2,j3,j4,j5,j6):
         """The Wigner 6-j symbol based on the combination of different angular 
@@ -139,6 +163,10 @@ class AngularMomentumCalculations(Tables):
         Returns:
             The Wigner 6-j symbol as a floating-point object.
 
+        Raises:
+            Negative values in a factorial argument raises a ValueError 
+            exception.
+
         Example:
             To evaluate the 6-j symbol {j1=6 j2=6 j3=4 
                                         j4=9/2 j5=7/2 j6=11/2}:
@@ -149,10 +177,14 @@ class AngularMomentumCalculations(Tables):
         self.j1, self.j2, self.j3 = j1, j2, j3
         self.j4, self.j5, self.j6 = j4, j5, j6
 
-        W = Racah(self.j1, self.j2, self.j3, self.j4, self.j5, self.j6)
-        return W.symbol_6j()
+        try:
+            W = Racah(self.j1, self.j2, self.j3, self.j4, self.j5, self.j6)
+            return W.symbol_6j()
+        except ValueError:
+            logger.exception("Factorial method not defined for negative values.")
+            return
 
-    def symb9j(self,j1,j2,j3,j4,j5,j6,j7,j8,j9):
+    def symb9j(self,j1,j2,j3,j4,j5,j6,j7,j8,j9,level=logging.CRITICAL):
         """The Wigner 9-j symbol based on the combination of different angular 
         momenta coupling schemes may be evaluated by entering all terms in the 
         order in which they appear in the corresponding 9-j symbol.
@@ -166,21 +198,34 @@ class AngularMomentumCalculations(Tables):
         Arguments:
             ji: Set of nine angular momenta used for coupling.  Numerical data 
                 types should be entered as floats or integers.
+            level: Final argument defines the log level.  By default this value 
+                   is set to 'CRITICAL' to avoid verbose logging statements 
+                   sent to the console over the summation performed in the 
+                   evaluation of the Wigner 9-j symbol.
 
         Returns:
             The Wigner 9-j symbol as a floating-point object.
+
+        Raises:
+            Negative values in a factorial argument raises a ValueError 
+            exception.
 
         Example:
             To evaluate the 9-j symbol {j1=3 j2=4 j3=2 
                                         j4=7/2 j5=7/2 j6=2
                                         j7=1/2 j8=1/2 j9=1}:
         
-            > symb6j(3, 4, 2, 3.5, 3.5, 2, 0.5, 0.5, 1)
+            > symb9j(3, 4, 2, 3.5, 3.5, 2, 0.5, 0.5, 1)
         """
         self.j1, self.j2, self.j3 = j1, j2, j3
         self.j4, self.j5, self.j6 = j4, j5, j6
         self.j7, self.j8, self.j9 = j7, j8, j9
+        self.level = level
 
-        W = Wigner9j(self.j1, self.j2, self.j3, self.j4, self.j5, self.j6, self.j7, self.j8, self.j9)
-        return W.symbol_9j()
+        try:
+            W = Wigner9j(self.j1, self.j2, self.j3, self.j4, self.j5, self.j6, self.j7, self.j8, self.j9, self.level)
+            return W.symbol_9j()
+        except ValueError:
+            logger.exception("Factorial method not defined for negative values.")
+            return
 
