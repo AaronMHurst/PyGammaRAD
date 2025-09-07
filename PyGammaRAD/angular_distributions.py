@@ -29,6 +29,10 @@ class AngularDistributions(AngularMomentumCalculations):
             A float value corresponding to Bk(J) which can be compared to the 
             corresponding value from Table 1 in Yamazaki's paper [1].
 
+        Raises:
+            Fewer than 2 positional arguments ('k', 'J') raises a TypeError 
+            exception.
+
         Example:
             To calculate B(k=2,J=4):
             > calc_B(2,4)
@@ -44,9 +48,12 @@ class AngularDistributions(AngularMomentumCalculations):
 
                 spin_factor = ((-1)**self.J) * np.sqrt((2*self.J) + 1)
 
-                B = spin_factor * cgc
-                
-                return B
+                try:
+                    B = spin_factor * cgc
+                    return B
+                except TypeError:
+                    logger.exception(f"Unsupported multiplication of types: {type(spin_factor)} and {type(cgc)}\nReturn value is 0.0")
+                    return 0.0
 
             elif ((float(self.J) % 2 > 1.0) and (float(self.J) % 2 < 2.0)) or ((float(self.J) % 2 > 0.0) and (float(self.J) % 2 < 1.0)):
                 # Half-integral (m=0.5) spin
@@ -55,11 +62,14 @@ class AngularDistributions(AngularMomentumCalculations):
 
                 spin_factor = ((-1)**(self.J-0.5)) * np.sqrt((2*self.J) + 1)
 
-                B = spin_factor * cgc
-                
-                return B
+                try:
+                    B = spin_factor * cgc
+                    return B
+                except TypeError:
+                    logger.exception(f"Unsupported multiplication of types: {type(spin_factor)} and {type(cgc)}\nReturn value is 0.0")
+                    return 0.0
         else:
-            print("k must be integral and even: k>0")
+            logger.warning("k must be integral and even: k>0")
             return
 
     def calc_F(self, k, Jf, L1, L2, Ji):
@@ -83,6 +93,10 @@ class AngularDistributions(AngularMomentumCalculations):
             compared to the corresponding value from Table 2 in Yamazaki's 
             paper [1].
 
+        Raises:
+            Fewer than 5 positional arguments ('k', 'Jf', 'L1', 'L2', 'Ji') 
+            raises a TypeError exception.
+
         Example:
             To calculate F(k=2,Jf=2,L1=2,L2=2,Ji=0):
             > calc_F(2,0,2,2,2)
@@ -104,12 +118,15 @@ class AngularDistributions(AngularMomentumCalculations):
             W = RC.W()
             #print("Fk: W(",self.k,self.Jf,self.L1,self.L2,self.Ji,")=",W)
 
-            F = parity_factor * spin_factor * cgc * W
-
-            return F
-
+            try:
+                F = parity_factor * spin_factor * cgc * W
+                return F
+            except TypeError:
+                logger.exception(f"Unsupported multiplication of types: {type(parity_factor)} and {type(spin_factor)} and {type(cgc)} and {type(W)}\nReturn value is 0.0")
+                return 0.0
+        
         else:
-            print("k must be integral and even: k>0")
+            logger.warning("k must be integral and even: k>0")
             return
 
     def calc_BF(self, k, Jf, L1, L2, Ji):
@@ -132,6 +149,10 @@ class AngularDistributions(AngularMomentumCalculations):
             A float value corresponding to BF = Bk(Ji)Fk(Jf L1 L2 Ji) which 
             can be compared to the corresponding value from Table 2 in 
             Yamazaki's paper [1].
+
+        Raises:
+            Fewer than 5 positional arguments ('k', 'Jf', 'L1', 'L2', 'Ji') 
+            raises a TypeError exception.
 
         Example:
             To calculate BF(k=2,Jf=2,L1=2,L2=2,Ji=0):
@@ -167,6 +188,10 @@ class AngularDistributions(AngularMomentumCalculations):
             A float value corresponding to uk(Ji L1 Jf) which can be compared 
             to the corresponding value from Table 2 in Yamazaki's paper [1].
 
+        Raises:
+            Fewer than 4 positional arguments ('k', 'Ji', 'L1', 'Jf') 
+            raises a TypeError exception.
+
         Example:
             To calculate u(k=2,Ji=2,L1=2,Jf=4):
             > calc_u(2,2,2,4)
@@ -182,12 +207,15 @@ class AngularDistributions(AngularMomentumCalculations):
             RC = Racah(self.Ji, self.Ji, self.k, self.Jf, self.Jf, self.L1)
             W = RC.W()
             #print("uk: W(",self.k,self.Ji,self.L1,self.Jf,")=",W)
-            
-            u = parity_factor * spin_factor * W
 
-            return u
+            try:
+                u = parity_factor * spin_factor * W
+                return u
+            except TypeError:
+                logger.exception(f"Unsupported multiplication of types: {type(parity_factor)} and {type(spin_factor)} and {type(W)}\nReturn value is 0.0")
+                return 0.0
         else:
-            print("k must be integral and even: k>0")
+            logger.warning("k must be integral and even: k>0")
             return
 
     def A_max(self, k, Ji, L1, L2, Jf, dg=0.0):
@@ -212,6 +240,10 @@ class AngularDistributions(AngularMomentumCalculations):
         Returns:
             A float value corresponding to max. Ak(Ji L1 L2 Jf).
 
+        Raises:
+            Fewer than 5 positional arguments ('k', 'Ji', 'L1', 'L2', 'Jf') 
+            raises a TypeError exception.
+
         Example:
             To calculate A(k=2,Ji=2,L1=2,L2=2,Jf=0,dg=0):
             > A_max(2,2,2,2,0)
@@ -225,22 +257,26 @@ class AngularDistributions(AngularMomentumCalculations):
 
         Ak = None
         AM = AngularDistributions()
-        BkFk_L1L1 = AM.calc_BF(self.k, self.Jf, self.L1, self.L1, self.Ji)
-        BkFk_L1L2 = AM.calc_BF(self.k, self.Jf, self.L1, self.L2, self.Ji)
-        BkFk_L2L2 = AM.calc_BF(self.k, self.Jf, self.L2, self.L2, self.Ji)
-        Ak = (1/(1+(dg**2))) * (BkFk_L1L1 + (2*dg*BkFk_L1L2) + (dg**2*BkFk_L2L2))
+        if int(self.k) % 2 == 0:
+            BkFk_L1L1 = AM.calc_BF(self.k, self.Jf, self.L1, self.L1, self.Ji)
+            BkFk_L1L2 = AM.calc_BF(self.k, self.Jf, self.L1, self.L2, self.Ji)
+            BkFk_L2L2 = AM.calc_BF(self.k, self.Jf, self.L2, self.L2, self.Ji)
+            Ak = (1/(1+(dg**2))) * (BkFk_L1L1 + (2*dg*BkFk_L1L2) + (dg**2*BkFk_L2L2))
 
-        if (self.L1==self.L2) and (self.dg>0):
-            print("Careful: Pure multipole transition defined with mixing ratio dg > 0")
-            print("Result may not be physical.")
+            if (self.L1==self.L2) and (self.dg>0):
+                logger.warning("Careful: Pure multipole transition defined with mixing ratio dg > 0")
+                logger.warning("Result may not be physical.")
             
-        if not self.dg and (self.L1!=self.L2):
-            print("Careful: Mixed-multipole transition defined with mixing ratio dg = 0")
-            print("Result reduces to B{0}({1})F{2}({3} {4} {5} {6}))".
-                  format(self.k, self.Ji, self.k, self.Jf,
-                         self.L1, self.L1, self.Ji))
+            if not self.dg and (self.L1!=self.L2):
+                logger.info("Careful: Mixed-multipole transition defined with mixing ratio dg = 0")
+                logger.info("Result reduces to B{0}({1})F{2}({3} {4} {5} {6}))".
+                            format(self.k, self.Ji, self.k, self.Jf,
+                                   self.L1, self.L1, self.Ji))
         
-        return Ak
+            return Ak
+        else:
+            logger.warning("k must be integral and even: k>0")
+            return
 
     def U_coeff(self, k, Ji, L1, L2, Jf, dg=0.0):
         """Calculate the angular distribution coefficient Uk(Ji L1 L2 Jf) 
@@ -262,6 +298,10 @@ class AngularDistributions(AngularMomentumCalculations):
         Returns:
             A float value corresponding to Uk(Ji L1 L2 Jf).
 
+        Raises:
+            Fewer than 5 positional arguments ('k', 'Ji', 'L1', 'L2', 'Jf') 
+            raises a TypeError exception.
+
         Example:
             To calculate U(k=2,Ji=4,L1=2,L2=2,Jf=4,dg=0):
             > U_coeff(2,4,2,2,2)
@@ -276,17 +316,22 @@ class AngularDistributions(AngularMomentumCalculations):
         Ak = None
         AM = AngularDistributions()
 
-        uk_JiL1Jf = AM.calc_u(self.k, self.Ji, self.L1, self.Jf)
-        uk_JiL2Jf = AM.calc_u(self.k, self.Ji, self.L2, self.Jf)
+        if int(self.k) % 2 == 0:
+            uk_JiL1Jf = AM.calc_u(self.k, self.Ji, self.L1, self.Jf)
+            uk_JiL2Jf = AM.calc_u(self.k, self.Ji, self.L2, self.Jf)
 
-        Uk = (1/(1+(dg**2))) * (uk_JiL1Jf + ((dg**2)*uk_JiL2Jf))
-
-        if not self.dg:
-            print("No mixing ratio given dg=0")
-            print("Result reduces to u{0}({1} {2} {3})".
-                  format(self.k, self.Ji, self.L1, self.Jf))
+            Uk = (1/(1+(dg**2))) * (uk_JiL1Jf + ((dg**2)*uk_JiL2Jf))
+            
+            if not self.dg:
+                logger.info("No mixing ratio given dg=0")
+                logger.info("Result reduces to u{0}({1} {2} {3})".
+                            format(self.k, self.Ji, self.L1, self.Jf))
         
-        return Uk
+            return Uk
+
+        else:
+            logger.warning("k must be integral and even: k>0")
+            return
     
     def dist_W(self,A2,A4=0,*args):
         """Calculate angular distribution according to function given by 
@@ -310,6 +355,13 @@ class AngularDistributions(AngularMomentumCalculations):
             [0]: Calculated angular distribution (numpy.ndarray);
             [1]: Angular range over which angular distribution is calculated
                  (numpy.ndarray).
+
+        Raises:
+            Passing a non-numpy.ndarray object as an <*args> parameter 
+            raises an AssertionError exception.
+
+            Failure to pass 2 positional arguments for 'A2' and 'A4' 
+            raises a TypeError exception.
 
         Examples:
             To calculate W(theta) over default range (0,180,1800) assuming 
@@ -341,17 +393,16 @@ class AngularDistributions(AngularMomentumCalculations):
                 P2 = L.lpoly2(theta)
                 P4 = L.lpoly4(theta)
             except AssertionError:
-                print("The angular range must be passed as a 1D numpy array")
+                logger.exception("The angular range must be passed as a 1D numpy array\n{0} is not a numpy.ndarray object".format(type(theta)))
                 return
         else:
-            print("Too many arguments.")
-            print("The angular range should be passed as a 1D numpy array")
+            logger.error("Too many arguments", exc_info=False)
+            logger.warning("The angular range should be passed as a 1D numpy array")
             return
 
         W = 1 + (A2*P2) + (A4*P4)
-        
+
         return W, theta
-    
     
 class Legendre(AngularDistributions):
     __doc__="""Legendre polynomials: Pk as a function of cos(theta)."""
@@ -813,8 +864,8 @@ class Legendre(AngularDistributions):
             return (1.0/128.0) * ((12155*np.cos(L.deg2rad(x))**9) - (25740*np.cos(L.deg2rad(x))**7) + (18018*np.cos(L.deg2rad(x))**5) - (4620*np.cos(L.deg2rad(x))**3) + (315*np.cos(L.deg2rad(x))))
 
     def lpoly10(self,x=None):
-        """Legendre polynomial of degree k=3 (third order) as a function of 
-        the cosine of the angle (theta): P3(cos(theta)).
+        """Legendre polynomial of degree k=10 (tenth order) as a function of 
+        the cosine of the angle (theta): P10(cos(theta)).
 
         Arguments:
             None: Default linear space initialized will be used: 0,180,1800 
