@@ -25,7 +25,7 @@ In the future, the project will also be deployed to the PyPI repository.
 
 ## Testing
 
-A suite of Python modules containing 141 unit tests have been written for this project.  These unit-test scripts are located in the `tests` folder.  To run the test suite and ensure they work with the local Python environment, run `tox` at the command line of the project directory containing the `tox.ini` file:
+A suite of Python modules containing 140 unit tests have been written for this project.  These unit-test scripts are located in the `tests` folder.  To run the test suite and ensure they work with the local Python environment, run `tox` at the command line of the project directory containing the `tox.ini` file:
 
 ```Bash
 $ tox -r
