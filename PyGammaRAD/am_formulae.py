@@ -167,6 +167,30 @@ class ClebschGordan(Newton):
         self.j2, self.m2 = j2, m2
         self.j, self.m = j,m
 
+    def data_check(x1,x2,x3,x4,x5,x6,*args):
+        """Base level check of data to ensure all entries are given as integral 
+        or half-integral values only, i.e., 2x mod 2 == 0, or, 2x mod 2 == 1."""
+        DATA_OK = True
+        couplings = [x1,x2,x3,x4,x5,x6]
+        # Check entries for Clebsch-Gordan, Wigner 3-j, Wigner 6-j, or Racah:
+        for x in couplings:
+            try:
+                assert ((2*x) % 2 == 0) or ((2*x) % 2 == 1)
+            except AssertionError:
+                logger.exception(f"Data must be entered as integral or half-integral values only: {x} is not an acceptable argument")
+                DATA_OK = False
+        
+        if len(args) == 3:
+            # Check additional data entries for Wigner 9-j:
+            for y in args:
+                try:
+                    assert ((2*y) % 2 == 0) or ((2*y) % 2 == 1)
+                except AssertionError:
+                    logger.exception(f"Data must be entered as integral or half-integral values only: {y} is not an acceptable argument")
+                    DATA_OK = False
+
+        return DATA_OK
+
     def m_projection_rules(self):
         """Ensure magnetic-substate projections satisfy the following 
         conditions:
@@ -199,14 +223,14 @@ class ClebschGordan(Newton):
                 num_passes_r1 += 1
             except AssertionError:
                 logger.exception(f"j1={self.j1} is integral; m1={self.m1} is not.")
-                logger.warning("If `ji` is integral then so must be its projection `mi`, likewise half-integral `ji` requires half-integral `mi`.")
+                logger.warning("If `ji` is integral (2*ji mod 2 = 0) then so must be its projection `mi` (2*mi mod 2 = 0), likewise half-integral `ji` (2*ji mod 2 = 1) requires half-integral `mi` (2*mi mod 2 = 1).")
         elif (2*j1) % 2 == 1:
             try:
                 assert (2*m1) % 2 == 1
                 num_passes_r1 += 1
             except AssertionError:
                 logger.exception(f"j1={self.j1} is half-integral; m1={self.m1} is not.")
-                logger.warning("If `ji` is integral then so must be its projection `mi`, likewise half-integral `ji` requires half-integral `mi`.")
+                logger.warning("If `ji` is integral (2*ji mod 2 = 0) then so must be its projection `mi` (2*mi mod 2 = 0), likewise half-integral `ji` (2*ji mod 2 = 1)requires half-integral `mi` (2*mi mod 2 = 1).")
 
         if (2*j2) % 2 == 0:
             try:
@@ -214,14 +238,14 @@ class ClebschGordan(Newton):
                 num_passes_r1 += 1
             except AssertionError:
                 logger.exception(f"j2={self.j2} is integral; m2={self.m2} is not.")
-                logger.warning("If `ji` is integral then so must be its projection `mi`, likewise half-integral `ji` requires half-integral `mi`.")
+                logger.warning("If `ji` is integral (2*ji mod 2 = 0) then so must be its projection `mi` (2*mi mod 2 = 0), likewise half-integral `ji` (2*ji mod 2 = 1)requires half-integral `mi` (2*mi mod 2 = 1).")
         elif (2*j2) % 2 == 1:
             try:
                 assert (2*m2) % 2 == 1
                 num_passes_r1 += 1
             except AssertionError:
                 logger.exception(f"j2={self.j2} is half-integral; m2={self.m2} is not.")
-                logger.warning("If `ji` is integral then so must be its projection `mi`, likewise half-integral `ji` requires half-integral `mi`.")
+                logger.warning("If `ji` is integral (2*ji mod 2 = 0) then so must be its projection `mi` (2*mi mod 2 = 0), likewise half-integral `ji` (2*ji mod 2 = 1)requires half-integral `mi` (2*mi mod 2 = 1).")
 
         if (2*j) % 2 == 0:
             try:
@@ -229,15 +253,15 @@ class ClebschGordan(Newton):
                 num_passes_r1 += 1
             except AssertionError:
                 logger.exception(f"j={self.j} is integral; m={self.m} is not.")
-                logger.warning("If `ji` is integral then so must be its projection `mi`, likewise half-integral `ji` requires half-integral `mi`.")
+                logger.warning("If `ji` is integral (2*ji mod 2 = 0) then so must be its projection `mi` (2*mi mod 2 = 0), likewise half-integral `ji` (2*ji mod 2 = 1)requires half-integral `mi` (2*mi mod 2 = 1).")
         elif (2*j) % 2 == 1:
             try:
                 assert (2*m) % 2 == 1
                 num_passes_r1 += 1
             except AssertionError:
                 logger.exception(f"j={self.j} is half-integral; m={self.m} is not.")
-                logger.warning("If `ji` is integral then so must be its projection `mi`, likewise half-integral `ji` requires half-integral `mi`.")
-
+                logger.warning("If `ji` is integral (2*ji mod 2 = 0) then so must be its projection `mi` (2*mi mod 2 = 0), likewise half-integral `ji` (2*ji mod 2 = 1)requires half-integral `mi` (2*mi mod 2 = 1).")
+                
         if num_passes_r1 == 3:
             RULE_PROJ_INT = True
 
@@ -301,14 +325,14 @@ class ClebschGordan(Newton):
             assert abs(j1 - j2) <= j
             j1j2_diff = True
         except AssertionError:
-            logger.warning(f"Triangle inequality rule violated: |j1={self.j1} - j2={self.j2}| is not less than or equal to total angular momentum j={self.j}")
+            logger.exception(f"Triangle inequality rule violated: |j1={self.j1} - j2={self.j2}| is not less than or equal to total angular momentum j={self.j}")
             logger.warning("Angular momentum coupling schemes must satisfy triangle inequality theorem: |j1 - j2| <= j <= j1 + j2")
 
         try:
             assert j <= j1 + j2
             j1j2_sum = True
         except AssertionError:
-            logger.warning(f"Triangle inequality rule violated: j1={self.j1} + j2={self.j2} is not greater than or equal to total angular momentum j={self.j}")
+            logger.exception(f"Triangle inequality rule violated: j1={self.j1} + j2={self.j2} is not greater than or equal to total angular momentum j={self.j}")
             logger.warning("Angular momentum coupling schemes must satisfy triangle inequality theorem: |j1 - j2| <= j <= j1 + j2")
 
         if j1j2_diff == True and j1j2_sum == True:
@@ -421,25 +445,31 @@ class ClebschGordan(Newton):
         j2, m2 = self.j2, self.m2
         j, m = self.j, self.m
 
-        m_pass = ClebschGordan.m_projection_rules(self)
-        j_pass = ClebschGordan.triangle_rule(self)
+        data_ok = ClebschGordan.data_check(self.j1,self.m1,self.j2,self.m2,
+                                           self.j,self.m)
 
-        if m_pass == True and j_pass == True:
-            dm = ClebschGordan.delta_m(self)
-            dj = ClebschGordan.delta_j(self)
-            c = ClebschGordan.coeff(self)
-            s = ClebschGordan.sum_coupling(self)
+        if data_ok == True:
+            m_pass = ClebschGordan.m_projection_rules(self)
+            j_pass = ClebschGordan.triangle_rule(self)
 
-            try:
-                cg = dm*dj*c*s
-            except OverflowError:
-                getcontext().prec = 1000
-                cg = float(Decimal(dm)*Decimal(dj)*Decimal(c)*Decimal(s))
-            #print("<{0} {1} {2} {3} | {4} {5}> = {6}".format("%.1f"%j1,"%.1f"%m1,"%.1f"%j2,"%.1f"%m2,"%.1f"%j,"%.1f"%m,cg))
-            return cg
+            if m_pass == True and j_pass == True:
+                dm = ClebschGordan.delta_m(self)
+                dj = ClebschGordan.delta_j(self)
+                c = ClebschGordan.coeff(self)
+                s = ClebschGordan.sum_coupling(self)
+
+                try:
+                    cg = dm*dj*c*s
+                except OverflowError:
+                    getcontext().prec = 1000
+                    cg = float(Decimal(dm)*Decimal(dj)*Decimal(c)*Decimal(s))
+                #print("<{0} {1} {2} {3} | {4} {5}> = {6}".format("%.1f"%j1,"%.1f"%m1,"%.1f"%j2,"%.1f"%m2,"%.1f"%j,"%.1f"%m,cg))
+                return cg
+            else:
+                logger.info("Angular momentum coupling rules not satisfied for calculation of Clebsch-Gordan coefficient.")
+                return
         else:
-            logger.info("Angular momentum coupling rules not satisfied for calculation of Clebsch-Gordan coefficient.")
-            return
+            logger.error("Input arguments must be given as integral or half-integral values only.")
     
 class Wigner3j(ClebschGordan):
     __doc__="""MEMBER FUNCTIONS BELONGING TO THIS CLASS ARE NOT INTENDED TO 
@@ -473,20 +503,25 @@ class Wigner3j(ClebschGordan):
         """Evaluate Wigner 3j-symbol."""
         j1, j2, j = self.j1, self.j2, self.j
         m1, m2, m = self.m1, self.m2, self.m
-        
-        cg = ClebschGordan.cg_calc(self)
-        p = (-1)**(j+m+(2*j1))
-        c = 1/sqrt((2*j)+1)
 
-        try:
-            symb_3j = p*c*cg
-        except TypeError:
-            getcontext().prec = 100000000000
-            symb_3j = float(Decimal(p)*Decimal(c)*Decimal(cg))
+        data_ok = ClebschGordan.data_check(self.j1,self.j2,self.j,
+                                           self.m1,self.m2,self.m)
+        if data_ok == True:
+            cg = ClebschGordan.cg_calc(self)
+            p = (-1)**(j+m+(2*j1))
+            c = 1/sqrt((2*j)+1)
+
+            try:
+                symb_3j = p*c*cg
+            except TypeError:
+                getcontext().prec = 100000000000
+                symb_3j = float(Decimal(p)*Decimal(c)*Decimal(cg))
             
-        #print("({0} {1} {2}".format("%.1f"%j1, "%.1f"%j2, "%.1f"%j))
-        #print(" {0} {1} {2}) = {3}".format("%.1f"%(-m1), "%.1f"%(-m2), "%.1f"%m,symb_3j))
-        return symb_3j
+            #print("({0} {1} {2}".format("%.1f"%j1, "%.1f"%j2, "%.1f"%j))
+            #print(" {0} {1} {2}) = {3}".format("%.1f"%(-m1), "%.1f"%(-m2), "%.1f"%m,symb_3j))
+            return symb_3j
+        else:
+            logger.error("Input arguments must be given as integral or half-integral values only.")
 
 class Racah(Wigner3j):
     __doc__ = """MEMBER FUNCTIONS BELONGING TO THIS CLASS ARE NOT INTENDED TO 
@@ -521,14 +556,14 @@ class Racah(Wigner3j):
         self.j1, self.j2 = j1, j2
         self.j3, self.j4 = j3, j4
         self.j5, self.j6 = j5, j6
-
-    def triangle_rule(j1,j2,j):
+        
+    def triangle_rule(j1,j2,j3):
         """The triangle inequality theorem is analogous to the geometric 
         triangle inequality rule and defines the allowed range given by the sum 
         and absolute difference of angular momentum vectors j1 and j2 in 
-        coupling to form total angular momentum j:
+        coupling to form total angular momentum j3:
         
-        |j1 - j2| <= j <= j1 + j2
+        |j1 - j2| <= j3 <= j1 + j2
 
         This inequality ensures that the sum of any two angular momenta is 
         greater than or equal to the third.
@@ -536,30 +571,29 @@ class Racah(Wigner3j):
         Returns:
             A `True` boolean object gets returned only if the triangle 
             inequality theorem is satisfied."""
-        #j1, j2, j = self.j1, self.j2, self.j
 
         j1j2_diff = False
         j1j2_sum = False
 
         try:
-            assert abs(j1 - j2) <= j
+            assert abs(j1 - j2) <= j3
             j1j2_diff = True
         except AssertionError:
-            logger.info(f"Triangle inequality rule violated: |j1={j1} - j2={j2}| is not less than or equal to total angular momentum j={j}")
-            logger.debug("Angular momentum coupling schemes must satisfy triangle inequality theorem: |j1 - j2| <= j <= j1 + j2")
+            logger.exception(f"Triangle inequality rule violated: |j1={j1} - j2={j2}| is not less than or equal to total angular momentum j3={j3}")
+            logger.warning("Angular momentum coupling schemes must satisfy triangle inequality theorem: |j1 - j2| <= j3 <= j1 + j2")
 
         try:
-            assert j <= j1 + j2
+            assert j3 <= j1 + j2
             j1j2_sum = True
         except AssertionError:
-            logger.info(f"Triangle inequality rule violated: j1={j1} + j2={j2} is not greater than or equal to total angular momentum j={j}")
-            logger.debug("Angular momentum coupling schemes must satisfy triangle inequality theorem: |j1 - j2| <= j <= j1 + j2")
+            logger.exception(f"Triangle inequality rule violated: j1={j1} + j2={j2} is not greater than or equal to total angular momentum j3={j3}")
+            logger.warning("Angular momentum coupling schemes must satisfy triangle inequality theorem: |j1 - j2| <= j3 <= j1 + j2")
 
         if j1j2_diff == True and j1j2_sum == True:
             return True
         else:
-            logger.debug("Conditions for coupling angular momentum vectors not satisfied.")
-            return        
+            logger.warning("Conditions for coupling angular momentum vectors not satisfied.")
+            return
         
     def tri_factor(a,b,c):
         """The triangular factor (or triangular delta) Delta(j1,j2,j3) 
@@ -654,18 +688,28 @@ class Racah(Wigner3j):
     
     def W(self):
         """Evaluate Racah coefficient."""
-        try:
-            return Racah.delta_product(self)*Racah.w(self)
-        except TypeError:
-            logger.exception(f"Unspported multiplication of types: {type(Racah.delta_product(self))} and {type(Racah.w(self))}")
-        #return Racah.delta_product(self)*Racah.w(self)
+        data_ok = ClebschGordan.data_check(self.j1,self.j2,self.j3,
+                                           self.j4,self.j5,self.j6)
+        if data_ok is True:
+            try:
+                return Racah.delta_product(self)*Racah.w(self)
+            except TypeError:
+                logger.exception(f"Unspported multiplication of types: {type(Racah.delta_product(self))} and {type(Racah.w(self))}")
+        else:
+            logger.error("Input arguments must be given as integral or half-integral values only.")
+                
     
     def symbol_6j(self):
         """Evaluate Wigner 6-j symbol."""
-        try:
-            return Racah.W(self)*Racah.phase(self)
-        except TypeError:
-            logger.exception(f"Unspported multiplication of types: {type(Racah.W(self))} and {type(Racah.phase(self))}")
+        data_ok = ClebschGordan.data_check(self.j1,self.j2,self.j3,
+                                           self.j4,self.j5,self.j6)
+        if data_ok is True:
+            try:
+                return Racah.W(self)*Racah.phase(self)
+            except TypeError:
+                logger.exception(f"Unspported multiplication of types: {type(Racah.W(self))} and {type(Racah.phase(self))}")
+        else:
+            logger.error("Input arguments must be given as integral or half-integral values only.")
             
 
 class Wigner9j(Racah):
@@ -693,31 +737,6 @@ class Wigner9j(Racah):
     `symb9j` :  Wigner 9-j symbol
     """
 
-    # The above symbol is invariant wrt symbol below
-    #def __init__(self,j1,j4,j7,j2,j5,j8,j3,j6,j9):
-        #self.j1, self.j4, self.j7 = j1, j4, j7 
-        #self.j2, self.j5, self.j8 = j2, j5, j8 
-        #self.j3, self.j6, self.j9 = j3, j6, j9    
-        
-    #def symbol_9j(self):
-    #    """Evaluate Wigner 9-j symbol."""
-    #    imax = int(min(self.j1+self.j9, self.j2+self.j6, self.j4+self.j8) * 2)
-    #    imin = imax % 2
-    #    sum_res = 0
-    #    #print(imin, imax)
-    #    for x in range(int(imin), int(imax)+1, 2):
-    #        try:
-    #            W1 = Racah(self.j1, self.j4, self.j7, self.j8, self.j9, x/2)
-    #            W2 = Racah(self.j2, self.j5, self.j8, self.j4, x/2, self.j6)
-    #            W3 = Racah(self.j3, self.j6, self.j9, x/2, self.j1, self.j2)
-            
-    #            sum_res = sum_res + (x+1) * W1.symbol_6j() * W2.symbol_6j() * W3.symbol_6j()
-                
-    #        except ValueError:
-    #            pass
-            
-    #    return sum_res
-
     def __init__(self,j1,j2,j3,j4,j5,j6,j7,j8,j9,level):
         self.j1, self.j2, self.j3 = j1, j2, j3 
         self.j4, self.j5, self.j6 = j4, j5, j6 
@@ -726,40 +745,41 @@ class Wigner9j(Racah):
 
     def symbol_9j(self):
         """Evaluate Wigner 9-j symbol."""
-        imax = int(min(self.j1+self.j9, self.j4+self.j8, self.j2+self.j6) * 2)
-        imin = imax % 2
-        sum_res = 0
-        print(f"min={imin}, max={imax}")
-        #for x in range(int(imin), int(imax)+1, 2):
-        #with LogLevelContext(logging.WARNING):
-        success = False
-        with LogLevelContext(self.level):
-            for g in range(int(imin), int(imax)+1):
-                try:
-                    #W1 = Racah(self.j1, self.j2, self.j3, self.j6, self.j9, x/2)
-                    W1 = Racah(self.j1, self.j2, self.j3, self.j6, self.j9, g)
-                    #W2 = Racah(self.j4, self.j5, self.j6, self.j2, x/2, self.j8)
-                    W2 = Racah(self.j4, self.j5, self.j6, self.j2, g, self.j8)
-                    #W3 = Racah(self.j7, self.j8, self.j9, x/2, self.j1, self.j4)
-                    W3 = Racah(self.j7, self.j8, self.j9, g, self.j1, self.j4)
+        
+        data_ok = ClebschGordan.data_check(self.j1,self.j2,self.j3,
+                                           self.j4,self.j5,self.j6,
+                                           self.j7,self.j8,self.j9)
 
-                    #sum_res = sum_res + (x+1) * W1.symbol_6j() * W2.symbol_6j() * W3.symbol_6j()
-                    sum_res = sum_res + (-1)**(2*g) * ((2*g)+1) * W1.symbol_6j() * W2.symbol_6j() * W3.symbol_6j()
+        if data_ok is True:
+        
+            imax = int(min(self.j1+self.j9,self.j4+self.j8,self.j2+self.j6) * 2)
+            imin = imax % 2
+            sum_res = 0
+            #print(f"min={imin}, max={imax}")
+            #with LogLevelContext(logging.WARNING):
+            success = False
+            with LogLevelContext(self.level):
+                for g in range(int(imin), int(imax)+1):
+                    try:
+                        W1 = Racah(self.j1, self.j2, self.j3, self.j6, self.j9, g)
+                        W2 = Racah(self.j4, self.j5, self.j6, self.j2, g, self.j8)
+                        W3 = Racah(self.j7, self.j8, self.j9, g, self.j1, self.j4)
 
-                    print(f"OK: g={g} sum={sum_res}")
-                    success = True
-                #except ValueError:
-                #    continue
-                except TypeError:
-                    if not sum_res:
-                        print(f"NO ADDITIONS YET! g={g} sum={sum_res}")
-                        continue
-                    else:
-                        break
+                        sum_res = sum_res + (-1)**(2*g) * ((2*g)+1) * W1.symbol_6j() * W2.symbol_6j() * W3.symbol_6j()
 
-        if success == True:
-            return sum_res
+                        success = True
+
+                    except TypeError:
+                        if not sum_res:
+                            continue
+                        else:
+                            break
+
+            if success == True:
+                return sum_res
+            else:
+                if self.level is logging.CRITICAL:
+                    logger.error(f"Can't evaluate desired 9-j symbol.  Run again with debugging information to find specific problems:\n PyGammaRAD.symb9j({self.j1},{self.j2},{self.j3},{self.j4},{self.j5},{self.j6},{self.j7},{self.j8},{self.j9},logging.DEBUG)")
+                    return
         else:
-            logger.error(f"Can't evaluate desired 9-j symbol.  Run again with debugging information to find specific problems:\n PyGammaRAD.symb9j({self.j1},{self.j2},{self.j3},{self.j4},{self.j5},{self.j6},{self.j7},{self.j8},{self.j9},logging.DEBUG)")
-            return
-            
+            logger.error("Input arguments must be given as integral or half-integral values only.")
