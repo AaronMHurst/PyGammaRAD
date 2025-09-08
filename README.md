@@ -123,7 +123,9 @@ Note that the ordering of *j<sub>i</sub>* in the second column **does not** refl
 
 The following conditions apply when handling Clebsch-Gordan coefficients and Wigner 3-*j* symbols:
 
-* All *m* quantum numbers must be projections of their respective *j* values, i.e., for integral *j*, all *m* projections must also be integral, and likewise, half-integral *j* must also have corresponding half-integral *m* projections.
+* All *m* quantum numbers must be projections of their respective *j* values, i.e., for integral *j*, all *m* projections must also be integral, and likewise, half-integral *j* must also have corresponding half-integral *m* projections.  Mathematically, this rule can be expressed as
+  * If 2*j<sub>i</sub> $\bmod$ 2 = 0, then 2*m<sub>i</sub> $\bmod$ 2 = 0;
+  * If 2*j<sub>i</sub> $\bmod$ 2 = 1, then 2*m<sub>i</sub> $\bmod$ 2 = 1.
 * Each *m* projection must satisfy the relation |*m<sub>i</sub>*| $\leq$ *j<sub>i</sub>*.
 * *m<sub>1</sub>* + *m<sub>2</sub>* = m.
 
