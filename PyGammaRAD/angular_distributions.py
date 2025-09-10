@@ -403,6 +403,265 @@ class AngularDistributions(AngularMomentumCalculations):
         W = 1 + (A2*P2) + (A4*P4)
 
         return W, theta
+
+    def calc_R(self, k, L1, L2, Ji, Jf):
+        """Calculate R angular-distribution coefficient for given value of k, 
+        L1, L2, Ji, and Jf in accordance with Eq. (3.37) [cf. Eq. (3.36)] from 
+        Rose and Brink paper [2].
+
+        Notes:
+            [2]: H.J. Rose, D.M. Brink, Rev. Mod. Phys. 39, 306 (1967).
+
+        Arguments:
+            k: An integer object representing the order.
+            L1: An integer object representing the order of the first 
+                multipole.
+            L2: An integer object representing the order of the second 
+                interfering multipole (L2=L1+1).
+            Ji: A number object (int or float) representing the initial spin.
+            Jf: A number object (int or float) representing the final spin.
+        
+        Returns:
+            A float value corresponding to Rk(L1 L2 Ji Jf) which can be 
+            compared to the corresponding value in the table of R coefficients 
+            in the appendix of Rose and Brink [2].
+
+        Raises:
+            Fewer than 5 positional arguments ('k', 'L1', 'L2', 'Ji', 'Jf') 
+            raises a TypeError exception.
+
+        Example:
+            To calculate R(k=2,L1=3,L2=3,Ji=5,Jf=8):
+            > calc_R(2,3,3,5,8)
+        """
+        self.k = k
+        self.L1 = L1
+        self.L2 = L2
+        self.Ji = Ji
+        self.Jf = Jf
+
+        AM = AngularDistributions()
+
+        if self.k % 2 == 0:
+
+            parity_factor = (-1)**(self.L1 - self.L2 + self.k)
+            F = AM.calc_F(self.k, self.Jf, self.L1, self.L2, self.Ji)
+            R = parity_factor * F
+            return R
+            
+        else:
+            logger.warning("k must be integral and even: k>0")
+            return
+
+    def calc_p(self, k, J, *args):
+        """Calculate statistical tensor coefficient 'rho(J,M)' in accordance 
+        with Eq. (3.63) from Rose and Brink review article [2].
+
+        Notes:
+            [2]: H.J. Rose, D.M. Brink, Rev. Mod. Phys. 39, 306 (1967).
+
+        Arguments:
+            k: An integer object representing the order.
+            J: A number object (int or float) representing the spin.
+
+            args: An optional number object (int or float) argument 
+                  corresponding to the magnetic substate projection 'm' can 
+                  also be given.
+        
+        Returns:
+            A single float or list of floating-point values corresponding to 
+            rho(J,M) of order k according to how the method is called.  Results 
+            can be compared to the data in the table of statistical tensor 
+            coefficients in the appendix of Rose and Brink [2].
+
+        Raises:
+            Fewer than 2 positional arguments ('k', 'J') raises a TypeError 
+            exception.
+
+        Example:
+            To calculate statistical tensor for all magnetic substates of J=5 
+            (M=0,1,2,3,4,5) and order k=8, i.e., rho(k=8,J=5):
+            > calc_p(8,5)
+
+            To calculate statistical tensor for magnetic substate M=3 
+            belonging to state J=5 or order k=8, i.e., rho(k=8,J=5,M=3):
+            > calc_p(8,5,3)
+        """
+        self.k = k
+        self.J = J
+
+        if self.k % 2 == 0:
+            if args==[] or len(args)==0:
+                # Evaluate rho_k(J,M) for all M-projections
+                p_list = []
+                if (2*J) % 2 == 0:
+                    # Integral J:
+                    for m in range(0,J+1):
+                        kronecker_delta = 0
+                        if m == 0:
+                            kronecker_delta = 1
+                        else:
+                            kronecker_delta = 0
+
+                        parity_factor = (-1)**(self.J - m)
+                        spin_factor = np.sqrt((2*self.J) + 1)
+                        # CGC = <J m J -m | k 0>
+                        CG = ClebschGordan(self.J, m, self.J, -m, self.k, 0)
+                        cgc = CG.cg_calc()
+
+                        p = (2-kronecker_delta)*parity_factor*spin_factor*cgc
+                        p_list.append(p)
+
+                elif (2*J) % 2 == 1:
+                    # Half-integral J:
+                    for m in range(1,int(2*J)+1):
+                        if m % 2 == 1:
+                            m = m/2
+
+                            kronecker_delta = 0
+                            if m == 0:
+                                kronecker_delta = 1
+                            else:
+                                kronecker_delta = 0
+
+                            parity_factor = (-1)**(self.J - m)
+                            spin_factor = np.sqrt((2*self.J) + 1)
+                            # CGC = <J m J -m | k 0>
+                            CG = ClebschGordan(self.J, m, self.J, -m, self.k, 0)
+                            cgc = CG.cg_calc()
+
+                            p=(2-kronecker_delta)*parity_factor*spin_factor*cgc
+                            p_list.append(p)
+
+                return p_list
+
+            elif len(args) == 1:
+                # Evaluate rho_k(J,M) for defined M-projection
+                M = args[0]
+                if (2*M) % 2 == 0 or (2*M) % 2 == 1:
+                    kronecker_delta = 0
+                    if M == 0:
+                        kronecker_delta = 1
+                    else:
+                        kronecker_delta = 0
+
+                    parity_factor = (-1)**(self.J - M)
+                    spin_factor = np.sqrt((2*self.J) + 1)
+                    # CGC = <J M J -M | k 0>
+                    CG = ClebschGordan(self.J, M, self.J, -M, self.k, 0)
+                    cgc = CG.cg_calc()
+
+                    p = (2-kronecker_delta)*parity_factor*spin_factor*cgc
+                    return p
+
+                else:
+                    logger.error("The magnetic substate projection 'm' must be given as an integral or half-integral argument.")
+            else:
+                logger.error("Only one argument can be accepted for magnetic substate projection: 'm' given as integral or half-integral value.")
+            
+        else:
+            logger.warning("k must be integral and even: k>0")
+            return
+
+    def calc_S(self, l1, l2, J, s, *args):
+        """Calculate population tensor coefficient 'Sk(l1 l2 J s)' in 
+        accordance with Eq. (3.59) from Rose and Brink review article [2].
+
+        Notes:
+            [2]: H.J. Rose, D.M. Brink, Rev. Mod. Phys. 39, 306 (1967).
+
+        Arguments:
+            l1: Integer object for the partial wave orbital angular momentum.
+            l2: Integer object for the interfering partial wave orbital angular
+                momentum.
+            J: A number object (int or float) representing the spin of the 
+               state.
+            s: Number object (integral or half-integral) reaction channel spin.
+
+            args: An optional integer object 'k' representing the order.
+                  corresponding to the magnetic substate projection can also be 
+                  given.
+        
+        Returns:
+            A single float or list of floating-point values corresponding to 
+            'Sk' according to how the method is called.  Calculated results 
+            can be compared to the data given in the table of population tensors
+            in the appendix of Rose and Brink [2].
+
+        Raises:
+            Fewer than 4 positional arguments ('l1', 'l2', 'J', 's') raises a 
+            TypeError exception.
+
+        Example:
+            To calculate the population tensor for all 'k' orders (i.e., k=0, 
+            2, 4, 6, and 8) for S(l1=4, l2=4, J=5, s=2):
+            > calc_S(4,4,5,2)
+
+            To calculate the population tensor for S(l1=4, l2=4, J=5, s=2) 
+            for order k=2:
+            > calc_S(4,4,5,2,2)
+        """
+        self.l1 = l1
+        self.l2 = l2
+        self.J = J
+        self.s = s
+
+        try:
+            assert self.l1 % 2 == 0 or self.l1 % 2 == 1
+        except AssertionError:
+            logger.exception(F"Partial wave must be integral: l1={self.l1} is not an acceptable argument.")
+
+        try:
+            assert self.l2 % 2 == 0 or self.l2 % 2 == 1
+        except AssertionError:
+            logger.exception(F"Partial wave must be integral: l2={self.l2} is not an acceptable argument.")
+
+        try:
+            assert (2*self.J) % 2 == 0 or (2*self.J) % 2 == 1
+        except AssertionError:
+            logger.exception(F"Spin of state must be integral or half-integral: J={self.J} is not an acceptable argument.")
+
+        try:
+            assert (2*self.s) % 2 == 0 or (2*self.s) % 2 == 1
+        except AssertionError:
+            logger.exception(F"Channel spin must be integral or half-integral: s={self.s} is not an acceptable argument.")                
+        
+        parity_factor = (-1)**(self.s - self.J)
+        spin_factor = np.sqrt(((2*self.l1)+1)*((2*self.l2)+1)*((2*self.J)+1))
+        
+        if args==[] or len(args)==0:
+            #Evaluate Sk(l1 l2 J s) for all 'k' orders
+            S_list = []
+            for k in range(0,9):
+                if k % 2 == 0:
+                    CG = ClebschGordan(self.l1, 0, self.l2, 0, k, 0)
+                    cgc = CG.cg_calc()
+
+                    #RC = Racah(self.J, self.J, self.l1, self.l2, k, self.s)
+                    RC = Racah(self.J, self.J, k, self.l2, self.l1, self.s)
+                    W = RC.W()
+
+                    S = parity_factor * spin_factor * cgc * W
+                    S_list.append(S)
+            return S_list
+
+        elif len(args)==1:
+            k = args[0]
+            if k % 2 == 0:
+                CG = ClebschGordan(self.l1, 0, self.l2, 0, k, 0)
+                cgc = CG.cg_calc()
+
+                #RC = Racah(self.J, self.J, self.l1, self.l2, k, self.s)
+                RC = Racah(self.J, self.J, k, self.l2, self.l1, self.s)
+                W = RC.W()
+
+                S = parity_factor * spin_factor * cgc * W
+                return S
+                
+            else:
+                logger.warning("k must be integral and even: k>=0")
+                return
+            
     
 class Legendre(AngularDistributions):
     __doc__="""Legendre polynomials: Pk as a function of cos(theta)."""
