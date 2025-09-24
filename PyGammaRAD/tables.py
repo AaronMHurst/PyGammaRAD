@@ -58,6 +58,12 @@ class Tables(object):
             data_dict = json.loads(jf.read())
             self.rose_brink_list.append(data_dict)
         jf.close()
+
+        rose_brink_U = "%s/rose_brink_coeff_U.json"%data_path
+        with open(rose_brink_U, mode='r') as jf:
+            data_dict = json.loads(jf.read())
+            self.rose_brink_list.append(data_dict)
+        jf.close()
         
     def get_B(self, k, J):
         """Find B for given value of k and J in Table 1 [1].
@@ -528,8 +534,8 @@ class Tables(object):
 
     def get_tableRa(self):
         """Table of angular distribution coefficients associated with 
-        even-integral spins for the R-coefficient given in the Appendix of the
-        Rose and Brink review article [2].
+        even-integral spins for the Rk(L1 L2 Ji Jf) coefficients, where L2=L1+1,
+        given in the Appendix of the Rose and Brink review article [2].
 
         Notes:
             [2] H.J. Rose and D.M. Brink, Rev. Mod. Phys., Vol. 39, Num. 2, 
@@ -559,8 +565,8 @@ class Tables(object):
 
     def get_tableRb(self):
         """Table of angular distribution coefficients associated with 
-        half-integral spins for the R-coefficient given in the Appendix of the
-        Rose and Brink review article [2].
+        half-integral spins for the Rk(L1 L2 Ji Jf) coefficients, where L2=L1+1,
+        given in the Appendix of the Rose and Brink review article [2].
 
         Notes:
             [2] H.J. Rose and D.M. Brink, Rev. Mod. Phys., Vol. 39, Num. 2, 
@@ -572,7 +578,7 @@ class Tables(object):
         Returns:
             A DataFrame object containing the corresponding Rk angular
             distribution coefficients for k=2,4,6, and 8 as tabulated in the 
-            Appendix of Ref. [2] for even-integral spins.
+            Appendix of Ref. [2] for half-integral spins.
 
         Raises:
             Passing arguments to the function raises a TypeError exception.
@@ -587,3 +593,35 @@ class Tables(object):
         pd.set_option('display.max_row', None)
 
         return tableRb_df
+
+    def get_tableU(self):
+        """Table of angular distribution coefficients associated with both  
+        integral and half-integral spins for the Uk(L1 Ji Jf) and Uk(L2 Ji Jf) 
+        coefficients, where L2 = L1 + 1, given in the Appendix of the 
+        Rose and Brink review article [2].
+
+        Notes:
+            [2] H.J. Rose and D.M. Brink, Rev. Mod. Phys., Vol. 39, Num. 2, 
+                p. 306 (1967).
+
+        Arguments:
+            None.
+
+        Returns:
+            A DataFrame object containing the corresponding Uk angular
+            distribution coefficients for k=2,4,6, and 8 as tabulated in the 
+            Appendix of Ref. [2] for integral and half-integral spins.
+
+        Raises:
+            Passing arguments to the function raises a TypeError exception.
+
+        Example:
+            > get_tableRb()
+        """
+        tableU_list = self.rose_brink_list[2]
+        tableU_df = pd.DataFrame(tableU_list)
+
+        pd.set_option('display.max_columns', None)
+        pd.set_option('display.max_row', None)
+
+        return tableU_df
