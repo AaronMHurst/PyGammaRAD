@@ -11,7 +11,8 @@ class AngularMomentum(Legendre):
     wider quantum mechanical applications."""
 
     def __init__(self):
-        Tables.__init__(self)
+        Yamazaki.__init__(self)
+        RoseAndBrink.__init__(self)
         AngularMomentumCalculations.__init__(self)
         AngularDistributions.__init__(self)
         Legendre.__init__(self)

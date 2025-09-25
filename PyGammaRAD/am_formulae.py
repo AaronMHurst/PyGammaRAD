@@ -2,7 +2,8 @@ from .tables import *
 from math import sqrt, factorial
 from decimal import Decimal, getcontext
 
-class Factorial(Tables):
+#class Factorial(Tables):
+class Factorial(RoseAndBrink):
     __doc__="""Class containing different implementations of methods for 
     calculating the factorial of a non-negative integer.  By default, the 
     `PyGammaRAD` library uses a function that returns the native 

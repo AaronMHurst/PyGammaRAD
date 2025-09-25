@@ -1,7 +1,8 @@
 from .tables import *
 from .am_formulae import *
 
-class AngularMomentumCalculations(Tables):
+#class AngularMomentumCalculations(Tables):
+class AngularMomentumCalculations(RoseAndBrink):
     __doc__="""Class containing methods for coupling and recoupling of angular 
     momenta.  The methods in this class form a complete set of angular momentum 
     calculators useful in general applications of quantum theory where 

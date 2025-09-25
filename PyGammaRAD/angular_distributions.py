@@ -634,6 +634,27 @@ class AngularDistributions(AngularMomentumCalculations):
             S_list = []
             for k in range(0,9):
                 if k % 2 == 0:
+                    S = None
+                    try:
+                        CG = ClebschGordan(self.l1, 0, self.l2, 0, k, 0)
+                        cgc = CG.cg_calc()
+
+                        #RC = Racah(self.J, self.J, self.l1, self.l2, k, self.s)
+                        RC = Racah(self.J, self.J, k, self.l2, self.l1, self.s)
+                        W = RC.W()
+
+                        S = parity_factor * spin_factor * cgc * W
+                    except TypeError:
+                        logger.exception(f"Unsupported multiplication of types: {type(parity_factor)} and {type(spin_factor)} and {type(cgc)} and {type(W)}\nReturn value is 0.0")
+                        S = 0.0
+                        
+                    S_list.append(S)
+            return S_list
+
+        elif len(args)==1:
+            k = args[0]
+            if k % 2 == 0:
+                try:
                     CG = ClebschGordan(self.l1, 0, self.l2, 0, k, 0)
                     cgc = CG.cg_calc()
 
@@ -642,20 +663,10 @@ class AngularDistributions(AngularMomentumCalculations):
                     W = RC.W()
 
                     S = parity_factor * spin_factor * cgc * W
-                    S_list.append(S)
-            return S_list
-
-        elif len(args)==1:
-            k = args[0]
-            if k % 2 == 0:
-                CG = ClebschGordan(self.l1, 0, self.l2, 0, k, 0)
-                cgc = CG.cg_calc()
-
-                #RC = Racah(self.J, self.J, self.l1, self.l2, k, self.s)
-                RC = Racah(self.J, self.J, k, self.l2, self.l1, self.s)
-                W = RC.W()
-
-                S = parity_factor * spin_factor * cgc * W
+                except TypeError:
+                    logger.exception(f"Unsupported multiplication of types: {type(parity_factor)} and {type(spin_factor)} and {type(cgc)} and {type(W)}\nReturn value is 0.0")
+                    S = 0.0
+                    
                 return S
                 
             else:

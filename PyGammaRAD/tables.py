@@ -6,7 +6,7 @@ import os
 
 from .log_handlers import *
 
-class Tables(object):
+class Yamazaki(object):
     __doc__="""Class for handling data from Tables 1 and 2 in reference article 
     by Yamazaki [1].
 
@@ -17,7 +17,7 @@ class Tables(object):
     (Table 2a, p.6-14 [1]) and half-integral spins (Table 2b, p.15-23 [1]).
 
     References:
-    [1] T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
+        [1] T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
     """
     _ROOT = os.path.abspath(os.path.dirname(__file__))
     
@@ -43,26 +43,6 @@ class Tables(object):
         with open(yamazaki_table2b, mode='r') as jf:
             data_dict = json.loads(jf.read())
             self.data_list.append(data_dict)
-        jf.close()
-
-        # Handle Rose and Brink data tables
-        self.rose_brink_list = []
-        rose_brink_Ra = "%s/rose_brink_coeff_R_a.json"%data_path
-        with open(rose_brink_Ra, mode='r') as jf:
-            data_dict = json.loads(jf.read())
-            self.rose_brink_list.append(data_dict)
-        jf.close()
-
-        rose_brink_Rb = "%s/rose_brink_coeff_R_b.json"%data_path
-        with open(rose_brink_Rb, mode='r') as jf:
-            data_dict = json.loads(jf.read())
-            self.rose_brink_list.append(data_dict)
-        jf.close()
-
-        rose_brink_U = "%s/rose_brink_coeff_U.json"%data_path
-        with open(rose_brink_U, mode='r') as jf:
-            data_dict = json.loads(jf.read())
-            self.rose_brink_list.append(data_dict)
         jf.close()
         
     def get_B(self, k, J):
@@ -462,7 +442,7 @@ class Tables(object):
                     return
 
 
-    def table2file(self,table,format):
+    def yamazaki2file(self,table,format):
         """Convert and dump data from Tables 1, 2(a), and 2(b) of Ref. [1] into 
         a CSV or JSON formatted file.
 
@@ -483,10 +463,10 @@ class Tables(object):
 
         Examples:
             To print Table 1 to file in CSV format:
-            > table2file('T1','CSV') # dumps `YamazakiTable1.csv` in pwd
+            > yamazaki2file('T1','CSV') # dumps `YamazakiTable1.csv` in pwd
 
             To print Table 2(a) to file in JSON format:
-            > table2file('T2A','JSON') # dumps `YamazakiTable2a.json` in pwd
+            > yamazaki2file('T2A','JSON') # dumps `YamazakiTable2a.json` in pwd
         """
         self.table = table
         self.format = format
@@ -529,8 +509,86 @@ class Tables(object):
 
         if PRINT_PROBLEM == True:
             logger.error("File not printed.")
+
+
+class RoseAndBrink(Yamazaki):
+    __doc__="""Class for handling tabulated data in Appendex of the review 
+    article by Rose and Brink [2].
+
+    (i)   Angular distribution Rk(L1 L2 Ji Jf) coefficients (L2=L1+1) for 
+          integral and half-integral spins.
+
+    (ii)  Angular distribution Uk(L1 Ji Jf) and Uk(L2 Ji Jf) coefficients 
+          (L2=L1+1) for integral and half-integral spins.
+    
+    (iii) Population tensor Sk(l1 l2 J s) coefficients for integral and 
+          half-integral spins.
+    
+    (iv)  Statistical tensor p(J m) coefficients for integral and half-integral
+          spins.
+
+    References:
+        [2] H.J. Rose and D.M. Brink, Rev. Mod. Phys., Vol. 39, Num. 2, 
+            p. 306 (1967).
+    """
+    _ROOT = os.path.abspath(os.path.dirname(__file__))
+    
+    def __init__(self):
+        from . import get_data
+        data_path = get_data('data')
+        self.rose_brink_list = []
+
+        # [0]: R (integral), [1]: R (half-integral)
+        # [2]: U (integral and half-integral together)
+        # [3]: S (integral), [4]: S (half-integral)
+        # [5]: p (integral), [6]: p (half-integral)
         
-        
+        # Handle Rose and Brink data tables
+        # R-coefficients
+        rose_brink_Ra = "%s/rose_brink_coeff_R_a.json"%data_path
+        with open(rose_brink_Ra, mode='r') as jf:
+            data_dict = json.loads(jf.read())
+            self.rose_brink_list.append(data_dict)
+        jf.close()
+
+        rose_brink_Rb = "%s/rose_brink_coeff_R_b.json"%data_path
+        with open(rose_brink_Rb, mode='r') as jf:
+            data_dict = json.loads(jf.read())
+            self.rose_brink_list.append(data_dict)
+        jf.close()
+
+        # U-coefficients
+        rose_brink_U = "%s/rose_brink_coeff_U.json"%data_path
+        with open(rose_brink_U, mode='r') as jf:
+            data_dict = json.loads(jf.read())
+            self.rose_brink_list.append(data_dict)
+        jf.close()
+
+        # S-coefficients
+        rose_brink_Sa = "%s/rose_brink_coeff_S_a.json"%data_path
+        with open(rose_brink_Sa, mode='r') as jf:
+            data_dict = json.loads(jf.read())
+            self.rose_brink_list.append(data_dict)
+        jf.close()
+
+        rose_brink_Sb = "%s/rose_brink_coeff_S_b.json"%data_path
+        with open(rose_brink_Sb, mode='r') as jf:
+            data_dict = json.loads(jf.read())
+            self.rose_brink_list.append(data_dict)
+        jf.close()
+
+        # p-coefficients
+        rose_brink_pa = "%s/rose_brink_coeff_p_a.json"%data_path
+        with open(rose_brink_pa, mode='r') as jf:
+            data_dict = json.loads(jf.read())
+            self.rose_brink_list.append(data_dict)
+        jf.close()
+
+        rose_brink_pb = "%s/rose_brink_coeff_p_b.json"%data_path
+        with open(rose_brink_pb, mode='r') as jf:
+            data_dict = json.loads(jf.read())
+            self.rose_brink_list.append(data_dict)
+        jf.close()
 
     def get_tableRa(self):
         """Table of angular distribution coefficients associated with 
@@ -625,3 +683,206 @@ class Tables(object):
         pd.set_option('display.max_row', None)
 
         return tableU_df
+
+    def get_tableSa(self):
+        """Table of population-tensor coefficients associated with 
+        even-integral spins for the Sk(l1 l2 J s) coefficients as given in the 
+        Appendix of the Rose and Brink review article [2].
+
+        Notes:
+            [2] H.J. Rose and D.M. Brink, Rev. Mod. Phys., Vol. 39, Num. 2, 
+                p. 306 (1967).
+
+        Arguments:
+            None.
+
+        Returns:
+            A DataFrame object containing the corresponding Sk population 
+            tensor coefficients for k=0,2,4,6, and 8 as tabulated in the 
+            Appendix of Ref. [2] for even-integral spins.
+
+        Raises:
+            Passing arguments to the function raises a TypeError exception.
+
+        Example:
+            > get_tableSa()
+        """
+        tableSa_list = self.rose_brink_list[3]
+        tableSa_df = pd.DataFrame(tableSa_list)
+
+        pd.set_option('display.max_columns', None)
+        pd.set_option('display.max_row', None)
+
+        return tableSa_df
+
+    def get_tableSb(self):
+        """Table of population-tensor coefficients associated with 
+        half-integral spins for the Sk(l1 l2 J s) coefficients as given in the 
+        Appendix of the Rose and Brink review article [2].
+
+        Notes:
+            [2] H.J. Rose and D.M. Brink, Rev. Mod. Phys., Vol. 39, Num. 2, 
+                p. 306 (1967).
+
+        Arguments:
+            None.
+
+        Returns:
+            A DataFrame object containing the corresponding Sk population 
+            tensor coefficients for k=0,2,4,6, and 8 as tabulated in the 
+            Appendix of Ref. [2] for half-integral spins.
+
+        Raises:
+            Passing arguments to the function raises a TypeError exception.
+
+        Example:
+            > get_tableSb()
+        """
+        tableSb_list = self.rose_brink_list[4]
+        tableSb_df = pd.DataFrame(tableSb_list)
+
+        pd.set_option('display.max_columns', None)
+        pd.set_option('display.max_row', None)
+
+        return tableSb_df
+
+    def get_tablePa(self):
+        """Table of statistical-tensor coefficients associated with 
+        even-integral spins for the pk(J m) coefficients as given in the 
+        Appendix of the Rose and Brink review article [2].
+
+        Notes:
+            [2] H.J. Rose and D.M. Brink, Rev. Mod. Phys., Vol. 39, Num. 2, 
+                p. 306 (1967).
+
+        Arguments:
+            None.
+
+        Returns:
+            A DataFrame object containing the corresponding pk statistical 
+            tensor coefficients for even-k<=8 and magnetic substate projections 
+            m=0,1,2,3,4,5, and 6 as tabulated in the Appendix of Ref. [2] for 
+            even-integral spins.
+
+        Raises:
+            Passing arguments to the function raises a TypeError exception.
+
+        Example:
+            > get_tablePa()
+        """
+        tablePa_list = self.rose_brink_list[5]
+        tablePa_df = pd.DataFrame(tablePa_list)
+
+        pd.set_option('display.max_columns', None)
+        pd.set_option('display.max_row', None)
+
+        return tablePa_df
+
+    def get_tablePb(self):
+        """Table of statistical-tensor coefficients associated with 
+        half-integral spins for the pk(J m) coefficients as given in the 
+        Appendix of the Rose and Brink review article [2].
+
+        Notes:
+            [2] H.J. Rose and D.M. Brink, Rev. Mod. Phys., Vol. 39, Num. 2, 
+                p. 306 (1967).
+
+        Arguments:
+            None.
+
+        Returns:
+            A DataFrame object containing the corresponding pk statistical 
+            tensor coefficients for even-k<=8 and magnetic substate projections 
+            m=1/2,3/2,5/2,7/2,9/2,11/2, and 13/2 as tabulated in the Appendix 
+            of Ref. [2] for half-integral spins.
+
+        Raises:
+            Passing arguments to the function raises a TypeError exception.
+
+        Example:
+            > get_tablePb()
+        """
+        tablePa_list = self.rose_brink_list[6]
+        tablePa_df = pd.DataFrame(tablePa_list)
+
+        pd.set_option('display.max_columns', None)
+        pd.set_option('display.max_row', None)
+
+        return tablePa_df
+
+    def rose_brink2file(self,table,format):
+        """Convert and dump data from tables in the Appendix of the Rose and 
+        Brink review article [2] into a CSV or JSON formatted file.
+
+        Notes:
+            [2] H.J. Rose and D.M. Brink, Rev. Mod. Phys., Vol. 39, Num. 2, 
+                p. 306 (1967).
+
+        Arguments:
+            table: String argument representing desired table printout:-
+                   'RA': Rk(L1 L2 Ji Jf) integral-J [2]
+                   'RB': Rk(L1 L2 Ji Jf) half-integral-J [2]
+                   'U' : Uk(L1 Ji Jf) and Uk(L2 Ji Jf) [2]
+                   'SA': Sk(l1 l2 J s) integral-J [2]
+                   'SB': Sk(l1 l2 J s) half-integral-J [2]
+                   'PA': pk(J m) integral-J [2]
+                   'PB': pk(J m) half-integral-J [2]
+            format: String argument to indicate preferred file format:-
+                   'CSV': Comma Separated Value format.
+                   'JSON': JavaScript Object Notation format.
+
+        Returns:
+            None.
+
+        Examples:
+            To print Table 1 to file in CSV format:
+            > rose_brink2file('RA','CSV') # dumps `RoseBrinkTableRa.csv` in pwd
+
+            To print Table 2(a) to file in JSON format:
+            > rose_brink2file('U','JSON') # dumps `RoseBrinkTableU.json` in pwd
+        """
+        self.table = table
+        self.format = format
+
+        tables = {"RA":[self.rose_brink_list[0], "RoseBrinkTableRa"],
+                  "RB":[self.rose_brink_list[1], "RoseBrinkTableRb"],
+                  "U":[self.rose_brink_list[2], "RoseBrinkTableU"],
+                  "SA":[self.rose_brink_list[3], "RoseBrinkTableSa"],
+                  "SB":[self.rose_brink_list[4], "RoseBrinkTableSb"],
+                  "PA":[self.rose_brink_list[5], "RoseBrinkTablePa"],
+                  "PB":[self.rose_brink_list[6], "RoseBrinkTablePb"]}
+        formats = ["CSV","JSON"]
+
+        FILE_FORMAT = False
+        TABLE_ROSE_BRINK = False
+        PRINT_PROBLEM = False
+        
+        for f in formats:
+            if f == self.format:
+                FILE_FORMAT = True
+                for key, value in tables.items():
+                    if key == self.table:
+                        TABLE_ROSE_BRINK = True
+                        table_data = value[0]
+                        with open("%s.%s"%(value[1],f.lower()), mode="w") as outfile:
+                            if f.upper() == "JSON":
+                                json.dump(table_data, outfile, indent=4, ensure_ascii=False)
+                                logger.info("{0}.{1} printed to file in {2}".format(value[1],f.lower(),os.getcwd()))
+                                outfile.close()
+                            elif f.upper() == "CSV":
+                                table_df = pd.DataFrame(table_data)
+                                table_df.to_csv(outfile, index=False)
+                                logger.info("{0}.{1} printed to file in {2}".format(value[1],f.lower(),os.getcwd()))
+                                outfile.close()
+
+        if FILE_FORMAT == False:
+            PRINT_PROBLEM = True
+            logger.error("File format not handled: Specify 'CSV' or 'JSON'")
+            for key in tables.keys():
+                if key == self.table: TABLE_ROSE_BRINK = True
+        if TABLE_ROSE_BRINK == False:
+            PRINT_PROBLEM = True
+            logger.error("Table from Rose and Brink's paper not correctly specified: \n 'RA' - Table R (integral J); 'RB' - Table R (half-integral J); \n 'U' - Table U; \n 'SA' - Table S (integral J); 'SB' - Table S (half-integral J); \n 'PA' - Table p (integral J); 'PB' - Table p (half-integral J).")
+
+        if PRINT_PROBLEM == True:
+            logger.error("File not printed.")    
