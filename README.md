@@ -97,7 +97,7 @@ The table below summarizes the angular distribution functions given in the refer
 * *s*: Reaction channel spin.
 * *m*: Magnetic substate projection quantum number.
 
-Optional arguments are preceded by an asterisk (<sup>*</sup>).  Note that in the case of a mixed transition *L<sub>1</sub> &ne; L<sub>2</sub>*, while in the case of a pure stretched transition *L<sub>1</sub> = L<sub>2</sub>*.
+Optional arguments are preceded by an asterisk (<sup>*</sup>).  Note that in the case of a mixed transition *L<sub>1</sub> &ne; L<sub>2</sub>*, while in the case of a pure stretched transition *L<sub>1</sub> = L<sub>2</sub>*.  For a given transition the interfering multipole order is defined such that *L<sub>2</sub> = L<sub>1</sub> + 1*.
 
 | Returned quantity | Function [[1]](#1),[[2]](#2) | Method | Arguments |
 | --- | --- | --- | --- |
@@ -165,7 +165,7 @@ The following set of methods enable user retrieval and manipulation of the data 
 | Dumps specified Table from Yamazaki [[1]](#1) to file in current working directory in a CSV or JSON format | `yamazaki2file` | *table*, *format* |
 | $\texttt{DataFrame}$ representation of $R_{k}(L_{1}L_{2}J_{i}J_{f})$ table (integral $J$) [[2]](#2) | `get_tableRa` | *None* |
 | $\texttt{DataFrame}$ representation of  $R_{k}(L_{1}L_{2}J_{i}J_{f})$ table (half-integral $J$) [[2]](#2) | `get_tableRb` | *None* |
-| $\texttt{DataFrame}$ representation of $U_{k}(L_{1} J_{i} J_{f})$ and $U_{k}(L_{2} J_{i} J_{f})$ table ($L_{2} = L_{1} + 1$) [[2]](#2) | `get_tableU` | *None* |
+| $\texttt{DataFrame}$ representation of $U_{k}(L_{1} J_{i} J_{f})$ and $U_{k}(L_{2} J_{i} J_{f})$ table $(L_{2} = L_{1} + 1)$ [[2]](#2) | `get_tableU` | *None* |
 | $\texttt{DataFrame}$ representation of $S_{k}(l_{1}l_{2}J s)$ table (integral $J$) [[2]](#2) | `get_tableSa` | *None* |
 | $\texttt{DataFrame}$ representation of $S_{k}(l_{1}l_{2}J s)$ table (half-integral $J$) [[2]](#2) | `get_tableSb` | *None* |
 
