@@ -810,7 +810,7 @@ class RoseAndBrink(Yamazaki):
 
         return tablePa_df
 
-    def rose_brink2file(self,table,format):
+    def rosebrink2file(self,table,format):
         """Convert and dump data from tables in the Appendix of the Rose and 
         Brink review article [2] into a CSV or JSON formatted file.
 
@@ -836,10 +836,10 @@ class RoseAndBrink(Yamazaki):
 
         Examples:
             To print Table 1 to file in CSV format:
-            > rose_brink2file('RA','CSV') # dumps `RoseBrinkTableRa.csv` in pwd
+            > rosebrink2file('RA','CSV') # dumps `RoseBrinkTableRa.csv` in pwd
 
             To print Table 2(a) to file in JSON format:
-            > rose_brink2file('U','JSON') # dumps `RoseBrinkTableU.json` in pwd
+            > rosebrink2file('U','JSON') # dumps `RoseBrinkTableU.json` in pwd
         """
         self.table = table
         self.format = format
