@@ -1,6 +1,6 @@
 # PyGammaRAD
 
-The `PyGammaRAD` project (*Python project for Gamma-Ray Angular Distributions*) is a Python implementation of a library that can be used in the calculation of &gamma;-ray angular distribution coefficients in addition to a general purpose angular momentum calculator for the evaluation of quantities that underly the determination of said coefficients.  Stritcly speaking, it is only Clebsch-Gordan and Racah coefficients that are needed in the theoretical description of the angular distribution functions considered here.  However, given the close relationship these coefficients share with other angular momentum symbols typically used to describe coupling and recoupling schemes in quantum mechanical applications involving angular momenta, to make the package more complete and broaden its utility we also provide methods to readily evaluate the Wigner *3-j*, *6-j*, and *9-j* symbols.  Finally, it is also intended that this software package can serve as an API to the methods and nuclear data tables descibed in the *"Tables of Coefficients for Angular Distribution of Gamma Rays from Aligned Nuclei"* [[1]](#1).  The figure below shows an example of the overall angular distribution functions used to describe three different &gamma;-ray transitions in <sup>56</sup>Fe assuming complete nuclear alignment.
+The `PyGammaRAD` project (*Python project for Gamma-Ray Angular Distributions*) is a Python implementation of a library that can be used in the calculation of &gamma;-ray angular distribution coefficients in addition to a general purpose angular momentum calculator for the evaluation of quantities that underly the determination of said coefficients.  Stritcly speaking, it is only Clebsch-Gordan and Racah coefficients that are needed in the theoretical description of the angular distribution functions considered here.  However, given the close relationship these coefficients share with other angular momentum symbols typically used to describe coupling and recoupling schemes in quantum mechanical applications involving angular momenta, to make the package more complete and broaden its utility we also provide methods to readily evaluate the Wigner *3-j*, *6-j*, and *9-j* symbols.  Finally, it is also intended that this software package can serve as an API to the methods and nuclear data tables descibed in the *"Tables of Coefficients for Angular Distribution of Gamma Rays from Aligned Nuclei"* [[1]](#1) and those in the appendix of *"Angular Distributions of Gamma Rays in Terms of Phase-Defined Reduced Matrix Elements"* [[2]](#2).  The figure below shows an example of the overall angular distribution functions used to describe three different &gamma;-ray transitions in <sup>56</sup>Fe assuming complete nuclear alignment.
 
 ![W 56Fe](W_functions_56Fe.png?raw=True "Angular distribution functions for three different transitions in <sup>56</sup>Fe")
 
@@ -160,4 +160,11 @@ The following set of methods enable user retrieval and manipulation of the data 
 <a id="1">[1]</a>
 T. Yamazaki,
 *"Tables of Coefficients for Angular Distribution of Gamma Rays from Aligned Nuclei"*,
-Nucl. Data, Sect. A, Vol. **3**, Num. 1 (1967).
+Nucl. Data, Sect. A, Vol. **3**, Num. 1 (1967);
+https://doi.org/10.1016/S0550-306X(67)80002-8.
+
+<a id="2">[2]</a>
+H.J. Rose, D.M. Brink,
+*"Angular Distributions of Gamma Rays in Terms of Phase-Defined Reduced Matrix Elements"*,
+Rev. Mod. Phys., Vol. **39**, Num. 2, p. 306 (1967);
+https://doi.org/10.1103/RevModPhys.39.306.
