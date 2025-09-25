@@ -151,7 +151,7 @@ The following set of methods enable user retrieval and manipulation of the data 
 * `get_table1` : Method may be called (i) without any arguments to return both integral-*J* and half-integral *J* results, (ii) by passing `0` to return integral-*J* results only, or (iii) by passing `0.5` to return half-integral *J* results only.
 * `get_row_table2` : Method only takes values of `2` or `4` as integer arguments for *k*; acceptable key-word arguments are `coeff='F'` cf. Equation (4) [[1]](#1), `coeff='BF'` cf. Equation (8) [[1]](#1), or `coeff='U'` cf. Equation (14) [[1]](#1), depending on the coefficient or set of coefficients required from Table 2(a) or Table 2(b).  See docstring for different implementations of this method.
 * `get_B` : Method may take integer values of `2`, `4`, or `6` as arguments for *k*; these results in Table 1 should agree with Equation (6) [[1]](#1).
-* `table2file` : <*table*> should be given as a string argument and entered as `'T1'` for Table 1, `'T2A'` for Table 2(a), or `'T2B'` for Table 2(b) [[1]](#1); <*format*> should also be given as a string argument and entered as `'CSV'` or `'JSON'`.
+* `yamazaki2file` : <*table*> should be given as a string argument and entered as `'T1'` for Table 1, `'T2A'` for Table 2(a), or `'T2B'` for Table 2(b) [[1]](#1); <*format*> should also be given as a string argument and entered as `'CSV'` or `'JSON'`.
 
 
 | Returned quantity | Method | Arguments |
@@ -162,7 +162,12 @@ The following set of methods enable user retrieval and manipulation of the data 
 | $\texttt{List}$ corresponding to data in specified row of Table 1 [[1]](#1) | `get_row_table1` | *J* |
 | $\texttt{List}$ or $\texttt{float}$ corresponding to data in specified row of Table 2(a) or 2(b) [[1]](#1) depending on input arguments | `get_row_table2` | *J<sub>i</sub>*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, <sup>*</sup>*k*, *<sup>**</sup>coeff* |
 | $\texttt{Float}$ corresponding to *B<sub>k</sub>(J)* listed in Table 1 [[1]](#1) | `get_B` | *k*, *J* |
-| Dumps specified Table to file in current working directory in a CSV or JSON format | `table2file` | *table*, *format* |
+| Dumps specified Table from Yamazaki [[1]](#1) to file in current working directory in a CSV or JSON format | `yamazaki2file` | *table*, *format* |
+| $\texttt{DataFrame}$ representation of $R_{k}(L_{1}L_{2}J_{i}J_{f})$ table (integral $J$) [[2]](#2) | `get_tableRa` | *None* |
+| $\texttt{DataFrame}$ representation of  $R_{k}(L_{1}L_{2}J_{i}J_{f})$ table (half-integral $J$) [[2]](#2) | `get_tableRb` | *None* |
+| $\texttt{DataFrame}$ representation of $U_{k}(L_{1} J_{i} J_{f})$ and $U_{k}(L_{2} J_{i} J_{f})$ table ($L_{2} = L_{1} + 1$) [[2]](#2) | `get_tableU` | *None* |
+| $\texttt{DataFrame}$ representation of $S_{k}(l_{1}l_{2}J s)$ table (integral $J$) [[2]](#2) | `get_tableSa` | *None* |
+| $\texttt{DataFrame}$ representation of $S_{k}(l_{1}l_{2}J s)$ table (half-integral $J$) [[2]](#2) | `get_tableSb` | *None* |
 
 
 ## References
