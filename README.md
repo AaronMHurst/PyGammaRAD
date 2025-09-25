@@ -152,6 +152,7 @@ The following set of methods enable user retrieval and manipulation of the data 
 * `get_row_table2` : Method only takes values of `2` or `4` as integer arguments for *k*; acceptable key-word arguments are `coeff='F'` cf. Equation (4) [[1]](#1), `coeff='BF'` cf. Equation (8) [[1]](#1), or `coeff='U'` cf. Equation (14) [[1]](#1), depending on the coefficient or set of coefficients required from Table 2(a) or Table 2(b).  See docstring for different implementations of this method.
 * `get_B` : Method may take integer values of `2`, `4`, or `6` as arguments for *k*; these results in Table 1 should agree with Equation (6) [[1]](#1).
 * `yamazaki2file` : <*table*> should be given as a string argument and entered as `'T1'` for Table 1, `'T2A'` for Table 2(a), or `'T2B'` for Table 2(b) [[1]](#1); <*format*> should also be given as a string argument and entered as `'CSV'` or `'JSON'`.
+* `rosebrink2file` : <*table*> should be given as a string argument as explained in the corresponding docstring by calling `help` on the method; <*format*> should also be given as a string argument and entered as `'CSV'` or `'JSON'`.
 
 
 | Returned quantity | Method | Arguments |
@@ -168,6 +169,9 @@ The following set of methods enable user retrieval and manipulation of the data 
 | $\texttt{DataFrame}$ representation of $U_{k}(L_{1} J_{i} J_{f})$ and $U_{k}(L_{2} J_{i} J_{f})$ table $(L_{2} = L_{1} + 1)$ [[2]](#2) | `get_tableU` | *None* |
 | $\texttt{DataFrame}$ representation of $S_{k}(l_{1}l_{2}J s)$ table (integral $J$) [[2]](#2) | `get_tableSa` | *None* |
 | $\texttt{DataFrame}$ representation of $S_{k}(l_{1}l_{2}J s)$ table (half-integral $J$) [[2]](#2) | `get_tableSb` | *None* |
+| $\texttt{DataFrame}$ representation of $\rho_{k}(J m)$ table (integral $J$) [[2]](#2) | `get_tablePa` | *None* |
+| $\texttt{DataFrame}$ representation of $\rho_{k}(J m)$ table (half-integral $J$) [[2]](#2) | `get_tablePb` | *None* |
+| Dumps specified Table from Rose and Brink [[2]](#2) to file in current working directory in a CSV or JSON format | `rosebrink2file` | *table*, *format* |
 
 
 ## References
