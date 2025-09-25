@@ -54,6 +54,8 @@ To help illustrate the workflow and utility of the software, inclduing verificat
 
 * `yamazaki_tables.ipynb`: This `Notebook` serves as a check of the original angular distribution tensors and coefficients published and tabulated by Yamazaki [[1]](#1).
 
+* `rose_brink_tables.ipynb`: This `Notebook` serves as a check of the original angular distribution tensors and coefficients published and tabulated by Rose and Brink [[2]](#2).
+
 
 ## Docstrings
 
@@ -62,6 +64,7 @@ All `PyGammaRAD` classes and functions have supporting docstrings.  Please refer
 * A short explanation of the function.
 * A list and description of arguments that need to be passed to the function.
 * The return value of the function.
+* Exceptions that may be raised.
 * An example(s) invoking use of the function.
 
 To retrieve a list of all available methods simply execute the following command in a Python interpreter:
@@ -80,7 +83,7 @@ The `Jupyter Notebooks` provided also illustrate docstring retrieval for certain
 
 ## Summary of angular distribution functions and methods
 
-The table below summarizes the angular distribution functions given in the reference article by Yamazaki [[1]](#1) and their corresponding callable methods available to the `PyGammaRAD` software package.  The relevant arguments, listed in order where needed, are defined as:
+The table below summarizes the angular distribution functions given in the reference articles by Yamazaki [[1]](#1) and Rose and Brink [[2]](#2) and their corresponding callable methods available within the `PyGammaRAD` software package.  The relevant arguments, listed in order where needed, are defined as:
 
 * *k* : Order of the coefficient or polynomial degree.
 * *J<sub>i</sub>* : Initial nuclear level of the associated &gamma;-ray transition.
@@ -92,15 +95,16 @@ The table below summarizes the angular distribution functions given in the refer
 
 Note that in the case of a mixed transition *L<sub>1</sub> &ne; L<sub>2</sub>*, while in the case of a pure stretched transition *L<sub>1</sub> = L<sub>2</sub>*.
 
-| Returned quantity | Function [[1]](#1) | Method | Arguments |
+| Returned quantity | Function [[1]](#1),[[2]](#2) | Method | Arguments |
 | --- | --- | --- | --- |
-| $W(\theta)$ | Equation (2) | `dist_W` | *A<sub>k</sub>*, <sup>*</sup> *[&theta;]* |
-| $F_{k}(J_{f}L_{1}L_{2}J_{i})$ | Equation (4) | `calc_F` | *k*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>* |
-| $B_{k}(J)$  | Equation (6) | `calc_B` | *k*, *J* |
-| $A_{k}^{max}(J_{i}L_{1}L_{2}J_{f})$  | Equation (7) | `A_max` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>f</sub>*, &delta;<sub>&gamma;</sub> |
-| $B_{k}(J_{i})F_{k}(J_{f}L_{1}L_{2}J_{i})$ | Equation (8) | `calc_BF` | *k*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>* |
-| $U_{k}(J_{i}L_{1}L_{2}J_{f})$ | Equation (13) | `U_coeff` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>f</sub>*, &delta;<sub>&gamma;</sub> |
-| $u_{k}(J_{i}L_{1}J_{f})$  | Equation (14) | `calc_u` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *J<sub>f</sub>* |
+| $W(\theta)$ | Equation (2) [[1]](#1) | `dist_W` | *A<sub>k</sub>*, <sup>*</sup> *[&theta;]* |
+| $F_{k}(J_{f}L_{1}L_{2}J_{i})$ | Equation (4) [[1]](#1) | `calc_F` | *k*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>* |
+| $B_{k}(J)$  | Equation (6) [[1]](#1) | `calc_B` | *k*, *J* |
+| $A_{k}^{max}(J_{i}L_{1}L_{2}J_{f})$  | Equation (7) [[1]](#1) | `A_max` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>f</sub>*, &delta;<sub>&gamma;</sub> |
+| $B_{k}(J_{i})F_{k}(J_{f}L_{1}L_{2}J_{i})$ | Equation (8) [[1]](#1) | `calc_BF` | *k*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>* |
+| $U_{k}(J_{i}L_{1}L_{2}J_{f})$ | Equation (13) [[1]](#1) | `U_coeff` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>f</sub>*, &delta;<sub>&gamma;</sub> |
+| $u_{k}(J_{i}L_{1}J_{f})$  | Equation (14) [[1]](#1); Equation (3.45) [[2]](#2) | `calc_u` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *J<sub>f</sub>* |
+| $R_{k}(L_{1}L_{2}J_{i}J_{f})$ | Equations (3.36) & (3.37) [[2]](#2) | `calc_R` | *k*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>*, *J<sub>f</sub>* |
 
 *[&theta;]*: A user defined range may be passed to the $W(\theta)$ function as an optional argument; by default a range of (0<sup>o</sup>,180<sup>o</sup>) is assumed.  Although it is only the non-even $P_{0}(\cos\theta)$, $P_{2}(\cos\theta)$, and $P_{4}(\cos\theta)$ Legendre polynomials that are needed to describe the angular distribution function, to enhance the utility of the `PyGammaRAD` methods the first 11 polynomials of the Legendre series are available in the library.  These methods may be called as `lpoly<k>` for the corresponding Legendre polynomial $P_{k}$, where $k$ ranges in value from $k=0$ to $k=10$.  Again, by default an angular range of (0<sup>o</sup>,180<sup>o</sup>) is adopted for the Legendre polynomial methods although a user-defined range can also be provided as an optional argument to override the default range or its granularity.
 
