@@ -95,8 +95,9 @@ The table below summarizes the angular distribution functions given in the refer
 * *l1*: Orbital angular momentum of first partial wave.
 * *l1*: Orbital angular momentum of second (interfering) partial wave.
 * *s*: Reaction channel spin.
+* *m*: Magnetic substate projection quantum number.
 
-Note that in the case of a mixed transition *L<sub>1</sub> &ne; L<sub>2</sub>*, while in the case of a pure stretched transition *L<sub>1</sub> = L<sub>2</sub>*.
+Optional arguments are preceded by an asterisk (<sup>*</sup>).  Note that in the case of a mixed transition *L<sub>1</sub> &ne; L<sub>2</sub>*, while in the case of a pure stretched transition *L<sub>1</sub> = L<sub>2</sub>*.
 
 | Returned quantity | Function [[1]](#1),[[2]](#2) | Method | Arguments |
 | --- | --- | --- | --- |
@@ -109,8 +110,7 @@ Note that in the case of a mixed transition *L<sub>1</sub> &ne; L<sub>2</sub>*, 
 | $u_{k}(J_{i}L_{1}J_{f})$  | Equation (14) [[1]](#1); Equation (3.45) [[2]](#2) | `calc_u` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *J<sub>f</sub>* |
 | $R_{k}(L_{1}L_{2}J_{i}J_{f})$ | Equations (3.36) & (3.37) [[2]](#2) | `calc_R` | *k*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>*, *J<sub>f</sub>* |
 | $S_{k}(l_{1} l_{2} J s)$ | Equation (3.59) [[2]](#2) | `calc_S` | *l<sub>1</sub>*, *l<sub>2</sub>*, *J*, *s*, <sup>*</sup> *k* |
-
-
+| $\rho_{k}(J m)$ | Equation (3.63) [[2]](#2) | `calc_p` | *k*, *J*, <sup>*</sup> *m* |
 
 *[&theta;]*: A user defined range may be passed to the $W(\theta)$ function as an optional argument; by default a range of (0<sup>o</sup>,180<sup>o</sup>) is assumed.  Although it is only the non-even $P_{0}(\cos\theta)$, $P_{2}(\cos\theta)$, and $P_{4}(\cos\theta)$ Legendre polynomials that are needed to describe the angular distribution function, to enhance the utility of the `PyGammaRAD` methods the first 11 polynomials of the Legendre series are available in the library.  These methods may be called as `lpoly<k>` for the corresponding Legendre polynomial $P_{k}$, where $k$ ranges in value from $k=0$ to $k=10$.  Again, by default an angular range of (0<sup>o</sup>,180<sup>o</sup>) is adopted for the Legendre polynomial methods although a user-defined range can also be provided as an optional argument to override the default range or its granularity.
 
