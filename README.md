@@ -16,7 +16,7 @@ After cloning the repository, this project can then be built and installed by ru
 
 ```Bash
 $ git clone https://github.com/AaronMHurst/PyGammaRAD.git
-$ cd pace_ensdf
+$ cd PyGammaRAD
 $ sh installation.sh
 ```
 
