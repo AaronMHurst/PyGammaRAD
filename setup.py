@@ -18,7 +18,7 @@ setuptools.setup(
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Science/Research',
-        'License :: OSI Approved :: BSD License',
+        'License :: OSI Approved :: MIT License',
         'Operating System :: MacOS',
         'Operating System :: Unix',
         'Programming Language :: Python',
