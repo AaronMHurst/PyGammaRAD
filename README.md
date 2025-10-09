@@ -93,7 +93,7 @@ The table below summarizes the angular distribution functions given in the refer
 * &delta;<sub>&gamma;</sub> : &gamma;-ray multipole mixing ratio.
 * *A<sub>k</sub>* : Anisotropy coefficient of order *k*.
 * *l1*: Orbital angular momentum of first partial wave.
-* *l1*: Orbital angular momentum of second (interfering) partial wave.
+* *l2*: Orbital angular momentum of second (interfering) partial wave.
 * *s*: Reaction channel spin.
 * *m*: Magnetic substate projection quantum number.
 
