@@ -672,7 +672,141 @@ class AngularDistributions(AngularMomentumCalculations):
             else:
                 logger.warning("k must be integral and even: k>=0")
                 return
-            
+
+
+    def partial_P(self, J, m, sJ):
+        """Calculate population parameter according to function given by 
+        Eq. (11) in Yamazaki's paper [1]., or Eq. (6) in Der Mateosian's 
+        paper [2].  Note that there is a typo in the numerator of Eq. (6) [2]: 
+        the "2 * alpha**2" term should in fact be "2 * sigma**2" the same as in 
+        the nominator.
+
+        Notes:
+            [1]: T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
+            [2]: E. Der Mateosian and A.W. Sunyar, At. Data and Nucl. Data 
+                 Tables 13, 391-406 (1974).
+
+        Arguments:
+            J: A number object (int or float) representing the spin.
+            m: Magnetic substate quantum number z-axis projection.
+            sJ: The Gaussian width parameter - "sigma/J".
+
+
+        Returns:
+            A float object corresponding to the population parameter for a 
+            defined width and magnetic substate projection of a given spin.
+
+        Raises:
+
+        Examples:
+            To calculate P(J=10, m=3, sJ=0.3):
+            > partial_P(10,3,0.3)
+        """
+        self.J = J
+        self.m = m
+        self.sJ = sJ
+
+        m_IS_VALID = False
+
+        try:
+            assert abs(self.m) <= self.J
+            m_IS_VALID = True
+        except AssertionError:
+            logger.exception("Absolute magnetic substate quantum number projection can not be larger than the spin")
+            return
+
+        if m_IS_VALID == True:
+            sigma = self.sJ* self.J
+            P_numerator = np.exp( (-self.m**2)/(2*sigma**2) )
+            P_denominator = 0
+            for m_i in range(-int(2*J), int(2*J)+2, 2):
+                m_i = m_i/2
+                P_denominator += np.exp( (-m_i**2)/(2*sigma**2) )
+            P = P_numerator/P_denominator
+            return P
+        else:
+            logger.error("Absolute magnetic substate quantum number projection can not be larger than the spin")
+            return
+
+    def partial_p(self, k, J, sJ):
+        """Calculate degree of alignment of a state given by the statistical 
+        tensor according to function expressed by Eq. (1) in Yamazaki's 
+        paper [1]., or Eq. (4) in Der Mateosian's paper [2].  
+
+        Notes:
+            [1]: T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
+            [2]: E. Der Mateosian and A.W. Sunyar, At. Data and Nucl. Data 
+                 Tables 13, 391-406 (1974).
+
+        Arguments:
+            k: An integer object representing the order.
+            J: A number object (int or float) representing the spin.
+            sJ: The Gaussian width parameter - "sigma/J".
+
+        Returns:
+            A float object corresponding to statistical tensor for a defined 
+            order and width of a given spin.
+
+        Raises:
+
+        Examples:
+            To calculate p(k=2, J=10, sJ=0.3):
+            > partial_p(2,10,0.3)
+        """
+        self.k = k
+        self.J = J
+        self.sJ = sJ
+
+        AM = AngularDistributions()
+        
+        spin_factor = np.sqrt(2*J+1)
+        cg_sum = 0
+        for m in range(-int(2*J), int(2*J)+2, 2):
+            m = m/2
+            parity_factor = (-1)**(self.J - m)
+            CG = ClebschGordan(self.J, m, self.J, -m, self.k, 0)
+            cgc = CG.cg_calc()
+            P_m = AM.partial_P(self.J, m, self.sJ)
+
+            cg_sum += parity_factor * cgc * P_m
+        return spin_factor * cg_sum
+
+    def partial_a(self, k, J, sJ):
+        """Calculate the alpha coefficient representing the ratio partial 
+        alignment to complete alignment given by Eq. (10) in Yamazaki's 
+        paper [1]., and also expressed in Der Mateosian's paper [2].  
+
+        Notes:
+            [1]: T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
+            [2]: E. Der Mateosian and A.W. Sunyar, At. Data and Nucl. Data 
+                 Tables 13, 391-406 (1974).
+
+        Arguments:
+            k: An integer object representing the order.
+            J: A number object (int or float) representing the spin.
+            sJ: The Gaussian width parameter - "sigma/J".
+
+        Returns:
+            A float object corresponding to partial alignment coefficient for a 
+            defined order and width of a given spin.
+
+        Raises:
+
+        Examples:
+            To calculate p(k=2, J=10, sJ=0.3):
+            > partial_p(2,10,0.3)
+        """
+        self.k = k
+        self.J = J
+        self.sJ = sJ
+
+        AM = AngularDistributions()
+
+        p = AM.partial_p(self.k, self.J, self.sJ)
+        B = AM.calc_B(self.k, self.J)
+        alpha = p/B
+        return alpha
+        
     
 class Legendre(AngularDistributions):
     __doc__="""Legendre polynomials: Pk as a function of cos(theta)."""
