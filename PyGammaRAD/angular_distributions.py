@@ -674,6 +674,13 @@ class AngularDistributions(AngularMomentumCalculations):
                 return
 
 
+class PartialAlignment(AngularDistributions):
+    __doc__="""Class to handle angular distributions in partially-aligned 
+    nuclei."""
+
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+    
     def partial_P(self, J, m, sJ):
         """Calculate population parameter according to function given by 
         Eq. (11) in Yamazaki's paper [1]., or Eq. (6) in Der Mateosian's 
@@ -689,14 +696,17 @@ class AngularDistributions(AngularMomentumCalculations):
         Arguments:
             J: A number object (int or float) representing the spin.
             m: Magnetic substate quantum number z-axis projection.
-            sJ: The Gaussian width parameter - "sigma/J".
-
+            sJ: A number object (int or float) corresponding to the Gaussian 
+                width parameter - "sigma/J".
 
         Returns:
             A float object corresponding to the population parameter for a 
             defined width and magnetic substate projection of a given spin.
 
         Raises:
+            A TypeError exception gets raised for arguments passed as the wrong 
+            type.  A ValueError exception gets raised for wrong-valued 
+            arguments.
 
         Examples:
             To calculate P(J=10, m=3, sJ=0.3):
@@ -706,6 +716,39 @@ class AngularDistributions(AngularMomentumCalculations):
         self.m = m
         self.sJ = sJ
 
+        # Check input arguments
+        if 2*self.J % 2 == 0 or 2*self.J % 2 == 1:
+            pass
+        else:
+            logger.error(f"Only integral or half-integral spins are allowed;\nJ={self.J} is not an acceptable argument")
+            raise ValueError
+
+        if 2*self.m % 2 == 0 or 2*self.m % 2 == 1:
+            pass
+        else:
+            logger.error(f"Only integral or half-integral magnetic-substate spin projections are allowed;\nm={self.m} is not an acceptable argument")
+            raise ValueError
+
+        try:
+            assert type(self.sJ) is float
+            if self.sJ > 0:
+                pass
+            else:
+                logger.error(f"The spin-width parameter SIGMA/J must be given as a postive value;\n{self.sJ} is not an acceptable argument")
+                raise ValueError
+        except AssertionError:
+            try:
+                assert type(self.sJ) is int
+                if self.sJ > 0:
+                    pass
+                else:
+                    logger.error(f"The spin-width parameter SIGMA/J must be given as a postive value;\n{self.sJ} is not an acceptable argument")
+                    raise ValueError
+            except AssertionError:
+                logger.exception(f"The spin-width parameter SIGMA/J should be given as a float or integer;\n{type(self.sJ)} is not an acceptable type argument")
+                raise TypeError
+
+        
         m_IS_VALID = False
 
         try:
@@ -741,13 +784,17 @@ class AngularDistributions(AngularMomentumCalculations):
         Arguments:
             k: An integer object representing the order.
             J: A number object (int or float) representing the spin.
-            sJ: The Gaussian width parameter - "sigma/J".
+            sJ: A number object (int or float) corresponding to the Gaussian 
+                width parameter - "sigma/J".
 
         Returns:
             A float object corresponding to statistical tensor for a defined 
             order and width of a given spin.
 
         Raises:
+            A TypeError exception gets raised for arguments passed as the wrong 
+            type.  A ValueError exception gets raised for wrong-valued 
+            arguments.
 
         Examples:
             To calculate p(k=2, J=10, sJ=0.3):
@@ -757,7 +804,42 @@ class AngularDistributions(AngularMomentumCalculations):
         self.J = J
         self.sJ = sJ
 
-        AM = AngularDistributions()
+        # Check input arguments
+        if type(self.k) is not int:
+            logger.error(f"The anisotropy-order k should be given as an integer;\n{type(self.sJ)} is not an acceptable type argument")
+            raise TypeError
+        if self.k % 2 == 0:
+            pass
+        elif self.k % 2 == 1:
+            logger.error(f"Only even-k values are allowed;\nOdd-value k={self.k} is not an acceptable argument")
+            raise ValueError
+            
+        if 2*self.J % 2 == 0 or 2*self.J % 2 == 1:
+            pass
+        else:
+            logger.error(f"Only integral or half-integral spins are allowed;\nJ={self.J} is not an acceptable argument")
+            raise ValueError
+
+        try:
+            assert type(self.sJ) is float
+            if self.sJ > 0:
+                pass
+            else:
+                logger.error(f"The spin-width parameter SIGMA/J must be given as a postive value;\n{self.sJ} is not an acceptable argument")
+                raise ValueError
+        except AssertionError:
+            try:
+                assert type(self.sJ) is int
+                if self.sJ > 0:
+                    pass
+                else:
+                    logger.error(f"The spin-width parameter SIGMA/J must be given as a postive value;\n{self.sJ} is not an acceptable argument")
+                    raise ValueError
+            except AssertionError:
+                logger.exception(f"The spin-width parameter SIGMA/J should be given as a float or integer;\n{type(self.sJ)} is not an acceptable type argument")
+                raise TypeError
+
+        PA = PartialAlignment()
         
         spin_factor = np.sqrt(2*J+1)
         cg_sum = 0
@@ -766,7 +848,7 @@ class AngularDistributions(AngularMomentumCalculations):
             parity_factor = (-1)**(self.J - m)
             CG = ClebschGordan(self.J, m, self.J, -m, self.k, 0)
             cgc = CG.cg_calc()
-            P_m = AM.partial_P(self.J, m, self.sJ)
+            P_m = PA.partial_P(self.J, m, self.sJ)
 
             cg_sum += parity_factor * cgc * P_m
         return spin_factor * cg_sum
@@ -784,32 +866,197 @@ class AngularDistributions(AngularMomentumCalculations):
         Arguments:
             k: An integer object representing the order.
             J: A number object (int or float) representing the spin.
-            sJ: The Gaussian width parameter - "sigma/J".
+            sJ: A number object (int or float) corresponding to the Gaussian 
+                width parameter - "sigma/J".
 
         Returns:
             A float object corresponding to partial alignment coefficient for a 
             defined order and width of a given spin.
 
         Raises:
+            A TypeError exception gets raised for arguments passed as the wrong 
+            type.  A ValueError exception gets raised for wrong-valued 
+            arguments.
 
         Examples:
             To calculate p(k=2, J=10, sJ=0.3):
-            > partial_p(2,10,0.3)
+            > partial_a(2,10,0.3)
         """
         self.k = k
         self.J = J
         self.sJ = sJ
 
-        AM = AngularDistributions()
+        # Check input arguments
+        if type(self.k) is not int:
+            logger.error(f"The anisotropy-order k should be given as an integer;\n{type(self.sJ)} is not an acceptable type argument")
+            raise TypeError
+        if self.k % 2 == 0:
+            pass
+        elif self.k % 2 == 1:
+            logger.error(f"Only even-k values are allowed;\nOdd-value k={self.k} is not an acceptable argument")
+            raise ValueError
+            
+        if 2*self.J % 2 == 0 or 2*self.J % 2 == 1:
+            pass
+        else:
+            logger.error(f"Only integral or half-integral spins are allowed;\nJ={self.J} is not an acceptable argument")
+            raise ValueError
 
-        p = AM.partial_p(self.k, self.J, self.sJ)
-        B = AM.calc_B(self.k, self.J)
+        try:
+            assert type(self.sJ) is float
+            if self.sJ > 0:
+                pass
+            else:
+                logger.error(f"The spin-width parameter SIGMA/J must be given as a postive value;\n{self.sJ} is not an acceptable argument")
+                raise ValueError
+        except AssertionError:
+            try:
+                assert type(self.sJ) is int
+                if self.sJ > 0:
+                    pass
+                else:
+                    logger.error(f"The spin-width parameter SIGMA/J must be given as a postive value;\n{self.sJ} is not an acceptable argument")
+                    raise ValueError
+            except AssertionError:
+                logger.exception(f"The spin-width parameter SIGMA/J should be given as a float or integer;\n{type(self.sJ)} is not an acceptable type argument")
+                raise TypeError
+
+        PA = PartialAlignment()
+
+        p = PA.partial_p(self.k, self.J, self.sJ)
+        B = PA.calc_B(self.k, self.J)
         alpha = p/B
         return alpha
+
+    def get_partial_table(self,J,sJ=2.0,alphas=[2,4],saveFile=False):
+        """Table of partial alignment anisotropy coefficients.  Default 
+        behaviour of method can be compared to data tables presented in
+        Der Mateosian's paper [2] for integral spins 1 <= J <= 26 and 
+        half-integral spins 3/2 <= J <= 51/2.  
+
+        Notes:
+            [2]: E. Der Mateosian and A.W. Sunyar, At. Data and Nucl. Data 
+                 Tables 13, 391-406 (1974).
         
+        Arguments:
+            J: A number object (int or float) representing the spin.
+            sJ: The maximum limit of the Gaussian width parameter - "sigma/J" 
+                to be given as an int or float object.  By default this limit 
+                is set to a value of 2.0.
+            alphas: A list object corresponding to the even-k orders of the 
+                    required partial alignment anisotropy coefficients.  By 
+                    default orders corresponding to k=2,4 are given.  Odd-k and 
+                    non-integer values are not acceptable list objects.
+            saveFile: Boolean object: By default its value is set to `False` 
+                      meaning that the table will not be saved to file.  
+                      Setting this value to `True` will save a copy of the 
+                      table in both CSV and JSON format to file in the current 
+                      working directory.
+
+        Returns:
+            A DataFrame object corresponding to the required set of partial 
+            alignment coefficients for a defined list of even-k orders at 
+            intervals of sigma/J=0.1 up to a specified maximum width for a 
+            given spin.
+
+        Raises:
+            A TypeError exception gets raised for arguments passed as the wrong 
+            type.  A ValueError exception gets raised for wrong-valued 
+            arguments.
+
+        Examples:
+            To get the k=2,4 partial alignment coefficients for J=10 over a 
+            range of sigma/J values from 0.1 to 2.0:
+            > get_partial_table(10)
+
+            To get the k=0,2,4,6,8,10 partial alignment coefficients for J=10 
+            over a range of sigma/J values from 0.1 to 5.0:
+            > get_partial_table(10,5,[0,2,4,6,8,10])
+
+            To save the above result to CSV and JSON formatted files:
+            > get_partial_table(10,5,[0,2,4,6,8,10],True)
+        """
+        self.J = J
+        self.sJ = sJ
+        self.alphas = alphas
+        self.saveFile = saveFile
+
+        # Check input arguments
+        if 2*self.J % 2 == 0 or 2*self.J % 2 == 1:
+            pass
+        else:
+            logger.error(f"Only integral or half-integral spins are allowed;\nJ={self.J} is not an acceptable argument")
+            raise ValueError
+
+        if self.sJ < 0.1:
+            logger.warning(f"The spin-width parameter should be SIGMA/J>0.1;\nSIGMA/J={self.sJ} returns an empty DataFrame")
+        else:
+            pass
+
+        if type(self.alphas) is not list:
+            logger.error(f"The required anisotropy orders must be passed as a list:\n[2] for k=2, [2,4] for k=2,4 etc.")
+            raise TypeError
+        else:
+            for a in alphas:
+                if type(a) is not int:
+                    logger.error(f"Only even-k values are allowed;\n{type(a)} is not an acceptable type for a list element;\nk={a} is not an acceptable list element")
+                    raise TypeError
+                else:
+                    if a % 2 == 0:
+                        pass
+                    elif a % 2 == 1:
+                        logger.error(f"Only even-k values are allowed;\nOdd-value k={a} is not an acceptable list element")
+                        raise ValueError
+
+        if type(self.saveFile) is not bool:
+            logger.error(f"The saveFile argument must be given as a boolean type;\n{type(self.saveFile)} is not an acceptable type")
+            raise TypeError
+        else:
+            pass
+
+        PA = PartialAlignment()
+        alphas_list = []
+        with LogLevelContext(logging.CRITICAL):
+            # Log-level context set to filter console output due to 
+            # triangle rule violations for certain J with respect to k values.
+            for sigma_J in range(1,int(10*self.sJ)+1):
+                sigma_J = sigma_J/10.0
+                alphas_dict = {'J':self.J, 'SIGMA/J':sigma_J}
+                for k in self.alphas:
+                    try:
+                        alpha = PA.partial_a(k,self.J,sigma_J)
+                    except TypeError:
+                        alpha = 0.0
+                    alphas_dict.update({'ALPHA(%d)'%k: '%.5e'%alpha})
+                alphas_list.append(alphas_dict)
+
+        df = pd.DataFrame(alphas_list)
+        pd.set_option('display.max_columns', None)
+        pd.set_option('display.max_row', None)
+
+        if self.saveFile == True:
+            ext = None
+            if '.' in str(self.J):
+                J_ext = int(2*self.J)
+                ext = str(J_ext)+'_2_halfint'
+            else:
+                J_ext = int(self.J)
+                ext = str(J_ext)+'_integral'
+            
+            df.to_csv('partial_alignment_J_{0}.csv'.format(ext), index=False)
+            
+            # For JSON output options: orient =
+            # 'split', 'columns', 'values', 'index'
+            df.to_json('partial_alignment_J_{0}.json'.format(ext), orient='records', indent=4, force_ascii=False)
+        else:
+            pass
+        
+        return df
+
     
-class Legendre(AngularDistributions):
-    __doc__="""Legendre polynomials: Pk as a function of cos(theta)."""
+class Legendre(PartialAlignment):
+    __doc__="""Class to handle Legendre polynomials: Pk as a function of 
+    cos(theta)."""
 
     def __init__(self):
         self.theta = np.linspace(0.0,180.0,1800)

@@ -15,5 +15,6 @@ class AngularMomentum(Legendre):
         RoseAndBrink.__init__(self)
         AngularMomentumCalculations.__init__(self)
         AngularDistributions.__init__(self)
+        PartialAlignment.__init__(self)
         Legendre.__init__(self)
 

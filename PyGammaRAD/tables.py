@@ -1,4 +1,5 @@
 import numpy as np
+np.set_printoptions(legacy='1.25')
 import pandas as pd
 import json
 import re
