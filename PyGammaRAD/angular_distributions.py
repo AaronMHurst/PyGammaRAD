@@ -1043,11 +1043,14 @@ class PartialAlignment(AngularDistributions):
                 J_ext = int(self.J)
                 ext = str(J_ext)+'_integral'
             
-            df.to_csv('partial_alignment_J_{0}.csv'.format(ext), index=False)
+            df.to_csv('table_partial_alignment_J_{0}.csv'.format(ext), index=False)
             
             # For JSON output options: orient =
             # 'split', 'columns', 'values', 'index'
-            df.to_json('partial_alignment_J_{0}.json'.format(ext), orient='records', indent=4, force_ascii=False)
+            df.to_json('table_partial_alignment_J_{0}.json'.format(ext), orient='records', indent=4, force_ascii=False)
+
+            logger.info("table_partial_alignment_J_{0}.csv and table_partial_alignment_J_{0}.json written to file in {1}".format(ext,os.getcwd()))
+            return
         else:
             pass
         
