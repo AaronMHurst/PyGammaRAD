@@ -748,7 +748,6 @@ class PartialAlignment(AngularDistributions):
                 logger.exception(f"The spin-width parameter SIGMA/J should be given as a float or integer;\n{type(self.sJ)} is not an acceptable type argument")
                 raise TypeError
 
-        
         m_IS_VALID = False
 
         try:
@@ -1055,6 +1054,96 @@ class PartialAlignment(AngularDistributions):
             pass
         
         return df
+
+    def pop_paras(self, J, sJ_range=[x/10 for x in range(1,21)]):
+        """Calculate complete set of population parameters for a given spin 
+        according to function given by Eq. (11) in Yamazaki's paper [1]., or 
+        Eq. (6) in Der Mateosian's paper [2].  Note that there is a typo in the
+        numerator of Eq. (6) [2]: the "2 * alpha**2" term should in fact be 
+        "2 * sigma**2" the same as in the nominator.
+
+        Notes:
+            [1]: T. Yamazaki Nucl. Data Sect. A, Vol. 3, Num. 1 (1967).
+            [2]: E. Der Mateosian and A.W. Sunyar, At. Data and Nucl. Data 
+                 Tables 13, 391-406 (1974).
+
+        Arguments:
+            J: A number object (int or float) representing the spin.
+            sJ: A list object containing a series of SIGMA/J values.  By default
+                the range of elements is set from 0.1 to 2.0 inclusive.
+
+        Returns:
+            A tuple object: (i) The first tuple element corresponds to a list 
+            object containing integral or half-integral magnetic susbstates 
+            associated with the spin argument.  (ii)  The second tuple element 
+            is a dictionary object with keys representing the SIGMA/J Gaussian 
+            spin-width parameter and values that are lists of the 
+            Gaussian-distributed population parameters associated with their 
+            corresponding individual magnetic substates.
+
+        Raises:
+            A TypeError exception gets raised for arguments passed as the wrong 
+            type.  A ValueError exception gets raised for wrong-valued 
+            arguments.
+
+        Examples:
+            To calculate population parameters for J=10 magnetic substates:
+            > pop_paras(10)
+        """
+        self.J = J
+        self.sJ_range = sJ_range
+
+        # Check input arguments
+        if 2*self.J % 2 == 0 or 2*self.J % 2 == 1:
+            pass
+        else:
+            logger.error(f"Only integral or half-integral spins are allowed;\nJ={self.J} is not an acceptable argument")
+            raise ValueError
+
+        try:
+            assert type(self.sJ_range) is list
+            for x in self.sJ_range:
+                try:
+                    assert type(x) is float
+                    if x > 0:
+                        pass
+                    else:
+                        logger.error(f"The spin-width parameter SIGMA/J list elements must be given as postive values;\n{x} is not an acceptable list element")
+                        raise ValueError
+                        
+                except AssertionError:
+                    try:
+                        assert type(x) is int
+                        if x > 0:
+                            pass
+                        else:
+                            logger.error(f"The spin-width parameter SIGMA/J list elements must be given as postive values;\n{x} is not an acceptable list element")
+                            raise ValueError
+                    except AssertionError:
+                        logger.exception("Only float or integer list elements are acceptable SIGMA/J spin-width parameters;\n{x} is not an acceptable list element")
+                        raise TypeError
+            pass
+        except AssertionError:
+            logger.error(f"The spin-width parameters SIGMA/J must be passed in a list;\n{type(self.sJ_range)} is not an acceptable type argument")
+            raise TypeError
+        
+        pops_dict = {}
+        mag_subs = None
+        if int(2*J) % 2 == 0:
+            mag_subs = [m for m in range(-self.J, self.J+1)]
+        else:
+            mag_subs = [m/2 for m in range(int(-2*self.J), int(2*self.J)+2, 2)]
+        print(f"Magnetic substates for J={self.J}: {mag_subs}")
+
+        PA = PartialAlignment()
+        for sJ in self.sJ_range:
+            pop_sJ = []
+            for m in mag_subs:
+                P = PA.partial_P(self.J, m, sJ)
+                pop_sJ.append(P)
+            pops_dict.update({sJ: pop_sJ})
+
+        return mag_subs, pops_dict
 
     
 class Legendre(PartialAlignment):
