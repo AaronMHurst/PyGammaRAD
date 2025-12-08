@@ -7,6 +7,8 @@ import PyGammaRAD as pg
 am = pg.AngularMomentum()
 
 def fill_list_with_zeros(my_list, desired_length=7):
+    """Method to fill list of length below a desired value with [0]-valued 
+    elements."""
     current_length = len(my_list)
     if current_length < desired_length:
         # Calculate how many zeros are needed
@@ -286,6 +288,7 @@ class RoseBrinkTestsU(unittest.TestCase):
     [2] H.J. Rose, D.M. Brink, Rev. Mod. Phys. 39, 306 (1967).
     """
 
+    # Table U tests
     def test_get_tableU_returns_DataFrame_of_length_75(self):
         df = am.get_tableU()
         self.assertIsInstance(df, pd.core.frame.DataFrame)
@@ -381,7 +384,7 @@ class RoseBrinkTestsU(unittest.TestCase):
             am.get_tableU(ARG)
 
 
-class RoseBrinkTestsU(unittest.TestCase):
+class RoseBrinkTestsS(unittest.TestCase):
 
     __doc__="""Unit tests for table generation and manipulation methods 
     corresponding to the data presented in Rose and Brink's paper [2].
@@ -392,6 +395,7 @@ class RoseBrinkTestsU(unittest.TestCase):
     [2] H.J. Rose, D.M. Brink, Rev. Mod. Phys. 39, 306 (1967).
     """
 
+    # Table S tests
     # Integral J and s
     def test_get_tableSa_returns_DataFrame_of_length_105(self):
         df = am.get_tableSa()
@@ -550,6 +554,7 @@ class RoseBrinkTestsP(unittest.TestCase):
     [2] H.J. Rose, D.M. Brink, Rev. Mod. Phys. 39, 306 (1967).
     """
 
+    # Table p tests
     # Integral J
     def test_get_tablePa_returns_DataFrame_of_length_42(self):
         df = am.get_tablePa()
