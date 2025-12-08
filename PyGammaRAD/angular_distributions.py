@@ -496,7 +496,7 @@ class AngularDistributions(AngularMomentumCalculations):
                 p_list = []
                 if (2*J) % 2 == 0:
                     # Integral J:
-                    for m in range(0,J+1):
+                    for m in range(0,int(J)+1):
                         kronecker_delta = 0
                         if m == 0:
                             kronecker_delta = 1
