@@ -512,7 +512,95 @@ class Yamazaki(object):
             logger.error("File not printed.")
 
 
-class RoseAndBrink(Yamazaki):
+class DerMateosianAndSunyar(Yamazaki):
+    __doc__="""Class for handling data from Tables I and II in reference 
+    article by Der Mateosian and Sunyar [3].
+
+    Table I:  Calculated partial anisotropy coefficients for integral spins 
+              over the range 1 <= J <= 26 (Table I, p.395-398 [3]).
+
+    Table II: Calculated partial anisotropy coefficients for half-integral 
+              spins over the range 3/2 <= J <= 51/2 (Table II, p.395-398 [3]).
+
+    References:
+        [3] E. Der Mateosian and A. W. Sunyar, At. and Data and Nucl. Data, 
+            Vol. 13, p. 391 (1974).
+    """
+    _ROOT = os.path.abspath(os.path.dirname(__file__))
+
+    def __init__(self):
+        from . import get_data
+        data_path = get_data('data')
+        self.dermateosian_sunyar_list = []
+        alphas_integral = pd.read_csv("%s/table_alpha1.csv"%data_path, dtype={'ALPHA(2)': str, 'ALPHA(4)': str})
+        alphas_halfint = pd.read_csv("%s/table_alpha2.csv"%data_path, dtype={'ALPHA(2)': str, 'ALPHA(4)': str})
+        self.dermateosian_sunyar_list.append(alphas_integral)
+        self.dermateosian_sunyar_list.append(alphas_halfint)
+
+    def get_table_alpha1(self):
+        """Table of calculated partial anisotropy coefficients for integral 
+        spins over the range 1 <= J <= 26 (Table I, p.395-398 [3]).
+
+        Notes:
+            [3] E. Der Mateosian and A. W. Sunyar, At. and Data and Nucl. Data, 
+                Vol. 13, p. 391 (1974).
+
+        Arguments:
+            None.
+
+        Returns:
+            A DataFrame object containing the corresponding partial-anisotropy 
+            angular-distribution coefficients ALPHA(k) together with J and 
+            SIGMA/J Gaussian widths listed in Table I [3] for even-integral 
+            spins.
+
+        Raises:
+            Passing arguments to the function raises a TypeError exception.
+
+        Example:
+            > get_table_alpha1()
+        """
+        table_alpha1_list = self.dermateosian_sunyar_list[0]
+        table_alpha1_df = pd.DataFrame(table_alpha1_list)
+
+        pd.set_option('display.max_columns', None)
+        pd.set_option('display.max_row', None)
+
+        return table_alpha1_df
+
+    def get_table_alpha2(self):
+        """Table of calculated partial anisotropy coefficients for half-integral
+        spins over the range 3/2 <= J <= 51/2 (Table I, p.399-402 [3]).
+
+        Notes:
+            [3] E. Der Mateosian and A. W. Sunyar, At. and Data and Nucl. Data, 
+                Vol. 13, p. 391 (1974).
+
+        Arguments:
+            None.
+
+        Returns:
+            A DataFrame object containing the corresponding partial-anisotropy 
+            angular-distribution coefficients ALPHA(k) together with J and 
+            SIGMA/J Gaussian widths listed in Table I [3] for half-integral 
+            spins.
+
+        Raises:
+            Passing arguments to the function raises a TypeError exception.
+
+        Example:
+            > get_table_alpha2()
+        """
+        table_alpha2_list = self.dermateosian_sunyar_list[1]
+        table_alpha2_df = pd.DataFrame(table_alpha2_list)
+
+        pd.set_option('display.max_columns', None)
+        pd.set_option('display.max_row', None)
+
+        return table_alpha2_df    
+
+            
+class RoseAndBrink(DerMateosianAndSunyar):
     __doc__="""Class for handling tabulated data in Appendex of the review 
     article by Rose and Brink [2].
 
@@ -887,3 +975,4 @@ class RoseAndBrink(Yamazaki):
 
         if PRINT_PROBLEM == True:
             logger.error("File not printed.")    
+
