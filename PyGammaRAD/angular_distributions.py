@@ -718,7 +718,18 @@ class PartialAlignment(AngularDistributions):
 
         # Check input arguments
         if 2*self.J % 2 == 0 or 2*self.J % 2 == 1:
-            pass
+            if 2*self.J % 2 == 0:
+                try:
+                    assert 2*self.m % 2 == 0
+                except AssertionError:
+                    logger.exception(f"If J is integral so must be its projection m;\nJ={self.J} and m={self.m} are not compatible arguments")
+                    raise 
+            elif 2*self.J % 2 == 1:
+                try:
+                    assert 2*self.m % 2 == 1
+                except AssertionError:
+                    logger.exception(f"If J is half-integral so must be its projection m;\nJ={self.J} and m={self.m} are not compatible arguments")
+                    raise 
         else:
             logger.error(f"Only integral or half-integral spins are allowed;\nJ={self.J} is not an acceptable argument")
             raise ValueError
