@@ -482,7 +482,7 @@ class Yamazaki(object):
         PRINT_PROBLEM = False
         
         for f in formats:
-            if f == self.format:
+            if f == self.format.upper():
                 FILE_FORMAT = True
                 for key, value in tables.items():
                     if key == self.table:
@@ -597,8 +597,80 @@ class DerMateosianAndSunyar(Yamazaki):
         pd.set_option('display.max_columns', None)
         pd.set_option('display.max_row', None)
 
-        return table_alpha2_df    
+        return table_alpha2_df
 
+    def matsun2file(self,table,format):
+        """Convert and dump data from Tables I and II in the Der Mateosian 
+        reference paper [3] into a CSV or JSON formatted file.
+
+        Notes:
+            [3] E. Der Mateosian and A. W. Sunyar, At. and Data and Nucl. Data, 
+                Vol. 13, p. 391 (1974).
+
+        Arguments:
+            table: Integer argument representing desired table printout:-
+                   1: Partial anisotropy coefficients alpha1 and alpha2 for 
+                      integral 1 <= J <= 26 [3]
+                   2: Partial anisotropy coefficients alpha1 and alpha2 for 
+                      integral 3/2 <= J <= 51/2 [3]
+            format: String argument to indicate preferred file format:-
+                   'CSV': Comma Separated Value format.
+                   'JSON': JavaScript Object Notation format.
+
+        Returns:
+            None.
+
+        Examples:
+            To print Table 1 to file in CSV format:
+            > matsun2file(1,'CSV') # dumps `DerMateosianSunyarTableI.csv` 
+              in pwd
+
+            To print Table 2(a) to file in JSON format:
+            > matsun2file(2,'JSON') # dumps `DerMateosianSunyarTableII.json` 
+              in pwd
+        """
+        self.table = table
+        self.format = format
+
+        tables = {1:[self.dermateosian_sunyar_list[0],
+                     "DerMateosianSunyarTableI"],
+                  2:[self.dermateosian_sunyar_list[1],
+                     "DerMateosianSunyarTableII"]}
+        formats = ["CSV","JSON"]
+
+        FILE_FORMAT = False
+        TABLE_ALPHAS = False
+        PRINT_PROBLEM = False
+        
+        for f in formats:
+            if f == self.format.upper():
+                FILE_FORMAT = True
+                for key, value in tables.items():
+                    if key == self.table:
+                        TABLE_ALPHAS = True
+                        table_data = pd.DataFrame(value[0])
+                        with open("%s.%s"%(value[1],f.lower()), mode="w") as outfile:
+                            if f.upper() == "JSON":
+                                table_data.to_json(outfile, orient='records', indent=4, force_ascii=False)
+                                logger.info("{0}.{1} printed to file in {2}".format(value[1],f.lower(),os.getcwd()))
+                                outfile.close()
+                            elif f.upper() == "CSV":
+                                table_data.to_csv(outfile, index=False)
+                                logger.info("{0}.{1} printed to file in {2}".format(value[1],f.lower(),os.getcwd()))
+                                outfile.close()
+                
+        if FILE_FORMAT == False:
+            PRINT_PROBLEM = True
+            logger.error("File format not handled: Specify 'CSV' or 'JSON'")
+            for key in tables.keys():
+                if key == self.table: TABLE_ALPHAS = True
+        if TABLE_ALPHAS == False:
+            PRINT_PROBLEM = True
+            logger.error("Table from Der Mateosian and Sunyar's paper not correctly specified.  Use the following integer arguments only: \n 1 - Table I (integral J); 2 - Table II (half-integral J).")
+
+        if PRINT_PROBLEM == True:
+            logger.error("File not printed.")    
+                        
             
 class RoseAndBrink(DerMateosianAndSunyar):
     __doc__="""Class for handling tabulated data in Appendex of the review 
@@ -947,7 +1019,7 @@ class RoseAndBrink(DerMateosianAndSunyar):
         PRINT_PROBLEM = False
         
         for f in formats:
-            if f == self.format:
+            if f == self.format.upper():
                 FILE_FORMAT = True
                 for key, value in tables.items():
                     if key == self.table:
