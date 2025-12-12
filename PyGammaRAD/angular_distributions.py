@@ -1100,6 +1100,10 @@ class PartialAlignment(AngularDistributions):
         Examples:
             To calculate population parameters for J=10 magnetic substates:
             > pop_paras(10)
+
+            To calculate population parameters for J=5/2 magnetic substates for
+            specific Gaussian widths SIGMA/J = 0.1,0.5,2.0,3.0,and 5.0:
+            > pop_paras(2.5,[0.1,0.5,2.0,3.0,5.0])
         """
         self.J = J
         self.sJ_range = sJ_range
