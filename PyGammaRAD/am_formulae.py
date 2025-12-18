@@ -753,31 +753,32 @@ class Wigner9j(Racah):
 
         if data_ok is True:
         
-            imax = int(min(self.j1+self.j9,self.j4+self.j8,self.j2+self.j6) * 2)
-            imin = imax % 2
-            sum_res = 0
-            #print(f"min={imin}, max={imax}")
+            h_max = int(min(self.j1+self.j9,self.j4+self.j8,self.j2+self.j6)*2)
+            h_min = h_max % 2
+            sum_triple6j_prod = 0
+            #print(f"min={h_min}, max={h_max}")
             #with LogLevelContext(logging.WARNING):
             success = False
             with LogLevelContext(self.level):
-                for g in range(int(imin), int(imax)+1):
+                for g in range(h_min, h_max+1):
+                    h = h_min + 2*(g-1)
                     try:
-                        W1 = Racah(self.j1, self.j2, self.j3, self.j6, self.j9, g)
-                        W2 = Racah(self.j4, self.j5, self.j6, self.j2, g, self.j8)
-                        W3 = Racah(self.j7, self.j8, self.j9, g, self.j1, self.j4)
+                        W1 = Racah(self.j1,self.j2,self.j3,self.j6,self.j9,h/2)
+                        W2 = Racah(self.j4,self.j5,self.j6,self.j2,h/2,self.j8)
+                        W3 = Racah(self.j7,self.j8,self.j9,h/2,self.j1,self.j4)
 
-                        sum_res = sum_res + (-1)**(2*g) * ((2*g)+1) * W1.symbol_6j() * W2.symbol_6j() * W3.symbol_6j()
-
+                        sum_triple6j_prod = sum_triple6j_prod + (-1)**(h) * (h+1) * W1.symbol_6j() * W2.symbol_6j() * W3.symbol_6j()
+                        
                         success = True
 
                     except TypeError:
-                        if not sum_res:
+                        if not sum_triple6j_prod:
                             continue
                         else:
                             break
 
             if success == True:
-                return sum_res
+                return sum_triple6j_prod
             else:
                 if self.level is logging.CRITICAL:
                     logger.error(f"Can't evaluate desired 9-j symbol.  Run again with debugging information to find specific problems:\n PyGammaRAD.symb9j({self.j1},{self.j2},{self.j3},{self.j4},{self.j5},{self.j6},{self.j7},{self.j8},{self.j9},logging.DEBUG)")
