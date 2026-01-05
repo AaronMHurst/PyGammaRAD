@@ -755,6 +755,8 @@ class Wigner9j(Racah):
         
             h_max = int(min(self.j1+self.j9,self.j4+self.j8,self.j2+self.j6)*2)
             h_min = h_max % 2
+            #h_max = int(min(self.j1+self.j9,self.j4+self.j8,self.j2+self.j6))
+            #h_min = int(max(abs(self.j1-self.j9),abs(self.j4-self.j8),abs(self.j2-self.j6)))
             sum_triple6j_prod = 0
             #print(f"min={h_min}, max={h_max}")
             #with LogLevelContext(logging.WARNING):
@@ -768,6 +770,14 @@ class Wigner9j(Racah):
                         W3 = Racah(self.j7,self.j8,self.j9,h/2,self.j1,self.j4)
 
                         sum_triple6j_prod = sum_triple6j_prod + (-1)**(h) * (h+1) * W1.symbol_6j() * W2.symbol_6j() * W3.symbol_6j()
+                        
+                        #for h in range(h_min, h_max+1):
+                        #try:
+                        #W1 = Racah(self.j1,self.j2,self.j3,self.j6,self.j9,h)
+                        #W2 = Racah(self.j4,self.j5,self.j6,self.j2,h,self.j8)
+                        #W3 = Racah(self.j7,self.j8,self.j9,h,self.j1,self.j4)
+
+                        #sum_triple6j_prod = sum_triple6j_prod + (-1)**(2*h) * ((2*h)+1) * W1.symbol_6j() * W2.symbol_6j() * W3.symbol_6j()
                         
                         success = True
 
