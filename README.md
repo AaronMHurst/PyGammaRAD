@@ -81,7 +81,7 @@ Or, to retrieve the docstring for a particular method, e.g., the callable `symb6
 
 The `Jupyter Notebooks` provided also illustrate docstring retrieval for certain methods.
 
-## Summary of angular distribution functions and methods
+## Summary of angular distribution functions and methods based on complete alignment
 
 The table below summarizes the angular distribution functions given in the reference articles by Yamazaki [[1]](#1) and Rose and Brink [[2]](#2) and their corresponding callable methods available within the `PyGammaRAD` software package.  The relevant arguments, listed in order where needed, are defined as:
 
@@ -114,7 +114,18 @@ Optional arguments are preceded by an asterisk (<sup>*</sup>).  Note that in the
 
 *[&theta;]*: A user defined range may be passed to the $W(\theta)$ function as an optional argument; by default a range of (0<sup>o</sup>,180<sup>o</sup>) is assumed.  Although it is only the non-even $P_{0}(\cos\theta)$, $P_{2}(\cos\theta)$, and $P_{4}(\cos\theta)$ Legendre polynomials that are needed to describe the angular distribution function, to enhance the utility of the `PyGammaRAD` methods the first 11 polynomials of the Legendre series are available in the library.  These methods may be called as `lpoly<k>` for the corresponding Legendre polynomial $P_{k}$, where $k$ ranges in value from $k=0$ to $k=10$.  Again, by default an angular range of (0<sup>o</sup>,180<sup>o</sup>) is adopted for the Legendre polynomial methods although a user-defined range can also be provided as an optional argument to override the default range or its granularity.
 
-## Summary of angular momentum methods
+## Summary of angular distribution functions and methods based on partial alignment
+
+The table below summarizes the angular distribution functions given in the reference articles by Yamazaki [[1]](#1) and Der Mateosian and Sunyar [[3]](#3) and their corresponding callable methods available within the `PyGammaRAD` software package.  The relevant arguments, listed in order where needed, are defined as:
+
+
+| Returned quantity | Function [[1]](#1),[[3]](#3) | Method | Arguments |
+| --- | --- | --- | --- |
+| $\alpha_{k}(J,\sigma/J)$ | Equation (10) [[1]](#3) | `partial_a` | *k*, *J*, *&sigma;/J* |
+
+
+
+## Summary of vector-coupling methods for angular momentum calculations
 
 The set of angular momentum functions and callable methods available to the `PyGammaRAD` library is tabulated below.  The required arguments are listed in the order in which they should be passed to their corresponding method.  The arguments are defined as:
 
@@ -187,3 +198,10 @@ H.J. Rose, D.M. Brink,
 *"Angular Distributions of Gamma Rays in Terms of Phase-Defined Reduced Matrix Elements"*,
 Rev. Mod. Phys., Vol. **39**, Num. 2, p. 306 (1967);
 https://doi.org/10.1103/RevModPhys.39.306.
+
+<a id="3">[3]</a>
+E. Der Mateosian, A.W. Sunyar,
+*"Tables of Attenuation Coefficients for Angular Distributions of Gamma Rays from Partially Aligned Nuclei"*,
+At. Data and Nucl. Data Tables, Vol. **13**, p. 391 (1974);
+https://doi.org/10.1016/0092-640X(74)90007-2
+
