@@ -121,9 +121,11 @@ The table below summarizes the angular distribution functions given in the refer
 
 | Returned quantity | Function [[1]](#1),[[3]](#3) | Method | Arguments |
 | --- | --- | --- | --- |
-| $\alpha_{k}(J,\sigma/J)$ | Equation (10) [[1]](#3) | `partial_a` | *k*, *J*, *&sigma;/J* |
+| $\alpha_{k}(J,\sigma/J)$ | Equation (10) [[1]](#1) | `partial_a` | *k*, *J*, *&sigma;/J* |
+| $p_{k}(J,\sigma/J)$ | Equation (1) [[1]](#1); Equation (4) [[3]](#3) | `partial_p` | *k*, *J*, *&sigma;/J* |
+| $P_{m}(J,\sigma/J)$ | Equation (11) [[1]](#1); Equation (6) [[3]](#3) | `partial_P` | *J*, *m*, *&sigma;/J* |
 
-
+In addition, the method `pop_paras` can be called to calculate $P_{m}(J)$ for a given $J$ argument over a specified $\sigma/J$ range.  By default, this range is set to $[0.1, 2.0]$ at 0.1 intervals.
 
 ## Summary of vector-coupling methods for angular momentum calculations
 
