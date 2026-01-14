@@ -29,7 +29,7 @@ In the future, the project will also be deployed to the PyPI repository.
 
 ## Testing
 
-A suite of Python modules containing 140 unit tests have been written for this project.  These unit-test scripts are located in the `tests` folder.  To run the test suite and ensure they work with the local Python environment, run `tox` at the command line of the project directory containing the `tox.ini` file:
+A suite of Python modules containing 211 unit tests have been written for this project.  These unit-test scripts are located in the `tests` folder.  To run the test suite and ensure they work with the local Python environment, run `tox` at the command line of the project directory containing the `tox.ini` file:
 
 ```Bash
 $ tox -r
@@ -50,12 +50,16 @@ $ python
 >>> am = pg.AngularMomentum()
 ```
 
-To help illustrate the workflow and utility of the software, inclduing verification of methods against published results and tabulated data, the project comes with four different `Jupyter Notebooks` for the user to run through:
+To help illustrate the workflow and utility of the software, inclduing verification of methods against published results and tabulated data, the project comes with six different `Jupyter Notebooks` for the user to run through:
 
-* `am_coupling_check.ipynb`: Provides a useful guide for executing angular momentum methods involving Clebsch-Gordan and Racah coefficients in addition to the Wigner *3-j*, *6-j*, and *9-j* symbols.  Well-known published results are compared and verified in this `Notebook`.
+* `am_coupling_check.ipynb`: Provides a useful guide for executing angular momentum methods involving Clebsch-Gordan and Racah coefficients in addition to the Wigner *3-j*, *6-j*, and *9-j* symbols.  Well-known published results are compared and verified in this `Notebook`.  This `Notebook` also provides a consistency check of different factorial methods and integer square root calculations.
+
+* `am_coupling_check2.ipynb`: Additional checks of vector-coupling calculations against published literature can be performed using this `Notebook`.
 
 * `angular_distributions.ipynb`: This `Notebook` illustrates the use of the methods involved in the calculation of the overall &gamma;-ray angular distribution function including Legendre polynomials available to the package.  For comparison, experimental anisotropy-attenuation coefficients for transitions in <sup>56</sup>Fe are also compared to the theoretically-deduced results.
 
+* `partial_alignment.ipynb`: Angular-distribution calculations based on methods for partially-aligned nuclei are demonstated in this `Notebook`.  The tabulated partial-alignment data of Der Mateosian and Sunyar [[3]](#3) can also be verified using this `Notebook`. 
+ 
 * `yamazaki_tables.ipynb`: This `Notebook` serves as a check of the original angular distribution tensors and coefficients published and tabulated by Yamazaki [[1]](#1).
 
 * `rose_brink_tables.ipynb`: This `Notebook` serves as a check of the original angular distribution tensors and coefficients published and tabulated by Rose and Brink [[2]](#2).
