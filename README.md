@@ -8,11 +8,11 @@ Here, the angular distribution function is written as
 
 $$ W(\theta) = 1 + A_{2}P_{2}(\cos\theta) +A_{4}P_{4}(\cos\theta), $$
 
-where *A<sub>k</sub>* are the theoretical anisotropy coefficients for transitions in aligned nuclei and *P<sub>k</sub>* are the corresponding Legendre polynomials of a given order *k*.  In the case of partial alignment the *A<sub>k</sub>* coefficient is modified by a partial anisotropy coefficient *&alpha;<sub>k</sub>* such that the distribution function may be expressed as
+where *A<sub>k</sub>* are the theoretical anisotropy coefficients for transitions in aligned nuclei and *P<sub>k</sub>* are the corresponding Legendre polynomials of a given order *k*.  In the case of partial alignment, the *A<sub>k</sub>* coefficient is modified by a partial anisotropy coefficient *&alpha;<sub>k</sub>* such that the distribution function may be expressed as
 
 $$ W(\theta) = 1 + \alpha_{2}A_{2}P_{2}(\cos\theta) +\alpha_{4}A_{4}P_{4}(\cos\theta), $$
 
-where the term *&alpha;<sub>k</sub>A<sub>k</sub>* represents the attenuation anisotropy coefficient which is often represented simply as *a<sub>k</sub>*. 
+where the *&alpha;<sub>k</sub>A<sub>k</sub>* term represents the attenuation anisotropy coefficient which is often represented simply as *a<sub>k</sub>*. 
 
 ## Building and installation
 
