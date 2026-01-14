@@ -200,7 +200,7 @@ The following set of methods enable user retrieval and manipulation of the data 
 
 | Returned quantity | Method | Arguments |
 | --- | --- | --- |
-| $\texttt{DataFrame}$ representation of partial alignment anisotropy coefficients [[3]](#3) for user-defined arguments | `get_partial_table` | *J*, <sup>*</sup>*&sigma;/J*, <sup>*</sup>*[k]*, *save* | 
+| $\texttt{DataFrame}$ representation of partial alignment anisotropy coefficients [[3]](#3) for user-defined arguments | `get_partial_table` | *J*, <sup>*</sup> *&sigma;/J*, <sup>*</sup> *[k]*, *save* | 
 
 ## References
 
