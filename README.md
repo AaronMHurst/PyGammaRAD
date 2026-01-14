@@ -201,7 +201,7 @@ The following set of methods enable user retrieval and manipulation of the data 
 
 | Returned quantity | Method | Arguments |
 | --- | --- | --- |
-| $\texttt{DataFrame}$ representation of partial alignment anisotropy coefficients [[3]](#3) for user-defined arguments | `get_partial_table` | *J*, <sup>*</sup> *[&sigma;/J]*, |
+| $\texttt{DataFrame}$ representation of partial alignment anisotropy coefficients [[3]](#3) for user-defined arguments | `get_partial_table` | *J*, <sup>*</sup> *[&sigma;/J]*, *[k]*, *save*|
 | Dumps specified Table from Der Mateosian and Sunyar [[3]](#3) to file in current working directory in a CSV or JSON format | `matsun2file` | *table*, *format* |
 
 ## References
