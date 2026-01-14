@@ -197,10 +197,12 @@ The following set of methods enable user retrieval and manipulation of the data 
 ### Der Mateosian and Sunyar
 
 * `get_partial_table` : *&sigma;/J* represents the upper limit (default *&sigma;/J = 2.0*) of the Gaussian-width parameter for the returned range at 0.1 intervals; *[k]* list of even-*k* orders (default *k=[2,4]*) for the returned partial-alignment anisotropy coefficients; <*save*> should be given as a boolean argument: `True` to write file to disk (`False` by default).
+* `matsun2file` : <*table*> should be given as an integer argument (`1` for Table I, `2` for Table II); <*format*> should also be given as a string argument and entered as `'CSV'` or `'JSON'`.
 
 | Returned quantity | Method | Arguments |
 | --- | --- | --- |
-| $\texttt{DataFrame}$ representation of partial alignment anisotropy coefficients [[3]](#3) for user-defined arguments | `get_partial_table` | *J*, <sup>*</sup>*k*, <sup>*</sup> *&sigma;/J*, *<sup>*</sup>[k]*, *save* | 
+| $\texttt{DataFrame}$ representation of partial alignment anisotropy coefficients [[3]](#3) for user-defined arguments | `get_partial_table` | *J*, <sup>*</sup> *&sigma;/J*, *<sup>*</sup> [k]*, *save* |
+| Dumps specified Table from Der Mateosian and Sunyar [[3]](#3) to file in current working directory in a CSV or JSON format | `matsun2file` | *table*, *format* |
 
 ## References
 
