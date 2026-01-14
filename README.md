@@ -116,8 +116,9 @@ Optional arguments are preceded by an asterisk (<sup>*</sup>).  Note that in the
 
 ## Summary of angular distribution functions and methods based on partial alignment
 
-The table below summarizes the angular distribution functions given in the reference articles by Yamazaki [[1]](#1) and Der Mateosian and Sunyar [[3]](#3) and their corresponding callable methods available within the `PyGammaRAD` software package.  The relevant arguments, listed in order where needed, are defined as:
+The table below summarizes the angular distribution functions given in the reference articles by Yamazaki [[1]](#1) and Der Mateosian and Sunyar [[3]](#3) and their corresponding callable methods available within the `PyGammaRAD` software package.  The relevant arguments are listed in order where needed.
 
+* *&sigma;/J* : Gaussian-width parameter.
 
 | Returned quantity | Function [[1]](#1),[[3]](#3) | Method | Arguments |
 | --- | --- | --- | --- |
@@ -125,7 +126,7 @@ The table below summarizes the angular distribution functions given in the refer
 | $p_{k}(J,\sigma/J)$ | Equation (1) [[1]](#1); Equation (4) [[3]](#3) | `partial_p` | *k*, *J*, *&sigma;/J* |
 | $P_{m}(J,\sigma/J)$ | Equation (11) [[1]](#1); Equation (6) [[3]](#3) | `partial_P` | *J*, *m*, *&sigma;/J* |
 
-In addition, the method `pop_paras` can be called to calculate $P_{m}(J)$ for a given $J$ argument over a specified $\sigma/J$ range.  By default, this range is set to $[0.1, 2.0]$ at 0.1 intervals.
+In addition, the method `pop_paras` can be called to calculate $P_{m}(J)$ for a given $J$ argument over a specified $\sigma/J$ range.  By default, this range is set to $[0.1, 2.0]$ at 0.1 intervals although user-defined ranges can be provided.
 
 ## Summary of vector-coupling methods for angular momentum calculations
 
@@ -159,14 +160,14 @@ Additionally, for all coefficents and symbols listed above, the angular momentum
 
 ## Summary of Table API methods
 
-The following set of methods enable user retrieval and manipulation of the data presented in Table 1, Table 2(a), and Table 2(b) of the original work by Yamazaki [[1]](#1).  The arguments, where required, are again listed in the order in which they should passed to their respective methods.  All physical quantities have their usual meanings defined earlier.  A few notes regarding the optional arguments and limitations on other certain arguments:
+The following set of methods enable user retrieval and manipulation of the data presented in Table 1, Table 2(a), and Table 2(b) of the original work by Yamazaki [[1]](#1).  The arguments, where required, are again listed in the order in which they should passed to their respective methods.  All physical quantities have their usual meanings defined earlier.  Notes regarding optional arguments and limitations on other certain arguments are mentioned for each respective table.
+
+### Yamazaki 
 
 * `get_table1` : Method may be called (i) without any arguments to return both integral-*J* and half-integral *J* results, (ii) by passing `0` to return integral-*J* results only, or (iii) by passing `0.5` to return half-integral *J* results only.
 * `get_row_table2` : Method only takes values of `2` or `4` as integer arguments for *k*; acceptable key-word arguments are `coeff='F'` cf. Equation (4) [[1]](#1), `coeff='BF'` cf. Equation (8) [[1]](#1), or `coeff='U'` cf. Equation (14) [[1]](#1), depending on the coefficient or set of coefficients required from Table 2(a) or Table 2(b).  See docstring for different implementations of this method.
 * `get_B` : Method may take integer values of `2`, `4`, or `6` as arguments for *k*; these results in Table 1 should agree with Equation (6) [[1]](#1).
 * `yamazaki2file` : <*table*> should be given as a string argument and entered as `'T1'` for Table 1, `'T2A'` for Table 2(a), or `'T2B'` for Table 2(b) [[1]](#1); <*format*> should also be given as a string argument and entered as `'CSV'` or `'JSON'`.
-* `rosebrink2file` : <*table*> should be given as a string argument as explained in the corresponding docstring by calling `help` on the method; <*format*> should also be given as a string argument and entered as `'CSV'` or `'JSON'`.
-
 
 | Returned quantity | Method | Arguments |
 | --- | --- | --- |
@@ -177,6 +178,13 @@ The following set of methods enable user retrieval and manipulation of the data 
 | $\texttt{List}$ or $\texttt{float}$ corresponding to data in specified row of Table 2(a) or 2(b) [[1]](#1) depending on input arguments | `get_row_table2` | *J<sub>i</sub>*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, <sup>*</sup>*k*, *<sup>**</sup>coeff* |
 | $\texttt{Float}$ corresponding to *B<sub>k</sub>(J)* listed in Table 1 [[1]](#1) | `get_B` | *k*, *J* |
 | Dumps specified Table from Yamazaki [[1]](#1) to file in current working directory in a CSV or JSON format | `yamazaki2file` | *table*, *format* |
+
+### Rose and Brink
+
+* `rosebrink2file` : <*table*> should be given as a string argument as explained in the corresponding docstring by calling `help` on the method; <*format*> should also be given as a string argument and entered as `'CSV'` or `'JSON'`.
+
+| Returned quantity | Method | Arguments |
+| --- | --- | --- |
 | $\texttt{DataFrame}$ representation of $R_{k}(L_{1}L_{2}J_{i}J_{f})$ table (integral $J$) [[2]](#2) | `get_tableRa` | *None* |
 | $\texttt{DataFrame}$ representation of  $R_{k}(L_{1}L_{2}J_{i}J_{f})$ table (half-integral $J$) [[2]](#2) | `get_tableRb` | *None* |
 | $\texttt{DataFrame}$ representation of $U_{k}(L_{1} J_{i} J_{f})$ and $U_{k}(L_{2} J_{i} J_{f})$ table $(L_{2} = L_{1} + 1)$ [[2]](#2) | `get_tableU` | *None* |
@@ -186,6 +194,13 @@ The following set of methods enable user retrieval and manipulation of the data 
 | $\texttt{DataFrame}$ representation of $\rho_{k}(J m)$ table (half-integral $J$) [[2]](#2) | `get_tablePb` | *None* |
 | Dumps specified Table from Rose and Brink [[2]](#2) to file in current working directory in a CSV or JSON format | `rosebrink2file` | *table*, *format* |
 
+### Der Mateosian and Sunyar
+
+* `get_partial_table` : *&sigma;/J* represents the upper limit (default *&sigma;/J = 2.0*) of the Gaussian-width parameter for the returned range at 0.1 intervals; *[k]* list of even-*k* orders (default *k=[2,4]*) for the returned partial-alignment anisotropy coefficients; *<save>* should be given as a boolean argument: `True` to write file to disk (`False` by default).
+
+| Returned quantity | Method | Arguments |
+| --- | --- | --- |
+| $\texttt{DataFrame}$ representation of partial alignment anisotropy coefficients [[3]](#3) | `get_partial_table` | *J*, <sup>*<\sup>*&sigma;/J*, <sup>*<\sup>*[k]*, *save* | 
 
 ## References
 
