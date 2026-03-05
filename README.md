@@ -52,9 +52,11 @@ $ python
 
 To help illustrate the workflow and utility of the software, inclduing verification of methods against published results and tabulated data, the project comes with six different `Jupyter Notebooks` for the user to run through:
 
-* `am_coupling_check.ipynb`: Provides a useful guide for executing angular momentum methods involving Clebsch-Gordan and Racah coefficients in addition to the Wigner *3-j*, *6-j*, and *9-j* symbols.  Well-known published results are compared and verified in this `Notebook`.  This `Notebook` also provides a consistency check of different factorial methods and integer square root calculations.
+* `am_coupling_check.ipynb`: Provides a useful guide for executing angular momentum methods involving Clebsch-Gordan and Racah coefficients in addition to the Wigner *3-j*, *6-j*, and *9-j* symbols [[4]](#4), [[5]](#5), [[6]](#6).  Well-known published results are compared and verified in this `Notebook`.  This `Notebook` also provides a consistency check of different factorial methods and integer square root calculations.
 
-* `am_coupling_check2.ipynb`: Additional checks of vector-coupling calculations against published literature can be performed using this `Notebook`.
+* `am_coupling_check2.ipynb`: Additional checks of vector-coupling calculations against published literature [[7]](#7), [[8]](#8) can be performed using this `Notebook`.
+
+* `gaunt`: This `Notebook` can be used to check calculated Gaunt coefficients against the published literature [[9]](#9).
 
 * `angular_distributions.ipynb`: This `Notebook` illustrates the use of the methods involved in the calculation of the overall &gamma;-ray angular distribution function including Legendre polynomials available to the package.  For comparison, experimental anisotropy-attenuation coefficients for transitions in <sup>56</sup>Fe are also compared to the theoretically-deduced results.
 
@@ -238,3 +240,40 @@ E. Der Mateosian, A.W. Sunyar,
 At. Data and Nucl. Data Tables, Vol. **13**, p. 391 (1974);
 https://doi.org/10.1016/0092-640X(74)90007-2
 
+<a id="4">[4]</a>
+P.D. Stevenson,
+*"Analytic angular momentum coupling coefficient calculators"*,
+Comp. Phys. Comm. Vol. **147**, p. 853 (2002);
+https://doi.org/10.1016/S0010-4655(02)00462-9
+
+<a id="5">[5]</a>
+A.J. Stone, C.P. Wood,
+*"Root-rational-fraction package for exact calculation of vector-coupling coefficients"*,
+Comp. Phys. Comm. Vol. 21, p. 195 (1980);
+https://doi.org/10.1016/0010-4655(80)90040-5;
+Online Wigner-coefficient calculator: https://www-stone.ch.cam.ac.uk/wigner.shtml
+
+<a id="6">[6]</a>
+H. T. Johansson and C. Forss&eacute;n,
+*"Fast and Accurate Evaluation of Wigner 3*j*, 6*j*, and 9*j* Symbols Using Prime Factorization and Multiword Integer Arithmetic"*,
+SIAM J. Sci. Comp. Vol. 38, p. 1 (2016);
+https://doi.org/10.1137/15M1021908;
+https://arxiv.org/abs/1504.08329
+
+<a id="7">[7]</a>
+T. Tamura,
+*"Angular Momentum Couplin Coefficients"*,
+Comp. Phys. Comm., Vol. 1, p. 337 (1970);
+https://doi.org/10.1016/0010-4655(70)90034-2
+
+<a id="8">[8]</a>
+L. Wei,
+*"New formula for 9- symbols and their direct calculation"*,
+Comput. Phys., Vol. 12, p. 632 (1998);
+https://doi.org/10.1063/1.168745
+
+<a id="9">[9]</a>
+S.A. Yukcu, S. Atalay, N. Yukcu, E. Oztekin,
+*"Calculations of the Gaunt coefficients over real spherical harmonics"*,
+Can. J. Phys., Vol. **103**, p. 321 (2025);
+https://doi.org/10.1139/cjp-2024-0161
