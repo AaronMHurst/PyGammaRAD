@@ -255,7 +255,7 @@ Online Wigner-coefficient calculator: https://www-stone.ch.cam.ac.uk/wigner.shtm
 
 <a id="6">[6]</a>
 H. T. Johansson and C. Forss&eacute;n,
-*"Fast and Accurate Evaluation of Wigner 3*j*, 6*j*, and 9*j* Symbols Using Prime Factorization and Multiword Integer Arithmetic"*,
+*"Fast and Accurate Evaluation of Wigner 3j, 6j, and 9j Symbols Using Prime Factorization and Multiword Integer Arithmetic"*,
 SIAM J. Sci. Comp. Vol. 38, p. 1 (2016);
 https://doi.org/10.1137/15M1021908;
 https://arxiv.org/abs/1504.08329
