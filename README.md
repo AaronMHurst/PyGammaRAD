@@ -142,11 +142,13 @@ The set of angular momentum functions and callable methods available to the `PyG
 
 * *j* : Angular momentum vector.
 * *m* : magnetic substate quantum number (i.e., *z*-axis projection).
+* *l* : Orbital angular momentum quantum number.
 
 | Returned quantity | Coefficient/Symbol | Method | Arguments |
 | --- | --- | --- | --- |
 |Clebsch-Gordan | $<j_{1} m_{1} j_{2} m_{2} \|j m>$ | `cg` | *j<sub>1</sub>*, *m<sub>1</sub>*, *j<sub>2</sub>*, *m<sub>2</sub>*, *j*, *m* |
 | Wigner 3-*j* | $j_{1}$ $j_{2}$ $j$ <br> $m_{1}$ $m_{2}$ $m$  | `symb3j` | *j<sub>1</sub>*, *j<sub>2</sub>*, *j*, *m<sub>1</sub>*, *m<sub>2</sub>*, *m* |
+| Gaunt | $G(l_{1} l_{2} l_{3}, m_{1} m_{2} m_{3})$ | `gaunt` |  *l<sub>1</sub>*, *l<sub>2</sub>*, *l<sub>3</sub>*, *m<sub>1</sub>*, *m<sub>2</sub>*, *m<sub>3</sub>* |
 | Racah | $W(j_{1} j_{2} j_{3} j_{4}; j_{5} j_{6})$ | `racah` | *j<sub>1</sub>*, *j<sub>2</sub>*, *j<sub>3</sub>*, *j<sub>4</sub>*, *j<sub>5</sub>*, *j<sub>6</sub>* |
 | Wigner 6-*j* | $j_{1}$ $j_{2}$ $j_{3}$ <br> $j_{4}$ $j_{5}$ $j_{6}$ | `symb6j` | *j<sub>1</sub>*, *j<sub>2</sub>*, *j<sub>3</sub>*, *j<sub>4</sub>*, *j<sub>5</sub>*, *j<sub>6</sub>* |
 | Wigner 9-*j* | $j_{1}$ $j_{2}$ $j_{3}$ <br> $j_{4}$ $j_{5}$ $j_{6}$ <br> $j_{7}$ $j_{8}$ $j_{9}$ | `symb9j` | *j<sub>1</sub>*, *j<sub>2</sub>*, *j<sub>3</sub>*, *j<sub>4</sub>*, *j<sub>5</sub>*, *j<sub>6</sub>*, *j<sub>7</sub>*, *j<sub>8</sub>*, *j<sub>9</sub>* |
@@ -161,8 +163,12 @@ The following conditions apply when handling Clebsch-Gordan coefficients and Wig
 * Each *m* projection must satisfy the relation |*m<sub>i</sub>*| $\leq$ *j<sub>i</sub>*.
 * *m<sub>1</sub>* + *m<sub>2</sub>* = m.
 
+For Gaunt coefficients the following selection rules apply:
 
-Additionally, for all coefficents and symbols listed above, the angular momentum vectors must satisfy the triangle inequality theorem in order to form a (*j<sub>1</sub>*, *j<sub>2</sub>*, *j<sub>3</sub>*) triad arising from anti-parallel and parallel coupling mechanisms:
+* $(l_{1} +l_{2} +l_{3}) \mod 2 = 0$.
+* $m_{1} +m_{2} +m_{3} = 0$.
+
+Additionally, for all coefficents and symbols listed above, the angular momentum vectors must satisfy the triangle inequality theorem in order to form a (*j<sub>1</sub>*, *j<sub>2</sub>*, *j<sub>3</sub>*) triad (or an (*l<sub>1</sub>*, *l<sub>2</sub>*, *l<sub>3</sub>*) triad in the case of Gaunt coefficients) arising from anti-parallel and parallel coupling mechanisms:
 
 * |*j<sub>1</sub>* - *j<sub>2</sub>*| $\leq$ *j<sub>3</sub>* $\leq$ *j<sub>1</sub>* + *j<sub>2</sub>*.
 

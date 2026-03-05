@@ -230,3 +230,48 @@ class AngularMomentumCalculations(RoseAndBrink):
             logger.exception("Factorial method not defined for negative values.")
             return
 
+    def gaunt(self,l1,l2,l3,m1,m2,m3):
+        """The Gaunt coefficient represents an integral over a triple product 
+        of spherical harmonics and can be computed using Wigner 3-j symbols.
+
+        To evaluate: G(l1 l2 l3, m1 m2 m3)
+
+        Call the method as: `gaunt(l1,l2,l3,m1,m2,m3)`
+
+        Arguments:
+            li: Set of three angular momentum quantum numbers used for coupling.
+                Numerical data types should be entered as floats or integers.
+            mi: Set of three corresponding angular momentum projections used 
+                for coupling (magnetic quantum numbers). Numerical data types 
+                should be entered as floats or integers.
+
+        Returns:
+            The Gaunt coefficient as a floating-point object.
+
+        Raises:
+            Negative values in a factorial argument raises a ValueError 
+            exception.
+
+        Example:
+            To evaluate the Gaunt coefficient 
+            G(l1=10 l2=10 l3=12, m1=9 m2=3 m3=-12):
+        
+            > gaunt(10,10,12,9,3,-12)
+
+        """
+        self.l1, self.l2, self.l3 = l1, l2, l3
+        self.m1, self.m2, self.m3 = m1, m2, m3
+
+        try:
+            W = Wigner3j(self.l1, self.l2, self.l3, 0, 0, 0)
+            wigner_3j_g1 = W.symbol_3j()
+            W = Wigner3j(self.l1, self.l2, self.l3, self.m1, self.m2, self.m3)
+            wigner_3j_g2 = W.symbol_3j()
+
+            C = sqrt((2*self.l1+1)*(2*self.l2+1)*(2*self.l3+1)/(4*pi))
+            G = C * wigner_3j_g1 * wigner_3j_g2
+            return G
+                    
+        except ValueError:
+            logger.exception("Factorial method not defined for negative values.")
+            return

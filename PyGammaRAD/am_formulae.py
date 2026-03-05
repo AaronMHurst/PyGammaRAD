@@ -1,6 +1,11 @@
 from .tables import *
-from math import sqrt, factorial
+from math import sqrt, factorial, pi
 from decimal import Decimal, getcontext
+import sys
+#sys.set_int_max_str_digits(100000)
+sys.set_int_max_str_digits(0) # disable limit; only limitation available memory
+
+#from isqrt import isqrt as irt
 
 #class Factorial(Tables):
 class Factorial(RoseAndBrink):
@@ -386,10 +391,54 @@ class ClebschGordan(Newton):
             getcontext().prec = 1000
             j1m1 = Newton.isqrt(Factorial.factorial_n(j1+m1)*Factorial.factorial_n(j1-m1))
             j2m2_jm = Newton.isqrt(Factorial.factorial_n(j2+m2) * Factorial.factorial_n(j2-m2) * Factorial.factorial_n(j+m) * Factorial.factorial_n(j-m) * ((2*j)+1))
+            
             #print("coeff = {0}".format(j1m1*j2m2_jm))
             
         return j1m1*j2m2_jm
 
+    def test_coupling(self):
+        """Test method for overall calculation of '`coeff` * `delta_j`' """
+
+        j1, m1 = self.j1, self.m1
+        j2, m2 = self.j2, self.m2
+        j, m = self.j, self.m
+
+        try:
+            nom = Factorial.factorial_n(j1+m1) \
+                * Factorial.factorial_n(j1-m1) \
+                * Factorial.factorial_n(j2+m2) \
+                * Factorial.factorial_n(j2-m2) \
+                * Factorial.factorial_n(j+m) \
+                * Factorial.factorial_n(j-m) \
+                * ((2*j)+1) \
+                * Factorial.factorial_n((j1+j2)-j) \
+                * Factorial.factorial_n((j1-j2)+j) \
+                * Factorial.factorial_n((-j1)+j2+j)
+            den = Factorial.factorial_n(j1+j2+j+1)
+            arg = nom / den
+            argsqrt = sqrt(arg)
+            return argsqrt
+            
+        except OverflowError:
+            #print("Using Newton's method")
+            getcontext().prec = 1000
+            nom = Factorial.factorial_n(j1+m1) \
+                * Factorial.factorial_n(j1-m1) \
+                * Factorial.factorial_n(j2+m2) \
+                * Factorial.factorial_n(j2-m2) \
+                * Factorial.factorial_n(j+m) \
+                * Factorial.factorial_n(j-m) \
+                * ((2*j)+1) \
+                * Factorial.factorial_n((j1+j2)-j) \
+                * Factorial.factorial_n((j1-j2)+j) \
+                * Factorial.factorial_n((-j1)+j2+j)
+            den = Factorial.factorial_n(j1+j2+j+1)
+            arg = Decimal(nom)/Decimal(den)
+
+            argsqrt = Newton.isqrt(Decimal(arg))
+            return argsqrt
+
+        
     def run_v(self):
         """Function to return a tuple corresponding to the summation limits 
         needed for the angular momentum coupling scheme."""
@@ -397,15 +446,19 @@ class ClebschGordan(Newton):
         m1, m2 = self.m1, self.m2
     
         start_0 = 0
-        start_1 = -(j-j2+m1)
-        start_2 = -(j-j1-m2)
+        #start_1 = -(j-j2+m1)
+        #start_2 = -(j-j1-m2)
+        start_1 = j2-j-m1
+        start_2 = j1-j+m2
     
         stop_0 = j1+j2-j
         stop_1 = j1-m1
         stop_2 = j2+m2
     
-        start = max(start_0, max(start_1,start_2))
-        stop = min(stop_0, min(stop_1,stop_2))
+        #start = max(start_0, max(start_1,start_2))
+        #stop = min(stop_0, min(stop_1,stop_2))
+        start = max(start_0, start_1,start_2)
+        stop = min(stop_0, stop_1,stop_2)
     
         return (start, stop)
 
@@ -415,11 +468,15 @@ class ClebschGordan(Newton):
         j1, j2, j = self.j1, self.j2, self.j
         m1, m2 = self.m1, self.m2
     
-        v = ClebschGordan.run_v(self)[0]
+        #v = ClebschGordan.run_v(self)[0]
+        start = ClebschGordan.run_v(self)[0]
         stop = ClebschGordan.run_v(self)[1]
+        #print("Run summation over integers starting at: v={0}; ending at: v={1}".format(int(start),int(stop)))
         #print("Run summation over integers starting at: v={0}; ending at: v={1}".format(v,int(stop)))
         sum_couple_j = 0.0
-        while True:
+        
+        #while True:
+        for v in range(int(start), int(stop)+1):
             #print(v, sum_couple_j)
             try:
                 numerator_A = (-1)**v
@@ -430,7 +487,7 @@ class ClebschGordan(Newton):
         
                 sum_couple_j += (numerator_A/denominator_A) * (numerator_B/denominator_B)
                 #print(v, sum_couple_j)
-                v += 1
+                #v += 1
             except ValueError:
                 logging.debug("break loop as soon as an argument in a factorial becomes a negative value")
                 logging.info(f"v = {v} generates negative argument in factorial")
@@ -438,6 +495,7 @@ class ClebschGordan(Newton):
                 break
         
         #print("summation = {0}".format(sum_couple_j))
+            
         return sum_couple_j
         
     def cg_calc(self):
@@ -459,11 +517,15 @@ class ClebschGordan(Newton):
                 c = ClebschGordan.coeff(self)
                 s = ClebschGordan.sum_coupling(self)
 
+                tc = ClebschGordan.test_coupling(self)
+
                 try:
-                    cg = dm*dj*c*s
+                    #cg = dm*dj*c*s
+                    cg = dm*tc*s
                 except OverflowError:
                     getcontext().prec = 1000
-                    cg = float(Decimal(dm)*Decimal(dj)*Decimal(c)*Decimal(s))
+                    #cg = float(Decimal(dm)*Decimal(dj)*Decimal(c)*Decimal(s))
+                    cg = float(Decimal(dm)*Decimal(tc)*Decimal(s))
                 #print("<{0} {1} {2} {3} | {4} {5}> = {6}".format("%.1f"%j1,"%.1f"%m1,"%.1f"%j2,"%.1f"%m2,"%.1f"%j,"%.1f"%m,cg))
                 return cg
             else:
@@ -682,6 +744,90 @@ class Racah(Wigner3j):
             #print("Overflow exception handled")
                 
         return w_coeff
+
+    def test_racah(self):
+        """Routine to calculate Racah/6j without breaking up the calculation.
+        Performs `delta_product` * `w` """
+
+        # First calculate `delta_product` routine
+        triad_pass_j1j2j3 = Racah.triangle_rule(self.j1,self.j2,self.j3)
+        triad_pass_j5j4j3 = Racah.triangle_rule(self.j5,self.j4,self.j3)
+        triad_pass_j1j5j6 = Racah.triangle_rule(self.j1,self.j5,self.j6)
+        triad_pass_j2j4j6 = Racah.triangle_rule(self.j2,self.j4,self.j6)
+
+        if triad_pass_j1j2j3 == True and triad_pass_j5j4j3 == True and triad_pass_j1j5j6 == True and triad_pass_j2j4j6 == True:
+
+            #delta_j1j2j3 = Racah.tri_factor(self.j1, self.j2, self.j3)
+            delta_j1j2j3 = Decimal(Factorial.factorial_n((self.j1+self.j2)-self.j3)) \
+                * Decimal(Factorial.factorial_n((self.j1-self.j2)+self.j3)) \
+                * Decimal(Factorial.factorial_n((-self.j1)+self.j2+self.j3)) \
+                / Decimal(Factorial.factorial_n(int(self.j1+self.j2+self.j3+1)))
+            #delta = sqrt(numerator/denominator)
+            
+            #delta_j5j4j3 = Racah.tri_factor(self.j5, self.j4, self.j3)
+            delta_j5j4j3 = Decimal(Factorial.factorial_n((self.j5+self.j4)-self.j3)) \
+                * Decimal(Factorial.factorial_n((self.j5-self.j4)+self.j3)) \
+                * Decimal(Factorial.factorial_n((-self.j5)+self.j4+self.j3)) \
+                / Decimal(Factorial.factorial_n(int(self.j5+self.j4+self.j3+1)))
+            #delta = sqrt(numerator/denominator)
+
+            #delta_j1j5j6 = Racah.tri_factor(self.j1, self.j5, self.j6)
+            delta_j1j5j6 = Decimal(Factorial.factorial_n((self.j1+self.j5)-self.j6)) \
+                * Decimal(Factorial.factorial_n((self.j1-self.j5)+self.j6)) \
+                * Decimal(Factorial.factorial_n((-self.j1)+self.j5+self.j6)) \
+                / Decimal(Factorial.factorial_n(int(self.j1+self.j5+self.j6+1)))
+            #delta = sqrt(numerator/denominator)
+            
+            #delta_j2j4j6 = Racah.tri_factor(self.j2, self.j4, self.j6)
+            delta_j2j4j6 = Decimal(Factorial.factorial_n((self.j2+self.j4)-self.j6)) \
+                * Decimal(Factorial.factorial_n((self.j2-self.j4)+self.j6)) \
+                * Decimal(Factorial.factorial_n((-self.j2)+self.j4+self.j6)) \
+                / Decimal(Factorial.factorial_n(int(self.j2+self.j4+self.j6+1)))
+            #delta = sqrt(numerator/denominator)
+            
+            #delta_J = Newton.isqrt(delta_j1j2j3 * delta_j5j4j3 * delta_j1j5j6 * delta_j2j4j6)
+            delta_J = sqrt(delta_j1j2j3 * delta_j5j4j3 * delta_j1j5j6 * delta_j2j4j6)
+
+            # Second, calculate `w` routine
+            a1 = self.j1 + self.j2 + self.j3
+            a2 = self.j5 + self.j4 + self.j3
+            a3 = self.j1 + self.j5 + self.j6
+            a4 = self.j2 + self.j4 + self.j6
+
+            a_list = [a1,a2,a3,a4]
+            max_a = max(a_list)
+        
+            b1 = self.j1 + self.j2 + self.j5 + self.j4
+            b2 = self.j1 + self.j4 + self.j3 + self.j6
+            b3 = self.j2 + self.j5 + self.j3 + self.j6
+
+            b_list = [b1,b2,b3]
+            min_b = min(b_list)
+        
+            z_min = int(max_a)
+            z_max = int(min_b)
+        
+            w_coeff = 0
+            #OVERFLOW = False
+            for z in range(z_min, z_max+1, 1):
+                #try:
+                    #numerator = (-1)**(z+b1) * Factorial.factorial_n(z+1)
+                    #denominator = Factorial.factorial_n(z-a1)*Factorial.factorial_n(z-a2)*Factorial.factorial_n(z-a3)*Factorial.factorial_n(z-a4)*Factorial.factorial_n(b1-z)*Factorial.factorial_n(b2-z)*Factorial.factorial_n(b3-z)
+
+                    #ratio = numerator/denominator
+                    #w_coeff += ratio
+                #except OverflowError:
+                #OVERFLOW = True
+                getcontext().prec = 1000
+                numerator = Decimal((-1)**(z+b1)) * Decimal(Factorial.factorial_n(z+1))
+                denominator = Decimal(Factorial.factorial_n(z-a1))*Decimal(Factorial.factorial_n(z-a2))*Decimal(Factorial.factorial_n(z-a3))*Decimal(Factorial.factorial_n(z-a4))*Decimal(Factorial.factorial_n(b1-z))*Decimal(Factorial.factorial_n(b2-z))*Decimal(Factorial.factorial_n(b3-z))
+                
+                ratio = numerator/denominator
+                ratio = float(ratio)
+                w_coeff += ratio
+
+            # Return `delta_product` * `w`
+            return delta_J * w_coeff
     
     def phase(self):
         """Evaluate phase factor."""
@@ -694,6 +840,7 @@ class Racah(Wigner3j):
         if data_ok is True:
             try:
                 return Racah.delta_product(self)*Racah.w(self)
+                #return Racah.test_racah(self)
             except TypeError:
                 logger.exception(f"Unspported multiplication of types: {type(Racah.delta_product(self))} and {type(Racah.w(self))}")
         else:
