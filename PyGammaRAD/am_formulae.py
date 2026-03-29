@@ -2,12 +2,8 @@ from .tables import *
 from math import sqrt, factorial, pi
 from decimal import Decimal, getcontext
 import sys
-#sys.set_int_max_str_digits(100000)
 sys.set_int_max_str_digits(0) # disable limit; only limitation available memory
 
-#from isqrt import isqrt as irt
-
-#class Factorial(Tables):
 class Factorial(RoseAndBrink):
     __doc__="""Class containing different implementations of methods for 
     calculating the factorial of a non-negative integer.  By default, the 
@@ -396,8 +392,8 @@ class ClebschGordan(Newton):
             
         return j1m1*j2m2_jm
 
-    def test_coupling(self):
-        """Test method for overall calculation of '`coeff` * `delta_j`' """
+    def am_coupling(self):
+        """Method for overall calculation of '`coeff` * `delta_j`' """
 
         j1, m1 = self.j1, self.m1
         j2, m2 = self.j2, self.m2
@@ -517,15 +513,15 @@ class ClebschGordan(Newton):
                 c = ClebschGordan.coeff(self)
                 s = ClebschGordan.sum_coupling(self)
 
-                tc = ClebschGordan.test_coupling(self)
+                ac = ClebschGordan.am_coupling(self)
 
                 try:
                     #cg = dm*dj*c*s
-                    cg = dm*tc*s
+                    cg = dm*ac*s
                 except OverflowError:
                     getcontext().prec = 1000
                     #cg = float(Decimal(dm)*Decimal(dj)*Decimal(c)*Decimal(s))
-                    cg = float(Decimal(dm)*Decimal(tc)*Decimal(s))
+                    cg = float(Decimal(dm)*Decimal(ac)*Decimal(s))
                 #print("<{0} {1} {2} {3} | {4} {5}> = {6}".format("%.1f"%j1,"%.1f"%m1,"%.1f"%j2,"%.1f"%m2,"%.1f"%j,"%.1f"%m,cg))
                 return cg
             else:
