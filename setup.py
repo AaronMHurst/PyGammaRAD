@@ -8,7 +8,7 @@ setuptools.setup(
     url="https://github.com/AaronMHurst/PyGammaRAD",
     author="Aaron M. Hurst",
     author_email="amhurst@berkeley.edu",
-    description="Calculations of angular distribution coefficients and general vector-coupling calculator for quantum mechanical problems based on the theory of angular momentum",
+    description="Calculations of angular distribution coefficients in aligned and partially-aligned nuclei and general vector-coupling calculator for quantum mechanical problems based on the theory of angular momentum",
     long_description=open('README.md').read(),
     license_files=('LICENSE'),
     #packages=setuptools.find_packages(),
