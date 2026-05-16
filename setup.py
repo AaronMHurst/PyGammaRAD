@@ -4,11 +4,11 @@ requirements = ["numpy", "pandas"]
 
 setuptools.setup(
     name="PyGammaRAD",
-    version="0.2.0",
+    version="0.2.1",
     url="https://github.com/AaronMHurst/PyGammaRAD",
     author="Aaron M. Hurst",
     author_email="amhurst@berkeley.edu",
-    description="Calculations of angular momenta in quantum theory applications",
+    description="Calculations of angular distribution coefficients and general vector-coupling calculator for quantum mechanical problems based on the theory of angular momentum",
     long_description=open('README.md').read(),
     license_files=('LICENSE'),
     #packages=setuptools.find_packages(),
