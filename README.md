@@ -50,7 +50,7 @@ $ python
 >>> am = pg.AngularMomentum()
 ```
 
-To help illustrate the workflow and utility of the software, inclduing verification of methods against published results and tabulated data, the project comes with six different `Jupyter Notebooks` for the user to run through:
+To help illustrate the workflow and utility of the software, inclduing verification of methods against published results and tabulated data, the project comes with seven different `Jupyter Notebooks` for the user to run through:
 
 * `am_coupling_check.ipynb`: Provides a useful guide for executing angular momentum methods involving Clebsch-Gordan and Racah coefficients in addition to the Wigner *3-j*, *6-j*, and *9-j* symbols [[4]](#4), [[5]](#5), [[6]](#6).  Well-known published results are compared and verified in this `Notebook`.  This `Notebook` also provides a consistency check of different factorial methods and integer square root calculations.
 
