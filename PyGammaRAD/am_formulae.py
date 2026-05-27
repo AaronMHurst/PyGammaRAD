@@ -816,6 +816,10 @@ class Wigner9j(Racah):
 
     def symbol_9j(self):
         """Evaluate Wigner 9-j symbol."""
+
+        # Loop bounds are intentionally wider than needed; out-of-range h values
+        # produce a TypeError which is caught to cleanly handle the triangular
+        # selection rules at both ends of the summation.
         
         data_ok = ClebschGordan.data_check(self.j1,self.j2,self.j3,
                                            self.j4,self.j5,self.j6,
