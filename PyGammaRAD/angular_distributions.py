@@ -1633,7 +1633,7 @@ class Legendre(PartialAlignment):
                degrees.
 
         Returns:
-            The legendre polynomial of degree k=3 over the desired angular 
+            The legendre polynomial of degree k=10 over the desired angular 
             (theta)range as either an numpy array object containing 
             floating-point object elements, or single-valued float depending on
             input arguments.
