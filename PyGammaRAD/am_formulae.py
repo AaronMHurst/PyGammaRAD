@@ -2,7 +2,9 @@ from .tables import *
 from math import sqrt, factorial, pi, lgamma, exp, log
 from decimal import Decimal, getcontext
 import sys
-sys.set_int_max_str_digits(0) # disable limit; only limitation available memory
+if hasattr(sys, 'set_int_max_str_digits'):
+    # disable limit; only limitation available memory
+    sys.set_int_max_str_digits(0) 
 
 class Factorial(RoseAndBrink):
     __doc__="""Class containing different implementations of methods for 

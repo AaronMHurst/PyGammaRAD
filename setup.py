@@ -23,7 +23,7 @@ setuptools.setup(
         'Operating System :: Unix',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.13',
         'Topic :: Scientific/Engineering :: Physics',
     ],
     include_package_data=True,
