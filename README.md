@@ -24,7 +24,7 @@ $ cd PyGammaRAD
 $ sh installation.sh
 ```
 
-Alternatively, because the project is also available through the [PyPI](https://test.pypi.org/project/PyGammaRAD/0.57.0/) repository, it can instead be installed via `pip`:
+Alternatively, because the project is also available through the [PyPI](https://pypi.org/project/PyGammaRAD/) repository, it can instead be installed via `pip`:
 
 ```Bash
 $ pip install PyGammaRAD
