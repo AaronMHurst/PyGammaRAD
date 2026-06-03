@@ -556,20 +556,37 @@ class Racah(Wigner3j):
     __doc__ = """MEMBER FUNCTIONS BELONGING TO THIS CLASS ARE NOT INTENDED TO 
     BE DIRECTLY INVOKED BY THE USER (*).
 
-    Class to handle Racah recoupling coeficients and Wigner 6-j symbols.
-    
+    Computational engine to handle Racah recoupling coeficients and Wigner 6-j 
+    symbols.
+
+    Internal attribute ordering follows the row-by-row layout of the 6-j symbol:
+
+        { self.j1  self.j2  self.j3 }
+        { self.j4  self.j5  self.j6 }
+
+    The `symb6j(j1,j2,j3,j4,j5,j6)` function passes arguments directly in this
+    order (no reordering).
+
+    The `racah(j1,j2,j3,j4,j5,j6)` function evaluates W(j1 j2 j3 j4; j5 j6) and
+    calls `Racah(j1, j2, j5, j4, j3, j6)` to account for the positional 
+    difference between the Racah W-coefficient argument order and the Wigner 6-j
+    layout.  The two quantities are related through a phase factor:
+
+        { j1 j2 j3 }
+        { j4 j5 j6 } = (1)^(j1+j2+j4+j5) * W(j1 j2 j5 j4 j3 j6)
+
     Instantiate class as:
     
         W = Racah(j1, j2, j3, j4, j5, j6)
         
     to evaluate the 6j symbol:
     
-        {j1 j2 j3
-         j4 j5 j6}
+        { j1 j2 j3 }
+        { j4 j5 j6 }
 
     or the Racach coefficient:
 
-    W(j1 j2 j5 j4; j3 j6)
+        W(j1 j2 j5 j4; j3 j6)
 
     (*): For evaluation of angular momentum coefficients and symbols based on 
     the `Racah` class methods refer to the appropriate docstring to ensure 
@@ -659,7 +676,8 @@ class Racah(Wigner3j):
         return exp(0.5 * (log_num - log_den))
 
     def tri_factor_log(a, b, c):
-        """Return log of the triangular delta factor, to defer exponentiation."""
+        """Return log of the triangular delta factor, to defer exponentiation.
+        """
         log_num = (lgamma((a+b)-c+1) + lgamma((a-b)+c+1)
                    + lgamma((-a)+b+c+1))
         log_den = lgamma(a+b+c+2)
@@ -671,7 +689,8 @@ class Racah(Wigner3j):
 
         `tri_factor_product`: This part refers to the evaluation of the product
                               of four triangular factors.
-        `w`: This part part encodes the accumulator in the algebraic summation."""
+        `w`: This part part encodes the accumulator in the algebraic summation.
+        """
 
         # First calculate `delta_product` routine
         triad_pass_j1j2j3 = Racah.triangle_rule(self.j1,self.j2,self.j3)
@@ -797,9 +816,9 @@ class Wigner9j(Racah):
         
     to evaluate the 9j symbol:
     
-        {j1 j2 j3
-         j4 j5 j6
-         j7 j8 j9}
+        { j1 j2 j3 }
+        { j4 j5 j6 }
+        { j7 j8 j9 }
 
     (*): For evaluation of the Wigner 9-j symbol based on the `Wigner9j` class 
     methods refer to the appropriate docstring to ensure correct passage of 
@@ -817,12 +836,22 @@ class Wigner9j(Racah):
         self.level=level
 
     def symbol_9j(self):
-        """Evaluate Wigner 9-j symbol."""
-
-        # Loop bounds are intentionally wider than needed; out-of-range h values
-        # produce a TypeError which is caught to cleanly handle the triangular
-        # selection rules at both ends of the summation.
+        """Evaluate Wigner 9-j symbol.
         
+        The summation loop variable h=2*x, where x is the intermediate angular 
+        momentum in the standard Eigner 9-j sum formula.  Using the integer h 
+        avoids half-integer arithmetic and rounding errors.  The step size of 2
+        ensures that x=h/2 stays on the correct integral or half-integral grid.
+
+        Phase:      (-1)^(2x) = (-1)^h
+        Degeneracy: (2x+1)    = (h+1)
+
+        h_min is set to h_max % 2 to start at the smallest admissible value of 
+        h>=0, while preserving the correct parity throughout the summation, 
+        i.e., integral or half-integral x.
+
+        Each Wigner 6-j symbol is passed to the Racah class in row-by-row order.
+        """
         data_ok = ClebschGordan.data_check(self.j1,self.j2,self.j3,
                                            self.j4,self.j5,self.j6,
                                            self.j7,self.j8,self.j9)
@@ -836,9 +865,10 @@ class Wigner9j(Racah):
             #with LogLevelContext(logging.WARNING):
             success = False
             with LogLevelContext(self.level):
-                for g in range(h_min, h_max+1):
-                    h = h_min + 2*(g-1)
+                for h in range(h_min, h_max+1, 2):
                     try:
+                        # W1={ j1 j2 j3  } W2={ j4 j5  j6 } W3={ j7  j8 j9 }
+                        #    { j6 j9 h/2 }    { j2 h/2 j8 }    { h/2 j1 j4 }
                         W1 = Racah(self.j1,self.j2,self.j3,self.j6,self.j9,h/2)
                         W2 = Racah(self.j4,self.j5,self.j6,self.j2,h/2,self.j8)
                         W3 = Racah(self.j7,self.j8,self.j9,h/2,self.j1,self.j4)
