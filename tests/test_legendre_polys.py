@@ -203,55 +203,55 @@ class LegendrePolynomialTests(unittest.TestCase):
         for P in P1:
             self.assertIsInstance(P, float)
 
-        P2 = am.lpoly1(theta_list)
+        P2 = am.lpoly2(theta_list)
         assert len(P2) == len(theta_list)
         self.assertIsInstance(P2, np.ndarray)
         for P in P2:
             self.assertIsInstance(P, float)
 
-        P3 = am.lpoly1(theta_list)
+        P3 = am.lpoly3(theta_list)
         assert len(P3) == len(theta_list)
         self.assertIsInstance(P3, np.ndarray)
         for P in P3:
             self.assertIsInstance(P, float)
 
-        P4 = am.lpoly1(theta_list)
+        P4 = am.lpoly4(theta_list)
         assert len(P4) == len(theta_list)
         self.assertIsInstance(P4, np.ndarray)
         for P in P4:
             self.assertIsInstance(P, float)
 
-        P5 = am.lpoly1(theta_list)
+        P5 = am.lpoly5(theta_list)
         assert len(P5) == len(theta_list)
         self.assertIsInstance(P5, np.ndarray)
         for P in P5:
             self.assertIsInstance(P, float)
 
-        P6 = am.lpoly1(theta_list)
+        P6 = am.lpoly6(theta_list)
         assert len(P6) == len(theta_list)
         self.assertIsInstance(P6, np.ndarray)
         for P in P6:
             self.assertIsInstance(P, float)
 
-        P7 = am.lpoly1(theta_list)
+        P7 = am.lpoly7(theta_list)
         assert len(P7) == len(theta_list)
         self.assertIsInstance(P7, np.ndarray)
         for P in P7:
             self.assertIsInstance(P, float)
 
-        P8 = am.lpoly1(theta_list)
+        P8 = am.lpoly8(theta_list)
         assert len(P8) == len(theta_list)
         self.assertIsInstance(P8, np.ndarray)
         for P in P8:
             self.assertIsInstance(P, float)
 
-        P9 = am.lpoly1(theta_list)
+        P9 = am.lpoly9(theta_list)
         assert len(P9) == len(theta_list)
         self.assertIsInstance(P9, np.ndarray)
         for P in P9:
             self.assertIsInstance(P, float)
 
-        P10 = am.lpoly1(theta_list)
+        P10 = am.lpoly10(theta_list)
         assert len(P10) == len(theta_list)
         self.assertIsInstance(P10, np.ndarray)
         for P in P10:
