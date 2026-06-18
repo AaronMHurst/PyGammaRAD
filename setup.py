@@ -4,7 +4,7 @@ requirements = ["numpy", "pandas"]
 
 setuptools.setup(
     name="PyGammaRAD",
-    version="0.2.5",
+    version="0.2.6",
     url="https://github.com/AaronMHurst/PyGammaRAD",
     author="Aaron M. Hurst",
     author_email="amhurst@berkeley.edu",
