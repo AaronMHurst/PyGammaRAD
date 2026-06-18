@@ -1,6 +1,6 @@
 # PyGammaRAD
 
-The `PyGammaRAD` project (*Python project for Gamma-Ray Angular Distributions*) is a Python implementation of a library that can be used in the calculation of &gamma;-ray angular distribution coefficients in addition to a general purpose vector-coupling calculator for the evaluation of quantities that underly the determination of said coefficients.  Angular-distribution coefficients can be readily calculated under the assumption of complete or partial alignment.  Stritcly speaking, it is only Clebsch-Gordan and Racah coefficients that are needed in the theoretical description of the angular distribution functions considered here.  However, given the close relationship these coefficients share with other angular momentum symbols typically used to describe coupling and recoupling schemes in quantum mechanical applications involving angular momenta, to make the package more complete and broaden its utility we also provide methods to readily evaluate the Wigner *3-j*, *6-j*, and *9-j* symbols as well as Gaunt coefficients.  Finally, it is also intended that this software package can serve as an API to the methods and nuclear data tables for completely aligned nuclear states descibed in the *"Tables of Coefficients for Angular Distribution of Gamma Rays from Aligned Nuclei"* [[1]](#1) and those in the appendix of *"Angular Distributions of Gamma Rays in Terms of Phase-Defined Reduced Matrix Elements"* [[2]](#2), in addition to the partial-alignment tables presented in *"Tables of Attenuation Coefficients for Angular Distributions of Gamma Rays from Partially Aligned Nuclei"* [[3]](#3).  The figure below shows an example of the overall angular distribution functions used to describe three different &gamma;-ray transitions in <sup>56</sup>Fe assuming complete nuclear alignment.
+The `PyGammaRAD` project (*Python project for Gamma-Ray Angular Distributions*) is a Python library designed for the computation of &gamma;-ray angular distribution coefficients and statistical tensors, and also features a general purpose vector-coupling calculator for evaluating the fundamental quantum-mechanical quantities upon which these calculations depend [[1]](#1).  Angular-distribution coefficients can be readily calculated under the assumption of complete or partial alignment.  Stritcly speaking, it is only Clebsch-Gordan and Racah coefficients that are needed in the theoretical description of the angular distribution functions considered here.  However, given the close relationship these coefficients share with other angular momentum symbols typically used to describe coupling and recoupling schemes in quantum mechanical applications involving angular momenta, to make the package more complete and broaden its utility we also provide methods to readily evaluate the Wigner *3-j*, *6-j*, and *9-j* symbols as well as Gaunt coefficients.  Finally, it is also intended that this software package can serve as an API to the methods and nuclear data tables for completely aligned nuclear states descibed in the *"Tables of Coefficients for Angular Distribution of Gamma Rays from Aligned Nuclei"* [[2]](#2) and those in the appendix of *"Angular Distributions of Gamma Rays in Terms of Phase-Defined Reduced Matrix Elements"* [[3]](#3), in addition to the partial-alignment tables presented in *"Tables of Attenuation Coefficients for Angular Distributions of Gamma Rays from Partially Aligned Nuclei"* [[4]](#4).  The figure below shows an example of the overall angular distribution functions used to describe three different &gamma;-ray transitions in <sup>56</sup>Fe assuming complete nuclear alignment.
 
 ![W 56Fe](W_functions_56Fe.png?raw=True "Angular distribution functions for three different transitions in <sup>56</sup>Fe")
 
@@ -55,19 +55,19 @@ $ python
 
 To help illustrate the workflow and utility of the software, inclduing verification of methods against published results and tabulated data, the project comes with seven different `Jupyter Notebooks` for the user to run through:
 
-* `am_coupling_check.ipynb`: Provides a useful guide for executing angular momentum methods involving Clebsch-Gordan and Racah coefficients in addition to the Wigner *3-j*, *6-j*, and *9-j* symbols [[4]](#4), [[5]](#5), [[6]](#6).  Well-known published results are compared and verified in this `Notebook`.  This `Notebook` also provides a consistency check of different factorial methods and integer square root calculations.
+* `am_coupling_check.ipynb`: Provides a useful guide for executing angular momentum methods involving Clebsch-Gordan and Racah coefficients in addition to the Wigner *3-j*, *6-j*, and *9-j* symbols [[5]](#5), [[6]](#6), [[7]](#7).  Well-known published results are compared and verified in this `Notebook`.  This `Notebook` also provides a consistency check of different factorial methods and integer square root calculations.
 
-* `am_coupling_check2.ipynb`: Additional checks of vector-coupling calculations against published literature [[7]](#7), [[8]](#8) can be performed using this `Notebook`.
+* `am_coupling_check2.ipynb`: Additional checks of vector-coupling calculations against published literature [[8]](#8), [[9]](#9) can be performed using this `Notebook`.
 
-* `gaunt`: This `Notebook` can be used to check calculated Gaunt coefficients against the published literature [[9]](#9).
+* `gaunt`: This `Notebook` can be used to check calculated Gaunt coefficients against the published literature [[10]](#10).
 
 * `angular_distributions.ipynb`: This `Notebook` illustrates the use of the methods involved in the calculation of the overall &gamma;-ray angular distribution function including Legendre polynomials available to the package.  For comparison, experimental anisotropy-attenuation coefficients for transitions in <sup>56</sup>Fe are also compared to the theoretically-deduced results.
 
-* `partial_alignment.ipynb`: Angular-distribution calculations based on methods for partially-aligned nuclei are demonstated in this `Notebook`.  The tabulated partial-alignment data of Der Mateosian and Sunyar [[3]](#3) can also be verified using this `Notebook`. 
+* `partial_alignment.ipynb`: Angular-distribution calculations based on methods for partially-aligned nuclei are demonstated in this `Notebook`.  The tabulated partial-alignment data of Der Mateosian and Sunyar [[4]](#4) can also be verified using this `Notebook`. 
  
-* `yamazaki_tables.ipynb`: This `Notebook` serves as a check of the original angular distribution tensors and coefficients published and tabulated by Yamazaki [[1]](#1).
+* `yamazaki_tables.ipynb`: This `Notebook` serves as a check of the original angular distribution tensors and coefficients published and tabulated by Yamazaki [[2]](#2).
 
-* `rose_brink_tables.ipynb`: This `Notebook` serves as a check of the original angular distribution tensors and coefficients published and tabulated by Rose and Brink [[2]](#2).
+* `rose_brink_tables.ipynb`: This `Notebook` serves as a check of the original angular distribution tensors and coefficients published and tabulated by Rose and Brink [[3]](#3).
 
 
 ## Docstrings
@@ -96,7 +96,7 @@ The `Jupyter Notebooks` provided also illustrate docstring retrieval for certain
 
 ## Summary of angular distribution functions and methods based on complete alignment
 
-The table below summarizes the angular distribution functions given in the reference articles by Yamazaki [[1]](#1) and Rose and Brink [[2]](#2) and their corresponding callable methods available within the `PyGammaRAD` software package.  The relevant arguments, listed in order where needed, are defined as:
+The table below summarizes the angular distribution functions given in the reference articles by Yamazaki [[2]](#2) and Rose and Brink [[3]](#3) and their corresponding callable methods available within the `PyGammaRAD` software package.  The relevant arguments, listed in order where needed, are defined as:
 
 * *k* : Order of the coefficient or polynomial degree.
 * *J<sub>i</sub>* : Initial nuclear level of the associated &gamma;-ray transition.
@@ -112,32 +112,32 @@ The table below summarizes the angular distribution functions given in the refer
 
 Optional arguments are preceded by an asterisk (<sup>*</sup>).  Note that in the case of a mixed transition *L<sub>1</sub> &ne; L<sub>2</sub>*, while in the case of a pure stretched transition *L<sub>1</sub> = L<sub>2</sub>*.  For a given transition the interfering multipole order is defined such that *L<sub>2</sub> = L<sub>1</sub> + 1*.
 
-| Returned quantity | Function [[1]](#1),[[2]](#2) | Method | Arguments |
+| Returned quantity | Function [[2]](#2),[[3]](#3) | Method | Arguments |
 | --- | --- | --- | --- |
-| $W(\theta)$ | Equation (2) [[1]](#1) | `dist_W` | *A<sub>k</sub>*, <sup>*</sup> *[&theta;]* |
-| $F_{k}(J_{f}L_{1}L_{2}J_{i})$ | Equation (4) [[1]](#1) | `calc_F` | *k*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>* |
-| $B_{k}(J)$  | Equation (6) [[1]](#1) | `calc_B` | *k*, *J* |
-| $A_{k}^{max}(J_{i}L_{1}L_{2}J_{f})$  | Equation (7) [[1]](#1) | `A_max` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>f</sub>*, &delta;<sub>&gamma;</sub> |
-| $B_{k}(J_{i})F_{k}(J_{f}L_{1}L_{2}J_{i})$ | Equation (8) [[1]](#1) | `calc_BF` | *k*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>* |
-| $U_{k}(J_{i}L_{1}L_{2}J_{f})$ | Equation (13) [[1]](#1) | `U_coeff` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>f</sub>*, &delta;<sub>&gamma;</sub> |
-| $u_{k}(J_{i}L_{1}J_{f})$  | Equation (14) [[1]](#1); Equation (3.45) [[2]](#2) | `calc_u` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *J<sub>f</sub>* |
-| $R_{k}(L_{1}L_{2}J_{i}J_{f})$ | Equations (3.36) & (3.37) [[2]](#2) | `calc_R` | *k*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>*, *J<sub>f</sub>* |
-| $S_{k}(l_{1} l_{2} J s)$ | Equation (3.59) [[2]](#2) | `calc_S` | *l<sub>1</sub>*, *l<sub>2</sub>*, *J*, *s*, <sup>*</sup> *k* |
-| $\rho_{k}(J m)$ | Equation (3.63) [[2]](#2) | `calc_p` | *k*, *J*, <sup>*</sup> *m* |
+| $W(\theta)$ | Equation (2) [[2]](#2) | `dist_W` | *A<sub>k</sub>*, <sup>*</sup> *[&theta;]* |
+| $F_{k}(J_{f}L_{1}L_{2}J_{i})$ | Equation (4) [[2]](#2) | `calc_F` | *k*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>* |
+| $B_{k}(J)$  | Equation (6) [[2]](#2) | `calc_B` | *k*, *J* |
+| $A_{k}^{max}(J_{i}L_{1}L_{2}J_{f})$  | Equation (7) [[2]](#2) | `A_max` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>f</sub>*, &delta;<sub>&gamma;</sub> |
+| $B_{k}(J_{i})F_{k}(J_{f}L_{1}L_{2}J_{i})$ | Equation (8) [[2]](#2) | `calc_BF` | *k*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>* |
+| $U_{k}(J_{i}L_{1}L_{2}J_{f})$ | Equation (13) [[2]](#2) | `U_coeff` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>f</sub>*, &delta;<sub>&gamma;</sub> |
+| $u_{k}(J_{i}L_{1}J_{f})$  | Equation (14) [[2]](#2); Equation (3.45) [[3]](#3) | `calc_u` | *k*, *J<sub>i</sub>*, *L<sub>1</sub>*, *J<sub>f</sub>* |
+| $R_{k}(L_{1}L_{2}J_{i}J_{f})$ | Equations (3.36) & (3.37) [[3]](#3) | `calc_R` | *k*, *L<sub>1</sub>*, *L<sub>2</sub>*, *J<sub>i</sub>*, *J<sub>f</sub>* |
+| $S_{k}(l_{1} l_{2} J s)$ | Equation (3.59) [[3]](#3) | `calc_S` | *l<sub>1</sub>*, *l<sub>2</sub>*, *J*, *s*, <sup>*</sup> *k* |
+| $\rho_{k}(J m)$ | Equation (3.63) [[3]](#3) | `calc_p` | *k*, *J*, <sup>*</sup> *m* |
 
 *[&theta;]*: A user defined range may be passed to the $W(\theta)$ function as an optional argument; by default a range of (0<sup>o</sup>,180<sup>o</sup>) is assumed.  Although it is only the non-even $P_{0}(\cos\theta)$, $P_{2}(\cos\theta)$, and $P_{4}(\cos\theta)$ Legendre polynomials that are needed to describe the angular distribution function, to enhance the utility of the `PyGammaRAD` methods the first 11 polynomials of the Legendre series are available in the library.  These methods may be called as `lpoly<k>` for the corresponding Legendre polynomial $P_{k}$, where $k$ ranges in value from $k=0$ to $k=10$.  Again, by default an angular range of (0<sup>o</sup>,180<sup>o</sup>) is adopted for the Legendre polynomial methods although a user-defined range can also be provided as an optional argument to override the default range or its granularity.
 
 ## Summary of angular distribution functions and methods based on partial alignment
 
-The table below summarizes the angular distribution functions given in the reference articles by Yamazaki [[1]](#1) and Der Mateosian and Sunyar [[3]](#3) and their corresponding callable methods available within the `PyGammaRAD` software package.  The relevant arguments are listed in order where needed.
+The table below summarizes the angular distribution functions given in the reference articles by Yamazaki [[2]](#2) and Der Mateosian and Sunyar [[4]](#3) and their corresponding callable methods available within the `PyGammaRAD` software package.  The relevant arguments are listed in order where needed.
 
 * *&sigma;/J* : Gaussian-width parameter.
 
-| Returned quantity | Function [[1]](#1),[[3]](#3) | Method | Arguments |
+| Returned quantity | Function [[2]](#2),[[4]](#4) | Method | Arguments |
 | --- | --- | --- | --- |
-| $\alpha_{k}(J,\sigma/J)$ | Equation (10) [[1]](#1) | `partial_a` | *k*, *J*, *&sigma;/J* |
-| $p_{k}(J,\sigma/J)$ | Equation (1) [[1]](#1); Equation (4) [[3]](#3) | `partial_p` | *k*, *J*, *&sigma;/J* |
-| $P_{m}(J,\sigma/J)$ | Equation (11) [[1]](#1); Equation (6) [[3]](#3) | `partial_P` | *J*, *m*, *&sigma;/J* |
+| $\alpha_{k}(J,\sigma/J)$ | Equation (10) [[2]](#2) | `partial_a` | *k*, *J*, *&sigma;/J* |
+| $p_{k}(J,\sigma/J)$ | Equation (1) [[2]](#2); Equation (4) [[4]](#4) | `partial_p` | *k*, *J*, *&sigma;/J* |
+| $P_{m}(J,\sigma/J)$ | Equation (11) [[2]](#2); Equation (6) [[4]](#4) | `partial_P` | *J*, *m*, *&sigma;/J* |
 
 In addition, the method `pop_paras` can be called to calculate $P_{m}(J)$ for a given $J$ argument over a specified $\sigma/J$ range.  By default, this range is set to $[0.1, 2.0]$ at 0.1 intervals although user-defined ranges can be provided.
 
@@ -179,24 +179,24 @@ Additionally, for all coefficents and symbols listed above, the angular momentum
 
 ## Summary of Table API methods
 
-The following set of methods enable user retrieval and manipulation of the data presented in Table 1, Table 2(a), and Table 2(b) of the original work by Yamazaki [[1]](#1).  The arguments, where required, are again listed in the order in which they should passed to their respective methods.  All physical quantities have their usual meanings defined earlier.  Notes regarding optional arguments and limitations on other certain arguments are mentioned for each respective table.
+The following set of methods enable user retrieval and manipulation of the data presented in Table 1, Table 2(a), and Table 2(b) of the original work by Yamazaki [[2]](#2).  The arguments, where required, are again listed in the order in which they should passed to their respective methods.  All physical quantities have their usual meanings defined earlier.  Notes regarding optional arguments and limitations on other certain arguments are mentioned for each respective table.
 
 ### Yamazaki 
 
 * `get_table1` : Method may be called (i) without any arguments to return both integral-*J* and half-integral *J* results, (ii) by passing `0` to return integral-*J* results only, or (iii) by passing `0.5` to return half-integral *J* results only.
-* `get_row_table2` : Method only takes values of `2` or `4` as integer arguments for *k*; acceptable key-word arguments are `coeff='F'` cf. Equation (4) [[1]](#1), `coeff='BF'` cf. Equation (8) [[1]](#1), or `coeff='U'` cf. Equation (14) [[1]](#1), depending on the coefficient or set of coefficients required from Table 2(a) or Table 2(b).  See docstring for different implementations of this method.
-* `get_B` : Method may take integer values of `2`, `4`, or `6` as arguments for *k*; these results in Table 1 should agree with Equation (6) [[1]](#1).
-* `yamazaki2file` : <*table*> should be given as a string argument and entered as `'T1'` for Table 1, `'T2A'` for Table 2(a), or `'T2B'` for Table 2(b) [[1]](#1); <*format*> should also be given as a string argument and entered as `'CSV'` or `'JSON'`.
+* `get_row_table2` : Method only takes values of `2` or `4` as integer arguments for *k*; acceptable key-word arguments are `coeff='F'` cf. Equation (4) [[2]](#2), `coeff='BF'` cf. Equation (8) [[2]](#2), or `coeff='U'` cf. Equation (14) [[2]](#2), depending on the coefficient or set of coefficients required from Table 2(a) or Table 2(b).  See docstring for different implementations of this method.
+* `get_B` : Method may take integer values of `2`, `4`, or `6` as arguments for *k*; these results in Table 1 should agree with Equation (6) [[2]](#2).
+* `yamazaki2file` : <*table*> should be given as a string argument and entered as `'T1'` for Table 1, `'T2A'` for Table 2(a), or `'T2B'` for Table 2(b) [[2]](#2); <*format*> should also be given as a string argument and entered as `'CSV'` or `'JSON'`.
 
 | Returned quantity | Method | Arguments |
 | --- | --- | --- |
-| $\texttt{DataFrame}$ representation of Table 1 [[1]](#1) | `get_table1` | <sup>*</sup><*m*> |
-| $\texttt{DataFrame}$ representation of Table 2(a) [[1]](#1) | `get_table2a` | *None* |
-| $\texttt{DataFrame}$ representation of Table 2(b) [[1]](#1) | `get_table2b` | *None* |
-| $\texttt{List}$ corresponding to data in specified row of Table 1 [[1]](#1) | `get_row_table1` | *J* |
-| $\texttt{List}$ or $\texttt{float}$ corresponding to data in specified row of Table 2(a) or 2(b) [[1]](#1) depending on input arguments | `get_row_table2` | *J<sub>i</sub>*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, <sup>*</sup>*k*, *<sup>**</sup>coeff* |
-| $\texttt{Float}$ corresponding to *B<sub>k</sub>(J)* listed in Table 1 [[1]](#1) | `get_B` | *k*, *J* |
-| Dumps specified Table from Yamazaki [[1]](#1) to file in current working directory in a CSV or JSON format | `yamazaki2file` | *table*, *format* |
+| $\texttt{DataFrame}$ representation of Table 1 [[2]](#2) | `get_table1` | <sup>*</sup><*m*> |
+| $\texttt{DataFrame}$ representation of Table 2(a) [[2]](#2) | `get_table2a` | *None* |
+| $\texttt{DataFrame}$ representation of Table 2(b) [[2]](#2) | `get_table2b` | *None* |
+| $\texttt{List}$ corresponding to data in specified row of Table 1 [[2]](#2) | `get_row_table1` | *J* |
+| $\texttt{List}$ or $\texttt{float}$ corresponding to data in specified row of Table 2(a) or 2(b) [[2]](#2) depending on input arguments | `get_row_table2` | *J<sub>i</sub>*, *J<sub>f</sub>*, *L<sub>1</sub>*, *L<sub>2</sub>*, <sup>*</sup>*k*, *<sup>**</sup>coeff* |
+| $\texttt{Float}$ corresponding to *B<sub>k</sub>(J)* listed in Table 1 [[2]](#2) | `get_B` | *k*, *J* |
+| Dumps specified Table from Yamazaki [[2]](#2) to file in current working directory in a CSV or JSON format | `yamazaki2file` | *table*, *format* |
 
 ### Rose and Brink
 
@@ -204,14 +204,14 @@ The following set of methods enable user retrieval and manipulation of the data 
 
 | Returned quantity | Method | Arguments |
 | --- | --- | --- |
-| $\texttt{DataFrame}$ representation of $R_{k}(L_{1}L_{2}J_{i}J_{f})$ table (integral $J$) [[2]](#2) | `get_tableRa` | *None* |
-| $\texttt{DataFrame}$ representation of  $R_{k}(L_{1}L_{2}J_{i}J_{f})$ table (half-integral $J$) [[2]](#2) | `get_tableRb` | *None* |
-| $\texttt{DataFrame}$ representation of $U_{k}(L_{1} J_{i} J_{f})$ and $U_{k}(L_{2} J_{i} J_{f})$ table $(L_{2} = L_{1} + 1)$ [[2]](#2) | `get_tableU` | *None* |
-| $\texttt{DataFrame}$ representation of $S_{k}(l_{1}l_{2}J s)$ table (integral $J$) [[2]](#2) | `get_tableSa` | *None* |
-| $\texttt{DataFrame}$ representation of $S_{k}(l_{1}l_{2}J s)$ table (half-integral $J$) [[2]](#2) | `get_tableSb` | *None* |
-| $\texttt{DataFrame}$ representation of $\rho_{k}(J m)$ table (integral $J$) [[2]](#2) | `get_tablePa` | *None* |
-| $\texttt{DataFrame}$ representation of $\rho_{k}(J m)$ table (half-integral $J$) [[2]](#2) | `get_tablePb` | *None* |
-| Dumps specified Table from Rose and Brink [[2]](#2) to file in current working directory in a CSV or JSON format | `rosebrink2file` | *table*, *format* |
+| $\texttt{DataFrame}$ representation of $R_{k}(L_{1}L_{2}J_{i}J_{f})$ table (integral $J$) [[3]](#3) | `get_tableRa` | *None* |
+| $\texttt{DataFrame}$ representation of  $R_{k}(L_{1}L_{2}J_{i}J_{f})$ table (half-integral $J$) [[3]](#3) | `get_tableRb` | *None* |
+| $\texttt{DataFrame}$ representation of $U_{k}(L_{1} J_{i} J_{f})$ and $U_{k}(L_{2} J_{i} J_{f})$ table $(L_{2} = L_{1} + 1)$ [[3]](#3) | `get_tableU` | *None* |
+| $\texttt{DataFrame}$ representation of $S_{k}(l_{1}l_{2}J s)$ table (integral $J$) [[3]](#3) | `get_tableSa` | *None* |
+| $\texttt{DataFrame}$ representation of $S_{k}(l_{1}l_{2}J s)$ table (half-integral $J$) [[3]](#3) | `get_tableSb` | *None* |
+| $\texttt{DataFrame}$ representation of $\rho_{k}(J m)$ table (integral $J$) [[3]](#3) | `get_tablePa` | *None* |
+| $\texttt{DataFrame}$ representation of $\rho_{k}(J m)$ table (half-integral $J$) [[3]](#3) | `get_tablePb` | *None* |
+| Dumps specified Table from Rose and Brink [[3]](#3) to file in current working directory in a CSV or JSON format | `rosebrink2file` | *table*, *format* |
 
 ### Der Mateosian and Sunyar
 
@@ -220,62 +220,67 @@ The following set of methods enable user retrieval and manipulation of the data 
 
 | Returned quantity | Method | Arguments |
 | --- | --- | --- |
-| $\texttt{DataFrame}$ representation of partial alignment anisotropy coefficients [[3]](#3) for user-defined arguments | `get_partial_table` | *J*, <sup>*</sup> *[&sigma;/J]*, * *[k]*, * *save*|
-| Dumps specified Table from Der Mateosian and Sunyar [[3]](#3) to file in current working directory in a CSV or JSON format | `matsun2file` | *table*, *format* |
+| $\texttt{DataFrame}$ representation of partial alignment anisotropy coefficients [[4]](#4) for user-defined arguments | `get_partial_table` | *J*, <sup>*</sup> *[&sigma;/J]*, * *[k]*, * *save*|
+| Dumps specified Table from Der Mateosian and Sunyar [[4]](#4) to file in current working directory in a CSV or JSON format | `matsun2file` | *table*, *format* |
 
 ## References
 
 <a id="1">[1]</a>
+A.M. Hurst, D.A. Matters, T. Kawano, M. Cromaz,
+*Analytic calculator for determination of &gamma;-ray angular distribution coefficients and tensors in aligned and partially-aligned nuclei*,
+https://doi.org/10.48550/arXiv.2606.12681.
+
+<a id="2">[2]</a>
 T. Yamazaki,
 *"Tables of Coefficients for Angular Distribution of Gamma Rays from Aligned Nuclei"*,
 Nucl. Data, Sect. A, Vol. **3**, Num. 1 (1967);
 https://doi.org/10.1016/S0550-306X(67)80002-8.
 
-<a id="2">[2]</a>
+<a id="3">[3]</a>
 H.J. Rose, D.M. Brink,
 *"Angular Distributions of Gamma Rays in Terms of Phase-Defined Reduced Matrix Elements"*,
 Rev. Mod. Phys., Vol. **39**, Num. 2, p. 306 (1967);
 https://doi.org/10.1103/RevModPhys.39.306.
 
-<a id="3">[3]</a>
+<a id="4">[4]</a>
 E. Der Mateosian, A.W. Sunyar,
 *"Tables of Attenuation Coefficients for Angular Distributions of Gamma Rays from Partially Aligned Nuclei"*,
 At. Data and Nucl. Data Tables, Vol. **13**, p. 391 (1974);
 https://doi.org/10.1016/0092-640X(74)90007-2
 
-<a id="4">[4]</a>
+<a id="5">[5]</a>
 P.D. Stevenson,
 *"Analytic angular momentum coupling coefficient calculators"*,
 Comp. Phys. Comm. Vol. **147**, p. 853 (2002);
 https://doi.org/10.1016/S0010-4655(02)00462-9
 
-<a id="5">[5]</a>
+<a id="6">[6]</a>
 A.J. Stone, C.P. Wood,
 *"Root-rational-fraction package for exact calculation of vector-coupling coefficients"*,
 Comp. Phys. Comm. Vol. 21, p. 195 (1980);
 https://doi.org/10.1016/0010-4655(80)90040-5;
 Online Wigner-coefficient calculator: https://www-stone.ch.cam.ac.uk/wigner.shtml
 
-<a id="6">[6]</a>
+<a id="7">[7]</a>
 H. T. Johansson and C. Forss&eacute;n,
 *"Fast and Accurate Evaluation of Wigner 3j, 6j, and 9j Symbols Using Prime Factorization and Multiword Integer Arithmetic"*,
 SIAM J. Sci. Comp. Vol. 38, p. 1 (2016);
 https://doi.org/10.1137/15M1021908;
 https://arxiv.org/abs/1504.08329
 
-<a id="7">[7]</a>
+<a id="8">[8]</a>
 T. Tamura,
 *"Angular Momentum Couplin Coefficients"*,
 Comp. Phys. Comm., Vol. 1, p. 337 (1970);
 https://doi.org/10.1016/0010-4655(70)90034-2
 
-<a id="8">[8]</a>
+<a id="9">[9]</a>
 L. Wei,
 *"New formula for 9- symbols and their direct calculation"*,
 Comput. Phys., Vol. 12, p. 632 (1998);
 https://doi.org/10.1063/1.168745
 
-<a id="9">[9]</a>
+<a id="10">[10]</a>
 S.A. Yukcu, S. Atalay, N. Yukcu, E. Oztekin,
 *"Calculations of the Gaunt coefficients over real spherical harmonics"*,
 Can. J. Phys., Vol. **103**, p. 321 (2025);
